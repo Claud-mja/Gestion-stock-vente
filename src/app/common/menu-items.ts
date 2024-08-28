@@ -1,9 +1,179 @@
 import { MenuItem } from '../core/models/menu.model'
 
+
 export const MENU_ITEMS: MenuItem[] = [
   {
+    key: 'stock-interne',
+    label: 'Stock Interne',
+    isTitle: true,
+  },
+  {
+    key: 'produit',
+    icon: 'iconoir-view-grid',  
+    label: 'Produit',
+    collapsed: true,
+    subMenu: [
+      {
+        key: 'produit-saisie-multiple',
+        label: 'Saisie multiple',
+        url: '/produit/saisie-multiple',
+        parentKey: 'saisie-multiple',
+      },
+      {
+        key: 'produit-saisie',
+        label: 'Saisie',
+        url: '/produit/saisie',
+        parentKey: 'saisie',
+      },
+      {
+        key: 'produit-alert',
+        label: 'Alerte Stock',
+        url: '/produit/alert',
+        parentKey: 'alert',
+      },
+    ],
+  },
+  {
+    key: 'mouvement-stock',
+    icon: 'iconoir-compact-disc',  
+    label: 'Mouvement de stock',
+    collapsed: true,
+    subMenu: [
+      {
+        key: 'mouvement-stock-ravitaillement',
+        label: 'Ravitaillement',
+        url: '/mouvement-stock/ravitaillement',
+        parentKey: 'ravitaillement',
+      },
+      {
+        key: 'mouvement-stock-inventaire',
+        label: 'Inventaire',
+        url: '/mouvement-stock/inventaire',
+        parentKey: 'inventaire',
+      },
+      {
+        key: 'mouvement-stock-historique',
+        label: 'Historique',
+        url: '/mouvement-stock/historique',
+        parentKey: 'historique',
+      },
+    ],
+  },
+  {
+    key: 'conf-init',
+    icon: 'iconoir-settings',  
+    label: 'Configuration initiale',
+    collapsed: true,
+    subMenu: [
+      {
+        key: 'conf-init-multi-entrepot',
+        label: 'Multi-entrepots',
+        url: '/conf-init/multi-entrepot',
+        parentKey: 'multi-entrepot',
+      },
+      {
+        key: 'conf-init-categorie',
+        label: 'Categorie de produit',
+        url: '/conf-init/categorie',
+        parentKey: 'categorie',
+      },
+      {
+        key: 'conf-init-unit-mesure',
+        label: 'Unité de mésure',
+        url: '/conf-init/unit-mesure',
+        parentKey: 'unit-mesure',
+      },
+      {
+        key: 'conf-init-type-produit',
+        label: 'Type de produit',
+        url: '/conf-init/type-produit',
+        parentKey: 'type-produit',
+      },
+    ],
+  },
+  {
+    key: 'stock-interne',
+    label: 'Sortie de stock',
+    isTitle: true,
+  },
+  {
+    key: 'mouvement-sortant',
+    icon: 'iconoir-arrow-right', 
+    label: 'Mouvement sortant',
+    collapsed: true,
+    subMenu: [
+      {
+        key: 'mouvement-sortant-carte-simple',
+        label: 'Carte simple',
+        url: '/mouvement-sortant/carte-simple',
+        parentKey: 'carte-simple',
+      },
+      {
+        key: 'mouvement-sortant-carte-credit',
+        label: 'Carte de credit',
+        url: '/mouvement-sortant/carte-credit',
+        parentKey: 'carte-credit',
+      }
+    ],
+  },
+  {
+    key: 'panier',
+    icon: 'iconoir-journal-page',
+    label: 'Tri de panier',
+    collapsed: true,
+    subMenu: [
+      {
+        key: 'panier-creer',
+        label: 'Creer',
+        url: '/panier/creer',
+        parentKey: 'creer',
+      },
+      {
+        key: 'panier-reste',
+        label: 'Reste à payer',
+        url: '/panier/reste',
+        parentKey: 'reste',
+      },
+      {
+        key: 'panier-paye',
+        label: 'Paye',
+        url: '/panier/paye',
+        parentKey: 'paye',
+      },
+      {
+        key: 'panier-actif',
+        label: 'Actifs',
+        url: '/panier/actif',
+        parentKey: 'actif',
+      }
+    ],
+  },
+  {
+    key: 'distribution',
+    icon: 'iconoir-delivery-truck', 
+    label: 'Distribution',
+    collapsed: true,
+    subMenu: [
+      {
+        key: 'distribution-client',
+        label: 'Clients',
+        url: '/distribution/client',
+        parentKey: 'client',
+      },
+      {
+        key: 'distribution-detaille-panier',
+        label: 'Détail panier',
+        url: '/distribution/detaille-panier',
+        parentKey: 'detaille-panier',
+      }
+    ],
+  },
+];
+
+/*export const MENU_ITEMS: MenuItem[] = [
+  {
     key: 'main',
-    label: 'Main Menu',
+    label: 'Stock Interne',
     isTitle: true,
   },
   {
@@ -86,6 +256,8 @@ export const MENU_ITEMS: MenuItem[] = [
       },
     ],
   },
+
+  
   // {
   //   key: 'apps',
   //   icon: 'iconoir-view-grid',
@@ -745,4 +917,4 @@ export const MENU_ITEMS: MenuItem[] = [
   //     },
   //   ],
   // },
-]
+]*/
