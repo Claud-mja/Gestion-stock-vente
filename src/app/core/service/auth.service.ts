@@ -4,32 +4,45 @@ import { map } from 'rxjs/operators'
 
 import { CookieService } from 'ngx-cookie-service'
 import { User } from '../helpers/fake-backend'
+import { of } from 'rxjs'
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   user: User | null = null
-
   public readonly authSessionKey = '_RIZZ_AUTH_SESSION_KEY_'
   private cookieService = inject(CookieService)
 
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
-    return this.http.post<User>(`/api/login`, { email, password }).pipe(
-      map((user) => {
-        // login successful if there's a jwt token in the response
-        if (user && user.token) {
-          this.user = user
-          // store user details and jwt in session
-          this.saveSession(user.token)
-        }
-        return user
-      })
-    )
+    const simulatedUser: User = {
+      id: 1,               
+      email: email,        
+      token: 'fake-jwt-token',  
+  };
+
+  return of(simulatedUser).pipe(
+    map((user) => {
+      if (user && user.token) {
+        this.user = user;
+        this.saveSession(user.token);
+      }
+      return user;
+    })
+  );
+  
+    // return this.http.post<User>(`/api/login`, { email, password }).pipe(
+    //   map((user) => {
+    //     if (user && user.token) {
+    //       this.user = user
+    //       this.saveSession(user.token)
+    //     }
+    //     return user
+    //   })
+    // )
   }
 
   logout(): void {
-    // remove user from cookie to log user out
     this.removeSession()
     this.user = null
   }
@@ -44,5 +57,20 @@ export class AuthenticationService {
 
   removeSession(): void {
     this.cookieService.delete(this.authSessionKey)
+  }
+
+  getSessionActif(): string{
+    return this.cookieService.get(this.authSessionKey)
+  }
+
+  isUserConnected(): boolean {
+    const token = this.session;
+    return token !== null && token !== ''; 
+  }
+
+  isConnected(): Promise<boolean> {
+    return new Promise((resolve) => {
+      resolve(this.isUserConnected());
+    });
   }
 }
