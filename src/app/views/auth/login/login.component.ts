@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(email, password).subscribe({
         next: (user) => {
           if (user) {
-            this.router.navigate(['/dashboard/analytics']);
+            this.router.navigate(['/']);
           } else {
             this.resrequest = 'Connexion échouée, réessayer plus tard';
           }
