@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { stateData } from '../../data'
 
 @Component({
@@ -9,5 +9,11 @@ import { stateData } from '../../data'
   styles: ``,
 })
 export class StateComponent {
-  stateData = stateData
+  @Input() stateData?: any;
+
+  ngOnInit() {
+    if (!this.stateData) {
+      this.stateData = stateData;
+    }
+  }
 }
