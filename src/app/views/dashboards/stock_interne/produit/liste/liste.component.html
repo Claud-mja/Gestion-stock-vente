@@ -1,0 +1,111 @@
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h4 class="card-title">Lise produit</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3 row">
+                        <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Rechercher
+                            :</label>
+                        <div class="col-xs-3 col-sm-auto">
+                            <input id="table-complete-search" type="text" class="form-control" name="searchTerm"
+                                [(ngModel)]="tableService.searchTerm" />
+                        </div>
+                        @if (tableService.loading$ | async) {
+                        <span class="col col-form-label">Chargement...</span>
+                        }
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table datatable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Photo</th>
+                                    <th scope="col" sortable="name" (sort)="onCompleteSort($event)">Nom</th>
+                                    <th scope="col" sortable="ref" (sort)="onCompleteSort($event)">Ref</th>
+                                    <th scope="col" sortable="seuil" (sort)="onCompleteSort($event)">Seuil</th>
+                                    <th scope="col" sortable="prixAchat" (sort)="onCompleteSort($event)">Prix d'achat
+                                    </th>
+                                    <th scope="col" sortable="prixVente" (sort)="onCompleteSort($event)">Prix de vente
+                                    </th>
+                                    <th scope="col" sortable="cat" (sort)="onCompleteSort($event)">Cat</th>
+                                    <th scope="col" sortable="types" (sort)="onCompleteSort($event)">Types</th>
+                                    <th scope="col" sortable="depot" (sort)="onCompleteSort($event)">Depot</th>
+                                    <th scope="col" sortable="uniter" (sort)="onCompleteSort($event)">Uniter</th>
+                                    <th scope="col" sortable="produit" (sort)="onCompleteSort($event)">Produit</th>
+                                    <th scope="col" sortable="etat" (sort)="onCompleteSort($event)">Etat</th>
+                                    <th scope="col" sortable="qtStock" (sort)="onCompleteSort($event)">Qt stock</th>
+                                    <th scope="col" sortable="prixVirtuel" (sort)="onCompleteSort($event)">Prix virtuel
+                                    </th>
+                                    <th scope="col" sortable="qtStockPan" (sort)="onCompleteSort($event)">Qt stock pan
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (produit of records$ | async; track produit) {
+                                <tr>
+                                    <th scope="row">{{ produit.id }}</th>
+                                    <td><img [src]="produit.photo" alt="Photo de {{ produit.name }}" class="me-2"
+                                            style="width: 20px" /></td>
+                                    <td><ngb-highlight [result]="produit.name"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.ref"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.seuil | number"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.prixAchat | number"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.prixVente | number"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.cat"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.types"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.depot"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.uniter"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.produit"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.etat"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.qtStock | number"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.prixVirtuel | number"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td><ngb-highlight [result]="produit.qtStockPan | number"
+                                            [term]="tableService.searchTerm"></ngb-highlight></td>
+                                    <td>{{ produit.options }}</td>
+                                </tr>
+                                } @empty {
+                                <tr>
+                                    <td colspan="16" style="text-align: center">Aucun produit trouvé</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="d-flex justify-content-between p-2">
+                        <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="tableService.page"
+                            [pageSize]="tableService.pageSize">
+                        </ngb-pagination>
+
+                        <select class="form-select" style="width: auto" name="pageSize"
+                            [(ngModel)]="tableService.pageSize">
+                            <option [ngValue]="2">2 par page</option>
+                            <option [ngValue]="4">4 par page</option>
+                            <option [ngValue]="6">6 par page</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

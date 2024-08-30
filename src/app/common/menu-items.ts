@@ -20,10 +20,10 @@ export const MENU_ITEMS: MenuItem[] = [
         parentKey: 'saisie-multiple',
       },
       {
-        key: 'produit-saisie',
-        label: 'Saisie',
-        url: 'dashboard/stock-interne/produit/saisie',
-        parentKey: 'saisie',
+        key: 'produit-liste',
+        label: 'Liste',
+        url: 'dashboard/stock-interne/produit/liste',
+        parentKey: 'liste',
       },
       {
         key: 'produit-alert',

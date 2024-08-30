@@ -1,7 +1,6 @@
 import { Route } from '@angular/router'
 import { AnalyticsComponent } from './analytics/analytics.component'
 import { AlertStockComponent } from './stock_interne/produit/alert-stock/alert-stock.component'
-import { SaisieComponent } from './stock_interne/produit/saisie/saisie.component'
 import { SaisieMultipleComponent } from './stock_interne/produit/saisie-multiple/saisie-multiple.component'
 import { CarteSimpleComponent } from './sortie_stock/mouvement_sortant/carte-simple/carte-simple.component'
 import { CarteCreditComponent } from './sortie_stock/mouvement_sortant/carte-credit/carte-credit.component'
@@ -19,6 +18,7 @@ import { CategorieComponent } from './stock_interne/configuration/categorie/cate
 import { UniteMesureComponent } from './stock_interne/configuration/unite-mesure/unite-mesure.component'
 import { TypeProduitComponent } from './stock_interne/configuration/type-produit/type-produit.component'
 import { StComponent } from './st/st.component'
+import { ListeComponent } from './stock_interne/produit/liste/liste.component'
 
 export const DASHBOARD_ROUTES: Route[] = [
   {
@@ -32,9 +32,9 @@ export const DASHBOARD_ROUTES: Route[] = [
     data: { title: 'Saisie multiple' },
   },
   {
-    path: 'stock-interne/produit/saisie',
-    component: SaisieComponent,
-    data: { title: 'Saisie' },
+    path: 'stock-interne/produit/liste',
+    component: ListeComponent,
+    data: { title: 'Liste' },
   },
   {
     path: 'stock-interne/produit/alert',
