@@ -1,1 +1,199 @@
-<p>alert-stock works!</p>
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h4 class="card-title">Alert stock</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="table-responsive">
+                    <table class="table datatable">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Photo</th>
+                                <th scope="col" sortable="name" (sort)="onCompleteSort($event)">Nom</th>
+                                <th scope="col" sortable="ref" (sort)="onCompleteSort($event)">Ref</th>
+                                <th scope="col" sortable="seuil" (sort)="onCompleteSort($event)">Seuil</th>
+                                <th scope="col" sortable="prixAchat" (sort)="onCompleteSort($event)">Prix d'achat
+                                </th>
+                                <th scope="col" sortable="prixVente" (sort)="onCompleteSort($event)">Prix de vente
+                                </th>
+                                <th scope="col" sortable="cat" (sort)="onCompleteSort($event)">Cat</th>
+                                <th scope="col" sortable="types" (sort)="onCompleteSort($event)">Types</th>
+                                <th scope="col" sortable="depot" (sort)="onCompleteSort($event)">Depot</th>
+                                <th scope="col" sortable="uniter" (sort)="onCompleteSort($event)">Uniter</th>
+                                <th scope="col" sortable="produit" (sort)="onCompleteSort($event)">Produit</th>
+                                <th scope="col" sortable="etat" (sort)="onCompleteSort($event)">Etat</th>
+                                <th scope="col" sortable="qtStock" (sort)="onCompleteSort($event)">Qt stock</th>
+                                <th scope="col" sortable="prixVirtuel" (sort)="onCompleteSort($event)">Prix virtuel
+                                </th>
+                                <th scope="col" sortable="qtStockPan" (sort)="onCompleteSort($event)">Qt stock pan
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (produit of records$ | async; track produit) {
+                            <tr (click)="openModal(exampleModalXL, { size: 'xl' }, produit)">
+                                <th scope="row">{{ produit.id }}</th>
+                                <td><img [src]="produit.photo" alt="Photo de {{ produit.name }}" class="me-2"
+                                        style="width: 20px" /></td>
+                                <td><ngb-highlight [result]="produit.name"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.ref"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.seuil | number"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.prixAchat | number"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.prixVente | number"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.cat"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.types"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.depot"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.uniter"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.produit"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.etat"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.qtStock | number"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.prixVirtuel | number"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="produit.qtStockPan | number"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td>{{ produit.options }}</td>
+                            </tr>
+                            } @empty {
+                            <tr>
+                                <td colspan="16" style="text-align: center">Aucun produit trouvé</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="tableService.page"
+                        [pageSize]="tableService.pageSize">
+                    </ngb-pagination>
+
+                    <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="tableService.pageSize">
+                        <option [ngValue]="2">2 par page</option>
+                        <option [ngValue]="4">4 par page</option>
+                        <option [ngValue]="6">6 par page</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #exampleModalXL let-modal class="modal-dialog modal-xl" id="bd-example-modal-xl" tabindex="-1"
+    role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="mt-0 mb-0 modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ modalData?.title }}</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img [src]="modalData?.image" alt="{{ modalData?.contentTitle }}" class="img-fluid mb-3" />
+                    </div>
+                    <div class="col-sm-8">
+                        <h5>{{ modalData?.contentTitle }}</h5>
+                        <span class="badge bg-light text-dark">{{ modalData?.badge }}</span>
+                        <small class="text-muted ms-2">{{ modalData?.date }}</small>
+                        <ul class="list-group mt-2 mb-0">
+                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                *ngFor="let item of modalData?.list">{{ item }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion mt-4" id="updateAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingUpdate">
+                            <button class="accordion-button" [class.collapsed]="accordions['accordion2']" type="button"
+                                (click)="toggleAccordion('accordion2')">
+                                Mise à jours
+                            </button>
+                        </h2>
+                        <div class="accordion-collapse" [class.collapse]="accordions['accordion2']"
+                            [class.show]="!accordions['accordion2']">
+                            <div class="accordion-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="updateName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="updateName" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updateSeuil" class="form-label">Seuil</label>
+                                        <input type="number" class="form-control" id="updateSeuil" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updatePrixAchat" class="form-label">Prix Achat</label>
+                                        <input type="number" class="form-control" id="updatePrixAchat" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updatePrixVente" class="form-label">Prix Vente</label>
+                                        <input type="number" class="form-control" id="updatePrixVente" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updateDepot" class="form-label">Depot</label>
+                                        <input type="text" class="form-control" id="updateDepot" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updateUniter" class="form-label">Uniter</label>
+                                        <input type="text" class="form-control" id="updateUniter" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="w-100 btn btn-block btn-success">Mettre à jour</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion mt-2" id="ficheAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingUpdate1">
+                            <button class="accordion-button" [class.collapsed]="accordions['accordion1']" type="button"
+                                (click)="toggleAccordion('accordion1')">
+                                Ajout fiche
+                            </button>
+                        </h2>
+                        <div class="accordion-collapse" [class.collapse]="accordions['accordion1']"
+                            [class.show]="!accordions['accordion1']">
+                            <div class="accordion-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="ficheInfo" class="form-label">Fiche Info</label>
+                                        <textarea class="form-control" id="ficheInfo" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ficheFile" class="form-label">Fiche File</label>
+                                        <input type="file" class="form-control" id="ficheFile" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Quitter</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
