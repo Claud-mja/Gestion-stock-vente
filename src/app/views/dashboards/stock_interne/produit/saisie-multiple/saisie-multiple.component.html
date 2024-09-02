@@ -1,1 +1,102 @@
-<p>saisie-multiple works!</p>
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h4 class="card-title">Saisie multiple</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Caisse -->
+                            <div class="mb-3">
+                                <label for="caisse-select" class="form-label">Caisse</label>
+                                <select class="form-control" formControlName="caisse" id="caisse-select">
+                                    <option value="CP">Caisse Principale</option>
+                                </select>
+                            </div>
+                            <!-- Dépôt -->
+                            <div class="mb-3">
+                                <label for="depot-select" class="form-label">Dépôt</label>
+                                <select class="form-control" formControlName="depot" id="depot-select">
+                                    <option value="iDEP1">Dépôt 1</option>
+                                    <option value="iDEP2">Dépôt 2</option>
+                                </select>
+                            </div>
+                            <!-- Type -->
+                            <div class="mb-3">
+                                <label for="type-select" class="form-label">Type</label>
+                                <select class="form-control" formControlName="type" id="type-select">
+                                    <option value="iTYP1">Périssable</option>
+                                    <option value="iTYP2">Non Périssable</option>
+                                </select>
+                            </div>
+                            <!-- Catégorie -->
+                            <div class="mb-3">
+                                <label for="cat-select" class="form-label">Catégorie</label>
+                                <select class="form-control" formControlName="category" id="cat-select">
+                                    <option value="iCAT1">Personnel</option>
+                                    <option value="iCAT2">Production</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Ref</th>
+                                            <th>Seuil</th>
+                                            <th>Prix d'achat</th>
+                                            <th>Prix de vente</th>
+                                            <th>Unité</th>
+                                            <th>Sauvegarder</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let product of products?.controls; let i = index">
+                                            <td><input class="form-control" [formControlName]="i"
+                                                    formControlName="name" /></td>
+                                            <td><input class="form-control" [formControlName]="i"
+                                                    formControlName="ref" /></td>
+                                            <td><input class="form-control" [formControlName]="i"
+                                                    formControlName="threshold" /></td>
+                                            <td><input class="form-control" [formControlName]="i"
+                                                    formControlName="purchasePrice" />
+                                            </td>
+                                            <td><input class="form-control" [formControlName]="i"
+                                                    formControlName="salePrice" /></td>
+                                            <td>
+                                                <select class="form-control" [formControlName]="i"
+                                                    formControlName="unit">
+                                                    <option value="UNTAR">Article</option>
+                                                    <option value="UNTBT">Boîte</option>
+                                                    <option value="UNTPI">Pièce</option>
+                                                    <option value="UNTSC">Sac</option>
+                                                </select>
+                                            </td>
+                                            <td><input class="form-control" type="checkbox" [formControlName]="i"
+                                                    formControlName="save" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button type="button" class="btn btn-primary" (click)="addProduct()">Ajouter
+                                    Produit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col text-center mt-3">
+                        <button type="button" class="w-100 btn-block btn btn-primary">Envoyer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
