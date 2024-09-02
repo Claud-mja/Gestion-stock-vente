@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h4 class="card-title">Nouveau Ravitaillement</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <form [formGroup]="ravitaillementForm" (ngSubmit)="onSubmit()">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Fournisseur -->
+                            <div class="col-md-6 mb-3">
+                                <label for="fournisseur" class="form-label">Fournisseur (Société/Grossiste)</label>
+                                <input type="text" id="fournisseur" class="form-control" formControlName="fournisseur" />
+                            </div>
+                
+                            <!-- Nom -->
+                            <div class="col-md-6 mb-3">
+                                <label for="nom" class="form-label">Nom</label>
+                                <input type="text" id="nom" class="form-control" formControlName="nom" />
+                            </div>
+                        </div>
+                
+                        <div class="row">
+                            <!-- Montant -->
+                            <div class="col-md-6 mb-3">
+                                <label for="montant" class="form-label">Montant</label>
+                                <input type="number" id="montant" class="form-control" formControlName="montant" />
+                            </div>
+                
+                            <!-- Date de création -->
+                            <div class="col-md-6 mb-3">
+                                <label for="dateCreation" class="form-label">Date création</label>
+                                <input type="date" id="dateCreation" class="form-control" formControlName="dateCreation" />
+                            </div>
+                        </div>
+                
+                        <div class="row">
+                            <!-- Date de validation -->
+                            <div class="col-md-6 mb-3">
+                                <label for="dateValidation" class="form-label">Date validation</label>
+                                <input type="date" id="dateValidation" class="form-control" formControlName="dateValidation" />
+                            </div>
+                
+                            <!-- Remarque -->
+                            <div class="col-md-6 mb-3">
+                                <label for="remarque" class="form-label">Remarque</label>
+                                <textarea id="remarque" class="form-control" formControlName="remarque"></textarea>
+                            </div>
+                        </div>
+                
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="w-100 btn-block btn btn-success">Envoyer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

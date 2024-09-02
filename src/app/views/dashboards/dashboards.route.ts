@@ -20,6 +20,7 @@ import { TypeProduitComponent } from './stock_interne/configuration/type-produit
 import { StComponent } from './st/st.component'
 import { ListeComponent } from './stock_interne/produit/liste/liste.component'
 import { NewComponent } from './stock_interne/produit/new/new.component'
+import { NewRavitaillementComponent } from './stock_interne/mouvement/new-ravitaillement/new-ravitaillement.component'
 
 export const DASHBOARD_ROUTES: Route[] = [
   {
@@ -46,6 +47,11 @@ export const DASHBOARD_ROUTES: Route[] = [
     path: 'stock-interne/produit/alert',
     component: AlertStockComponent,
     data: { title: 'Alerte Stock' },
+  },
+  {
+    path: 'stock-interne/mouvement-stock/nouveau',
+    component: NewRavitaillementComponent,
+    data: { title: 'Nouveau Ravitaillement' },
   },
   {
     path: 'stock-interne/mouvement-stock/ravitaillement',
