@@ -49,7 +49,7 @@
                             </thead>
                             <tbody>
                                 @for (produit of records$ | async; track produit) {
-                                <tr>
+                                <tr (click)="openModal(exampleModalXL, { size: 'xl' }, produit)">
                                     <th scope="row">{{ produit.id }}</th>
                                     <td><img [src]="produit.photo" alt="Photo de {{ produit.name }}" class="me-2"
                                             style="width: 20px" /></td>
@@ -109,3 +109,104 @@
         </div>
     </div>
 </div>
+
+<ng-template #exampleModalXL let-modal class="modal-dialog modal-xl" id="bd-example-modal-xl" tabindex="-1"
+    role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="mt-0 mb-0 modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ modalData?.title }}</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img [src]="modalData?.image" alt="{{ modalData?.contentTitle }}" class="img-fluid mb-3" />
+                    </div>
+                    <div class="col-sm-8">
+                        <h5>{{ modalData?.contentTitle }}</h5>
+                        <span class="badge bg-light text-dark">{{ modalData?.badge }}</span>
+                        <small class="text-muted ms-2">{{ modalData?.date }}</small>
+                        <ul class="list-group mt-2 mb-0">
+                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                *ngFor="let item of modalData?.list">{{ item }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion mt-4" id="updateAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingUpdate">
+                            <button class="accordion-button" [class.collapsed]="accordions['accordion2']" type="button"
+                                (click)="toggleAccordion('accordion2')">
+                                Mise à jours
+                            </button>
+                        </h2>
+                        <div class="accordion-collapse" [class.collapse]="accordions['accordion2']"
+                            [class.show]="!accordions['accordion2']">
+                            <div class="accordion-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="updateName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="updateName" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updateSeuil" class="form-label">Seuil</label>
+                                        <input type="number" class="form-control" id="updateSeuil" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updatePrixAchat" class="form-label">Prix Achat</label>
+                                        <input type="number" class="form-control" id="updatePrixAchat" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updatePrixVente" class="form-label">Prix Vente</label>
+                                        <input type="number" class="form-control" id="updatePrixVente" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updateDepot" class="form-label">Depot</label>
+                                        <input type="text" class="form-control" id="updateDepot" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="updateUniter" class="form-label">Uniter</label>
+                                        <input type="text" class="form-control" id="updateUniter" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="w-100 btn btn-block btn-success">Mettre à jour</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion mt-2" id="ficheAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingUpdate1">
+                            <button class="accordion-button" [class.collapsed]="accordions['accordion1']" type="button"
+                                (click)="toggleAccordion('accordion1')">
+                                Ajout fiche
+                            </button>
+                        </h2>
+                        <div class="accordion-collapse" [class.collapse]="accordions['accordion1']"
+                            [class.show]="!accordions['accordion1']">
+                            <div class="accordion-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="ficheInfo" class="form-label">Fiche Info</label>
+                                        <textarea class="form-control" id="ficheInfo" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ficheFile" class="form-label">Fiche File</label>
+                                        <input type="file" class="form-control" id="ficheFile" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Quitter</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -5,6 +5,7 @@ import {
   inject,
   Input,
   Output,
+  TemplateRef,
   ViewChildren,
   type PipeTransform,
   type QueryList,
@@ -15,7 +16,7 @@ import { NgbdSortableHeader } from '@/app/core/directive/sortable.directive'
 import { TableService } from '@/app/core/service/table.service'
 import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
 import { FormsModule } from '@angular/forms'
-import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
+import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 
 export type SortColumn = keyof DataTableItemsType | ''
 export type SortDirection = 'asc' | 'desc' | ''
@@ -75,11 +76,16 @@ function search(text: string, pipe: PipeTransform): DataTableItemsType[] {
     NgbdSortableHeader,
   ],
   templateUrl: './liste.component.html',
-  styleUrl: './liste.component.scss'
+  styleUrls: ['./liste.component.scss'] // Updated from styleUrl to styleUrls
 })
 export class ListeComponent {
   filter!: string
-
+  private modalService = inject(NgbModal)
+  modalData: any;
+  accordions: { [key: string]: boolean } = {
+    accordion1: true,
+    accordion2: true
+  };
   page = 1
   pageSize = 4
   collectionSize = DataTableItems.length
@@ -97,6 +103,9 @@ export class ListeComponent {
 
   public tableService = inject(TableService<DataTableItemsType>)
 
+  ficheInfo: string = ''
+  ficheFile: File | null = null
+
   constructor(public pipe: DecimalPipe) {
     this.records$ = this.tableService.items$
     this.total$ = this.tableService.total$
@@ -106,6 +115,47 @@ export class ListeComponent {
 
   ngOnInit(): void {
     this.tableService.setItems(DataTableItems, 5)
+  }
+
+  toggleAccordion(id: string) {
+    if (this.accordions.hasOwnProperty(id)) {
+      this.accordions[id as keyof typeof this.accordions] = !this.accordions[id as keyof typeof this.accordions];
+    }
+  }
+
+  openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions, produit: any) {
+    this.modalData = {
+      title: produit.name,
+      image: produit.photo,
+      contentTitle: produit.name,
+      badge: produit.etat,
+      date: '07 Oct 2024',
+      list: [
+        `Seuil: ${produit.seuil}`,
+        `Prix Achat: ${produit.prixAchat}`,
+        `Prix Vente: ${produit.prixVente}`,
+        `Depot: ${produit.depot}`,
+        `Uniter: ${produit.uniter}`
+      ]
+    };
+    this.modalService.open(content, options)
+  }
+
+  updateProduct() {
+    // Add logic to update the product based on modalData
+    console.log('Updating product:', this.modalData);
+  }
+
+  createFiche() {
+    // Add logic to create a fiche based on ficheInfo and ficheFile
+    console.log('Creating fiche:', this.ficheInfo, this.ficheFile);
+  }
+
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.ficheFile = input.files[0];
+    }
   }
 
   onSort({ column, direction }: CustomSortEvent) {
