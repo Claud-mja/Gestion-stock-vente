@@ -14,6 +14,12 @@ export const MENU_ITEMS: MenuItem[] = [
     collapsed: true,
     subMenu: [
       {
+        key: 'produit-nouveau',
+        label: 'Nouveau',
+        url: 'dashboard/stock-interne/new',
+        parentKey: 'nouveau',
+      },
+      {
         key: 'produit-saisie-multiple',
         label: 'Saisie multiple',
         url: 'dashboard/stock-interne/produit/saisie-multiple',

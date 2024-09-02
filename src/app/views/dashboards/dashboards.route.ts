@@ -19,12 +19,18 @@ import { UniteMesureComponent } from './stock_interne/configuration/unite-mesure
 import { TypeProduitComponent } from './stock_interne/configuration/type-produit/type-produit.component'
 import { StComponent } from './st/st.component'
 import { ListeComponent } from './stock_interne/produit/liste/liste.component'
+import { NewComponent } from './stock_interne/new/new.component'
 
 export const DASHBOARD_ROUTES: Route[] = [
   {
     path: 'stpage',
     component: StComponent,
     data: { title: 'Gestion Stock' },
+  },
+  {
+    path: 'stock-interne/new',
+    component: NewComponent,
+    data: { title: 'Nouveau' },
   },
   {
     path: 'stock-interne/produit/saisie-multiple',

@@ -1,0 +1,134 @@
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h4 class="card-title">Nouveau Produit</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="row">
+                    <!-- Première colonne -->
+                    <div class="col-lg-6">
+                        <!-- Type -->
+                        <div class="mb-3 row">
+                            <label for="type-input" class="col-sm-4 col-form-label text-lg-end">Type</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" id="type-input">
+                                    <option selected>Choisir un type</option>
+                                    <option value="perissable">Périssable</option>
+                                    <option value="non-perissable">Non Périssable</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Caisse -->
+                        <div class="mb-3 row">
+                            <label for="caisse-input" class="col-sm-4 col-form-label text-lg-end">Caisse</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" id="caisse-input">
+                                    <option selected>Choisir une caisse</option>
+                                    <option value="principale">Caisse Principale</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Unité -->
+                        <div class="mb-3 row">
+                            <label for="uniter-input" class="col-sm-4 col-form-label text-lg-end">Unité</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" id="uniter-input" placeholder="Article"/>
+                            </div>
+                        </div>
+                        <!-- Réf -->
+                        <div class="mb-3 row">
+                            <label for="ref-input" class="col-sm-4 col-form-label text-lg-end">Réf</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" id="ref-input"/>
+                            </div>
+                        </div>
+                        <!-- Prix d'achat -->
+                        <div class="mb-3 row">
+                            <label for="prix-achat-input" class="col-sm-4 col-form-label text-lg-end">Prix d'achat</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="number" step="0.01" id="prix-achat-input"/>
+                            </div>
+                        </div>
+                        <!-- Détails -->
+                        <div class="mb-3 row">
+                            <label for="details-input" class="col-sm-4 col-form-label text-lg-end">Détails</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" id="details-input" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Deuxième colonne -->
+                    <div class="col-lg-6">
+                        <!-- Catégorie -->
+                        <div class="mb-3 row">
+                            <label for="categorie-input" class="col-sm-4 col-form-label text-lg-end">Catégorie</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" id="categorie-input">
+                                    <option selected>Choisir une catégorie</option>
+                                    <option value="personnel">Personnel</option>
+                                    <option value="production">Production</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Dépôt -->
+                        <div class="mb-3 row">
+                            <label for="depot-input" class="col-sm-4 col-form-label text-lg-end">Dépôt</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" id="depot-input">
+                                    <option selected>Choisir un dépôt</option>
+                                    <option value="1">Dépôt 1</option>
+                                    <option value="2">Dépôt 2</option>
+                                    <option value="3">Dépôt 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Nom -->
+                        <div class="mb-3 row">
+                            <label for="nom-input" class="col-sm-4 col-form-label text-lg-end">Nom</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" id="nom-input"/>
+                            </div>
+                        </div>
+                        <!-- Seuil -->
+                        <div class="mb-3 row">
+                            <label for="seuil-input" class="col-sm-4 col-form-label text-lg-end">Seuil</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="number" id="seuil-input"/>
+                            </div>
+                        </div>
+                        <!-- Prix de vente -->
+                        <div class="mb-3 row">
+                            <label for="prix-vente-input" class="col-sm-4 col-form-label text-lg-end">Prix de vente</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="number" step="0.01" id="prix-vente-input"/>
+                            </div>
+                        </div>
+                        <!-- Photo -->
+                        <div class="mb-3 row">
+                            <label for="photo-input" class="col-sm-4 col-form-label text-lg-end">Photo</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="file" id="photo-input"/>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end col-->
+                </div>
+                <!--end row-->
+                <!-- Bouton Ajouter -->
+                <div class="row">
+                    <div class="col text-center mt-3">
+                        <button type="button" class="w-100 btn-block btn btn-primary">Ajouter Produit</button>
+                    </div>
+                </div>
+            </div>
+            <!--end card-body-->
+        </div>
+        <!--end card-->
+    </div>
+    <!--end col-->
+</div>
