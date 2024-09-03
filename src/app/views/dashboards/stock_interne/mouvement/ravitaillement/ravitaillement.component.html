@@ -9,7 +9,47 @@
                 </div>
             </div>
             <div class="card-body pt-0">
+                <div class="table-responsive">
+                    <table class="table datatable">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Date validation</th>
+                                <th scope="col">Fournisseur</th>
+                                <th scope="col">Montant</th>
+                                <th scope="col">Paye</th>
+                                <th scope="col">Rap</th>
+                                <th scope="col" class="text-center">Option(s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ravitaillement of records$ | async;">
+                                <th scope="row">{{ ravitaillement.id }}</th>
+                                <td><ngb-highlight [result]="ravitaillement.nom" [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="ravitaillement.dateValidation" [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="ravitaillement.fournisseur" [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="ravitaillement.montant | number" [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="ravitaillement.paye | number" [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="ravitaillement.rap | number" [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td class="text-center">{{ ravitaillement.options }}</td>
+                            </tr>
+                            <tr *ngIf="(records$ | async)?.length === 0">
+                                <td colspan="8" class="text-center">Aucun ravitaillement trouvé</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="tableService.page" [pageSize]="tableService.pageSize">
+                    </ngb-pagination>
 
+                    <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="tableService.pageSize">
+                        <option [ngValue]="2">2 par page</option>
+                        <option [ngValue]="4">4 par page</option>
+                        <option [ngValue]="6">6 par page</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
