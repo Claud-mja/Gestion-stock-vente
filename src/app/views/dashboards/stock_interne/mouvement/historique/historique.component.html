@@ -3,14 +3,86 @@
         <div class="card">
             <div class="card-header">
                 <div class="row align-items-center">
-                    <div class="col">
+                    <div class="col-sm-6 text-left">
                         <h4 class="card-title">Historique</h4>
                     </div>
                 </div>
             </div>
             <div class="card-body pt-0">
+                <div class="table-responsive">
+                    <table class="table datatable">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Id produit</th>
+                                <th scope="col">Produit</th>
+                                <th scope="col">Quantité</th>
+                                <th scope="col">Prix unitaire</th>
+                                <th scope="col">Montant</th>
+                                <th scope="col">Date mvt</th>
+                                <th scope="col">Ref</th>
+                                <th scope="col">Mode</th>
+                                <th scope="col">État</th>
+                                <th scope="col">Mvt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let history of records$ | async"
+                                (click)="openModal(historyModal, { size: 'xl' }, history)">
+                                <th scope="row">{{ history.id }}</th>
+                                <td>{{ history.idProduit }}</td>
+                                <td>{{ history.produit }}</td>
+                                <td>{{ history.quantite }}</td>
+                                <td>{{ history.pu | number }}</td>
+                                <td>{{ history.montant | number }}</td>
+                                <td>{{ history.dateMvt | date }}</td>
+                                <td>{{ history.ref }}</td>
+                                <td>{{ history.mode }}</td>
+                                <td>{{ history.etat }}</td>
+                                <td>{{ history.mvt }}</td>
+                            </tr>
+                            <tr *ngIf="(records$ | async)?.length === 0">
+                                <td colspan="11" class="text-center">Aucun historique trouvé</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="tableService.page"
+                        [pageSize]="tableService.pageSize">
+                    </ngb-pagination>
 
+                    <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="tableService.pageSize">
+                        <option [ngValue]="2">2 par page</option>
+                        <option [ngValue]="4">4 par page</option>
+                        <option [ngValue]="6">6 par page</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #historyModal let-modal class="modal-dialog modal-xl" id="inventaire-modal" tabindex="-1" role="dialog"
+    aria-labelledby="historyModalLabel" aria-hidden="true">
+    <div class="mt-0 w-100 modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ modalData?.contentTitle }}</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>{{ modalData?.contentTitle }}</h5>
+                        <ul class="list-group mt-2 mb-0">
+                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                *ngFor="let item of modalData?.list">{{ item }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

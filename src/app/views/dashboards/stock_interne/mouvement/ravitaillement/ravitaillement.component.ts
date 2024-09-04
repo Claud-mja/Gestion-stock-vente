@@ -6,6 +6,7 @@ import { TableService } from '@/app/core/service/table.service'
 import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
+import { RouterLink } from '@angular/router'
 
 export type SortColumn = keyof RavitaillementType | ''
 export type SortDirection = 'asc' | 'desc' | ''
@@ -56,7 +57,7 @@ function search(text: string, pipe: PipeTransform): RavitaillementType[] {
 @Component({
   selector: 'app-ravitaillement',
   standalone: true,
-  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule],
+  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink],
   templateUrl: './ravitaillement.component.html',
   styleUrls: ['./ravitaillement.component.scss']
 })

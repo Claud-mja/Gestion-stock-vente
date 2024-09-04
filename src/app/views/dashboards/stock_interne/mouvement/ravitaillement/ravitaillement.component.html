@@ -3,8 +3,12 @@
         <div class="card">
             <div class="card-header">
                 <div class="row align-items-center">
-                    <div class="col">
+                    <div class="col-sm-6 text-left">
                         <h4 class="card-title">Ravitaillement</h4>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <a [routerLink]="['/dashboard/stock-interne/mouvement-stock/nouveau']"
+                            class="btn btn-primary btn-sm float-right">Nouveau</a>
                     </div>
                 </div>
             </div>
@@ -132,11 +136,10 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <button class="w-100 btn btn-block btn-success">{{ isEditMode ? 'Mettre à jour'
-                                            : 'Créer' }}</button>
+                                        <button class="w-100 btn btn-block btn-primary">{{ isEditMode ? 'Traitement ...'
+                                            : 'Mettre à jour' }}</button>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -160,6 +163,10 @@
                                     <div class="mb-3">
                                         <label for="ficheFile" class="form-label">Fiche File</label>
                                         <input type="file" class="form-control" id="ficheFile" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="w-100 btn btn-block btn-primary">{{ isEditMode ? 'Mettre à jour'
+                                            : 'Créer' }}</button>
                                     </div>
                                 </form>
                             </div>

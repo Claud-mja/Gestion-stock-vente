@@ -46,12 +46,6 @@ export const MENU_ITEMS: MenuItem[] = [
     collapsed: true,
     subMenu: [
       {
-        key: 'mouvement-stock-nouveau',
-        label: 'Nouveau',
-        url: 'dashboard/stock-interne/mouvement-stock/nouveau',
-        parentKey: 'mouvement-stock',
-      },
-      {
         key: 'mouvement-stock-ravitaillement',
         label: 'Ravitaillement',
         url: 'dashboard/stock-interne/mouvement-stock/ravitaillement',
