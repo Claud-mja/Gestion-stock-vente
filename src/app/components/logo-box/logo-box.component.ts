@@ -32,4 +32,4 @@ import { RouterLink } from '@angular/router'
   `,
   styles: ``,
 })
-export class LogoBoxComponent {}
+export class LogoBoxComponent { }

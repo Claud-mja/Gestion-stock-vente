@@ -4,7 +4,7 @@ import type { Observable } from 'rxjs'
 import { NgbdSortableHeader } from '@/app/core/directive/sortable.directive'
 import { TableService } from '@/app/core/service/table.service'
 import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
-import { FormsModule } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 
 export type SortColumn = keyof RavitaillementType | ''
@@ -56,7 +56,7 @@ function search(text: string, pipe: PipeTransform): RavitaillementType[] {
 @Component({
   selector: 'app-ravitaillement',
   standalone: true,
-  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader],
+  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule],
   templateUrl: './ravitaillement.component.html',
   styleUrls: ['./ravitaillement.component.scss']
 })
@@ -68,6 +68,8 @@ export class RavitaillementComponent {
     accordion1: true,
     accordion2: true
   };
+  ravitaillementForm: FormGroup;
+  isEditMode = false;
   page = 1
   pageSize = 4
   collectionSize = RavitaillementData.length
@@ -88,15 +90,39 @@ export class RavitaillementComponent {
   ficheInfo: string = ''
   ficheFile: File | null = null
 
-  constructor(public pipe: DecimalPipe) {
+  constructor(public pipe: DecimalPipe, private fb: FormBuilder) {
     this.records$ = this.tableService.items$
     this.total$ = this.tableService.total$
 
     this.refreshProduit()
+
+    this.ravitaillementForm = this.fb.group({
+      nom: ['', Validators.required],
+      dateValidation: ['', Validators.required],
+      fournisseur: ['', Validators.required],
+      montant: [0, Validators.required],
+      paye: [0, Validators.required],
+      rap: [0, Validators.required],
+    });
   }
+
+
 
   ngOnInit(): void {
     this.tableService.setItems(RavitaillementData, 5)
+  }
+
+  loadRavitaillementData(dataUpdate: any): void {
+    const data: RavitaillementType = {
+      id: dataUpdate.id,
+      nom: dataUpdate.nom,
+      dateValidation: dataUpdate.dateValidation,
+      fournisseur: dataUpdate.fournisseur,
+      montant: dataUpdate.montant,
+      paye: dataUpdate.paye,
+      rap: dataUpdate.rap
+    };
+    this.ravitaillementForm.patchValue(data);
   }
 
   toggleAccordion(id: string) {
@@ -105,31 +131,27 @@ export class RavitaillementComponent {
     }
   }
 
-  openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions, produit: any) {
+  openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions, ravitaillement: any) {
     this.modalData = {
-      title: produit.name,
-      image: produit.photo,
-      contentTitle: produit.name,
-      badge: produit.etat,
-      date: '07 Oct 2024',
+      title: ravitaillement.nom,
+      contentTitle: ravitaillement.nom,
+      badge: ravitaillement.string,
+      date: ravitaillement.dateValidation,
       list: [
-        `Seuil: ${produit.seuil}`,
-        `Prix Achat: ${produit.prixAchat}`,
-        `Prix Vente: ${produit.prixVente}`,
-        `Depot: ${produit.depot}`,
-        `Uniter: ${produit.uniter}`
+        `Montant: ${ravitaillement.montant}`,
+        `Paye: ${ravitaillement.paye}`,
+        `Rap: ${ravitaillement.rap}`,
       ]
     };
     this.modalService.open(content, options)
+    this.loadRavitaillementData(ravitaillement);
   }
 
   updateProduct() {
-    // Add logic to update the product based on modalData
     console.log('Updating product:', this.modalData);
   }
 
   createFiche() {
-    // Add logic to create a fiche based on ficheInfo and ficheFile
     console.log('Creating fiche:', this.ficheInfo, this.ficheFile);
   }
 
@@ -164,5 +186,16 @@ export class RavitaillementComponent {
     }
     this.tableService.sortColumn = column
     this.tableService.sortDirection = direction
+  }
+
+  onSubmit(): void {
+    if (this.ravitaillementForm.valid) {
+      const ravitaillementData: RavitaillementType = this.ravitaillementForm.value;
+      if (this.isEditMode) {
+        console.log('Mise à jour des données:', ravitaillementData);
+      } else {
+        console.log('Création d’un nouveau ravitaillement:', ravitaillementData);
+      }
+    }
   }
 }

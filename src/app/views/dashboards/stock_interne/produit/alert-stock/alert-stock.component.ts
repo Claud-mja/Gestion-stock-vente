@@ -10,7 +10,7 @@ import {
   type PipeTransform,
   type QueryList,
 } from '@angular/core'
-import { DataTableItems, paginateData, type DataTableItemsType } from '../liste/data'
+import { DataTableProduct, paginateData, type DataTableProduitsType } from '../liste/data'
 import type { Observable } from 'rxjs'
 import { NgbdSortableHeader } from '@/app/core/directive/sortable.directive'
 import { TableService } from '@/app/core/service/table.service'
@@ -18,7 +18,7 @@ import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 
-export type SortColumn = keyof DataTableItemsType | ''
+export type SortColumn = keyof DataTableProduitsType | ''
 export type SortDirection = 'asc' | 'desc' | ''
 const rotate: { [key: string]: SortDirection } = {
   asc: 'desc',
@@ -54,8 +54,8 @@ export class NgbdCustomSortableHeader {
   }
 }
 
-function search(text: string, pipe: PipeTransform): DataTableItemsType[] {
-  return DataTableItems.filter((produitres) => {
+function search(text: string, pipe: PipeTransform): DataTableProduitsType[] {
+  return DataTableProduct.filter((produitres) => {
     const term = text.toLowerCase()
     return (
       produitres.name.toLowerCase().includes(term) ||
@@ -88,20 +88,20 @@ export class AlertStockComponent {
   };
   page = 1
   pageSize = 4
-  collectionSize = DataTableItems.length
-  Produit!: DataTableItemsType[]
-  basicProduit = DataTableItems.slice(0, 5)
-  searchProduit = DataTableItems.slice(0, 5)
-  sortProduit = DataTableItems.slice(0, 5)
+  collectionSize = DataTableProduct.length
+  Produit!: DataTableProduitsType[]
+  basicProduit = DataTableProduct.slice(0, 5)
+  searchProduit = DataTableProduct.slice(0, 5)
+  sortProduit = DataTableProduct.slice(0, 5)
 
-  records$: Observable<DataTableItemsType[]>
+  records$: Observable<DataTableProduitsType[]>
   total$: Observable<number>
 
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<
-    NgbdSortableHeader<DataTableItemsType>
+    NgbdSortableHeader<DataTableProduitsType>
   >
 
-  public tableService = inject(TableService<DataTableItemsType>)
+  public tableService = inject(TableService<DataTableProduitsType>)
 
   ficheInfo: string = ''
   ficheFile: File | null = null
@@ -114,7 +114,7 @@ export class AlertStockComponent {
   }
 
   ngOnInit(): void {
-    this.tableService.setItems(DataTableItems, 5)
+    this.tableService.setItems(DataTableProduct, 5)
   }
 
   toggleAccordion(id: string) {
@@ -165,9 +165,9 @@ export class AlertStockComponent {
       }
     }
     if (direction === '' || column === '') {
-      this.sortProduit = DataTableItems
+      this.sortProduit = DataTableProduct
     } else {
-      this.sortProduit = [...DataTableItems].sort((a, b) => {
+      this.sortProduit = [...DataTableProduct].sort((a, b) => {
         const res = compare(a[column], b[column])
         return direction === 'asc' ? res : -res
       })

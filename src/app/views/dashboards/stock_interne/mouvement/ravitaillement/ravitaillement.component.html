@@ -20,19 +20,24 @@
                                 <th scope="col">Montant</th>
                                 <th scope="col">Paye</th>
                                 <th scope="col">Rap</th>
-                                <th scope="col" class="text-center">Option(s)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let ravitaillement of records$ | async;">
+                            <tr *ngFor="let ravitaillement of records$ | async;"
+                                (click)="openModal(exampleModalXL, { size: 'xl' }, ravitaillement)">
                                 <th scope="row">{{ ravitaillement.id }}</th>
-                                <td><ngb-highlight [result]="ravitaillement.nom" [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="ravitaillement.dateValidation" [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="ravitaillement.fournisseur" [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="ravitaillement.montant | number" [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="ravitaillement.paye | number" [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="ravitaillement.rap | number" [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td class="text-center">{{ ravitaillement.options }}</td>
+                                <td><ngb-highlight [result]="ravitaillement.nom"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="ravitaillement.dateValidation"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="ravitaillement.fournisseur"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="ravitaillement.montant | number"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="ravitaillement.paye | number"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="ravitaillement.rap | number"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
                             </tr>
                             <tr *ngIf="(records$ | async)?.length === 0">
                                 <td colspan="8" class="text-center">Aucun ravitaillement trouvé</td>
@@ -41,7 +46,8 @@
                     </table>
                 </div>
                 <div class="d-flex justify-content-between p-2">
-                    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="tableService.page" [pageSize]="tableService.pageSize">
+                    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="tableService.page"
+                        [pageSize]="tableService.pageSize">
                     </ngb-pagination>
 
                     <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="tableService.pageSize">
@@ -54,3 +60,116 @@
         </div>
     </div>
 </div>
+
+<ng-template #exampleModalXL let-modal class="modal-dialog modal-xl" id="bd-example-modal-xl" tabindex="-1"
+    role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="w-100 mt-0 mb-0 modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ modalData?.title }}</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>{{ modalData?.contentTitle }}</h5>
+                        <span class="badge bg-light text-dark">{{ modalData?.badge }}</span>
+                        <small class="text-muted ms-2">{{ modalData?.date }}</small>
+                        <ul class="list-group mt-2 mb-0">
+                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                *ngFor="let item of modalData?.list">{{ item }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion mt-4" id="updateAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingUpdate">
+                            <button class="accordion-button" [class.collapsed]="accordions['accordion2']" type="button"
+                                (click)="toggleAccordion('accordion2')">
+                                Mise à jours
+                            </button>
+                        </h2>
+                        <div class="accordion-collapse" [class.collapse]="accordions['accordion2']"
+                            [class.show]="!accordions['accordion2']">
+                            <div class="accordion-body">
+                                <form [formGroup]="ravitaillementForm" (ngSubmit)="onSubmit()">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="nom" class="form-label">Nom</label>
+                                                <input type="text" id="nom" class="form-control"
+                                                    formControlName="nom" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="dateValidation" class="form-label">Date de
+                                                    Validation</label>
+                                                <input type="date" id="dateValidation" class="form-control"
+                                                    formControlName="dateValidation" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="fournisseur" class="form-label">Fournisseur</label>
+                                                <input type="text" id="fournisseur" class="form-control"
+                                                    formControlName="fournisseur" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="montant" class="form-label">Montant</label>
+                                                <input type="number" id="montant" class="form-control"
+                                                    formControlName="montant" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="paye" class="form-label">Payé</label>
+                                                <input type="number" id="paye" class="form-control"
+                                                    formControlName="paye" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="rap" class="form-label">Reste à Payer (RAP)</label>
+                                                <input type="number" id="rap" class="form-control"
+                                                    formControlName="rap" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="w-100 btn btn-block btn-success">{{ isEditMode ? 'Mettre à jour'
+                                            : 'Créer' }}</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion mt-2" id="ficheAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingUpdate1">
+                            <button class="accordion-button" [class.collapsed]="accordions['accordion1']" type="button"
+                                (click)="toggleAccordion('accordion1')">
+                                Gestion electronique de document
+                            </button>
+                        </h2>
+                        <div class="accordion-collapse" [class.collapse]="accordions['accordion1']"
+                            [class.show]="!accordions['accordion1']">
+                            <div class="accordion-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="ficheInfo" class="form-label">Fiche Info</label>
+                                        <textarea class="form-control" id="ficheInfo" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ficheFile" class="form-label">Fiche File</label>
+                                        <input type="file" class="form-control" id="ficheFile" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Quitter</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

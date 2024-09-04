@@ -1,4 +1,4 @@
-export type DataTableItemsType = {
+export type DataTableProduitsType = {
   id: number
   photo: string
   name: string
@@ -18,7 +18,7 @@ export type DataTableItemsType = {
   options: string
 }
 
-export const DataTableItems: DataTableItemsType[] = [
+export const DataTableProduct: DataTableProduitsType[] = [
   {
     id: 1,
     photo: 'https://api.croq-kilos.com/media/cache/article_banner_webp/uploads/medias/61e92b883c2bd666378151.webp',
@@ -173,8 +173,8 @@ export const DataTableItems: DataTableItemsType[] = [
   },
 ]
 
-export const paginateData: DataTableItemsType[] = [
-  ...DataTableItems, // Ajout des données existantes de DataTableItems
+export const paginateData: DataTableProduitsType[] = [
+  ...DataTableProduct, // Ajout des données existantes de DataTableProduct
   {
     id: 9,
     photo: 'https://api.croq-kilos.com/media/cache/article_banner_webp/uploads/medias/61e92b883c2bd666378151.webp',

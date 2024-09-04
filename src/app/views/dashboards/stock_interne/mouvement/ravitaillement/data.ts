@@ -6,7 +6,6 @@ export interface RavitaillementType {
     montant: number;
     paye: number;
     rap: number;
-    options?: string;
 }
 
 // Example data (replace with actual data or API call)
@@ -19,7 +18,6 @@ export const RavitaillementData: RavitaillementType[] = [
     montant: 1500,
     paye: 1200,
     rap: 300,
-    options: "Options A",
 },
 {
     id: 2,
@@ -29,7 +27,6 @@ export const RavitaillementData: RavitaillementType[] = [
     montant: 2000,
     paye: 1800,
     rap: 200,
-    options: "Options B",
 },
 {
     id: 3,
@@ -39,7 +36,6 @@ export const RavitaillementData: RavitaillementType[] = [
     montant: 2500,
     paye: 2300,
     rap: 200,
-    options: "Options C",
 },
 {
     id: 4,
@@ -49,7 +45,6 @@ export const RavitaillementData: RavitaillementType[] = [
     montant: 3000,
     paye: 2900,
     rap: 100,
-    options: "Options D",
 },
 {
     id: 5,
@@ -59,7 +54,6 @@ export const RavitaillementData: RavitaillementType[] = [
     montant: 1800,
     paye: 1600,
     rap: 200,
-    options: "Options E",
 }
 
 ];
@@ -73,7 +67,6 @@ export const paginateData: RavitaillementType[] = [
     montant: 1500,
     paye: 1200,
     rap: 300,
-    options: "Options A",
 },
 {
     id: 2,
@@ -83,7 +76,6 @@ export const paginateData: RavitaillementType[] = [
     montant: 2000,
     paye: 1800,
     rap: 200,
-    options: "Options B",
 },
 {
     id: 3,
@@ -93,7 +85,6 @@ export const paginateData: RavitaillementType[] = [
     montant: 2500,
     paye: 2300,
     rap: 200,
-    options: "Options C",
 },
 {
     id: 4,
@@ -103,7 +94,6 @@ export const paginateData: RavitaillementType[] = [
     montant: 3000,
     paye: 2900,
     rap: 100,
-    options: "Options D",
 },
 {
     id: 5,
@@ -113,7 +103,6 @@ export const paginateData: RavitaillementType[] = [
     montant: 1800,
     paye: 1600,
     rap: 200,
-    options: "Options E",
 }
 
 ];
