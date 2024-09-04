@@ -3,14 +3,153 @@
         <div class="card">
             <div class="card-header">
                 <div class="row align-items-center">
-                    <div class="col">
+                    <div class="col-sm-6 text-left">
                         <h4 class="card-title">Entrepôt</h4>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button type="button" class="btn btn-primary btn-sm float-right"
+                            (click)="openModalNew(newModalXl, { size: 'xl' })">Nouveau</button>
                     </div>
                 </div>
             </div>
             <div class="card-body pt-0">
+                <div class="table-responsive">
+                    <table class="table datatable">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Valeur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let entrepot of records$ | async;"
+                                (click)="openModal(exampleModalXL, { size: 'xl' }, entrepot)">
+                                <th scope="row">{{ entrepot.id }}</th>
+                                <td><ngb-highlight [result]="entrepot.nom"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td><ngb-highlight [result]="entrepot.valeur"
+                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                            </tr>
+                            <tr *ngIf="(records$ | async)?.length === 0">
+                                <td colspan="8" class="text-center">Aucun entrepot trouvé</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="tableService.page"
+                        [pageSize]="tableService.pageSize">
+                    </ngb-pagination>
 
+                    <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="tableService.pageSize">
+                        <option [ngValue]="2">2 par page</option>
+                        <option [ngValue]="4">4 par page</option>
+                        <option [ngValue]="6">6 par page</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #exampleModalXL let-modal class="modal-dialog modal-xl" id="bd-example-modal-xl" tabindex="-1"
+    role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="w-100 mt-0 mb-0 modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ modalData?.title }}</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>{{ modalData?.contentTitle }}</h5>
+                        <ul class="list-group mt-2 mb-0">
+                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                *ngFor="let item of modalData?.list">{{ item }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion mt-4" id="updateAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingUpdate">
+                            <button class="accordion-button" [class.collapsed]="accordions['accordion2']" type="button"
+                                (click)="toggleAccordion('accordion2')">
+                                Mise à jour
+                            </button>
+                        </h2>
+                        <div class="accordion-collapse" [class.collapse]="accordions['accordion2']"
+                            [class.show]="!accordions['accordion2']">
+                            <div class="accordion-body">
+                                <form [formGroup]="entrepotForm" (ngSubmit)="onSubmit()">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="nom" class="form-label">Nom</label>
+                                                <input type="text" id="nom" class="form-control"
+                                                    formControlName="nom" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="valeur" class="form-label">Valeur</label>
+                                                <input type="text" id="valeur" class="form-control"
+                                                    formControlName="valeur" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="w-100 btn btn-block btn-primary">{{ isEditMode ? 'Traitement ...'
+                                            : 'Mettre à jour' }}</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Quitter</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #newModalXl let-modal class="modal-dialog modal-xl" id="bd-example-modal-xl" tabindex="-1" role="dialog"
+    aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="w-100 mt-0 mb-0 modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nouveau</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="newentrepotForm" (ngSubmit)="onNewSubmit()">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="nom" class="form-label">Nom</label>
+                                <input type="text" id="nom" class="form-control" formControlName="nom" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="valeur" class="form-label">Valeur</label>
+                                <input type="text" id="valeur" class="form-control" formControlName="valeur" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button class="w-100 btn btn-block btn-primary">{{ isCreateMode ? 'Traitement ...'
+                            : 'Créer' }}</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Quitter</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
