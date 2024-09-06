@@ -16,7 +16,31 @@ export const DPanierData: DPanierType[] = [
     client: "string",
     prixAchat: "string",
     quanite: 2,
-}   
+}  ,
+ {
+    id: 2,
+    idPanier: 2,
+    produit: "string",
+    client: "string",
+    prixAchat: "string",
+    quanite: 2,
+}  ,
+ {
+    id: 2,
+    idPanier: 2,
+    produit: "string",
+    client: "string",
+    prixAchat: "string",
+    quanite: 2,
+}  ,
+ {
+    id: 2,
+    idPanier: 2,
+    produit: "string",
+    client: "string",
+    prixAchat: "string",
+    quanite: 2,
+}  ,
 ]
 export const paginateData: DPanierType[] = [
  {

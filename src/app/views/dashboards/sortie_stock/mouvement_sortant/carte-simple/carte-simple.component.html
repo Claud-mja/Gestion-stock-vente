@@ -9,6 +9,81 @@
                 </div>
             </div>
             <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-md-8">
+                        <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <input type="text" formControlName="searchProduct" class="form-control"
+                                                placeholder="Produit">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-control" formControlName="unite">
+                                                <option value="Sac">Sac</option>
+                                                <option value="Article">Article</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-control" formControlName="depot">
+                                                <option value="Tol">Tol</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-control" formControlName="caisse">
+                                                <option value="Tol">Tol</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Uniter</th>
+                                            <th>Prix vente</th>
+                                            <th>Qt stock</th>
+                                            <th>Quantiter</th>
+                                            <th>Opt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let product of filteredProducts">
+                                            <td>{{product.name}}</td>
+                                            <td>{{product.unit}}</td>
+                                            <td>{{product.salePrice}}</td>
+                                            <td>{{product.stockQuantity}}</td>
+                                            <td>
+                                                <input type="number" min="1" formControlName="quantite"
+                                                    class="form-control">
+                                            </td>
+                                            <td><button type="button" class="btn btn-primary">+</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="mb-3">Panier</h5>
+                        <div class="form-group mb-3">
+                            <label for="paymentSelect">Paiement</label>
+                            <select class="form-control" formControlName="payment">
+                                <option value="Espèce">Espèce</option>
+                                <option value="Carte">Carte</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="billInput">Billet</label>
+                            <input type="text" formControlName="billet" class="form-control">
+                        </div>
+                        <button type="button" class="btn btn-primary w-100">Payer</button>
+                    </div>
+                </div>
 
             </div>
         </div>

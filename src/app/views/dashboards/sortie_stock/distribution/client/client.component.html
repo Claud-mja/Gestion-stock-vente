@@ -32,20 +32,14 @@
                             <tr *ngFor="let client of records$ | async"
                                 (click)="openModal(exampleModalXL, { size: 'xl' }, client)">
                                 <th scope="row">{{ client.id }}</th>
-                                <td><ngb-highlight [result]="client.nom.toString()"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="client.prenom.toString()"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td>{{ client.adresse }}</td>
-                                <td>{{ client.email }}</td>
-                                <td><ngb-highlight [result]="client.numero.toString()"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="client.rap"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="client.verser.toString()"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="client.total.toString()"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <th scope="row">{{ client.nom }}</th>
+                                <th scope="row">{{ client.prenom }}</th>
+                                <th scope="row">{{ client.adresse }}</th>
+                                <th scope="row">{{ client.email }}</th>
+                                <th scope="row">{{ client.numero }}</th>
+                                <th scope="row">{{ client.rap }}</th>
+                                <th scope="row">{{ client.verser }}</th>
+                                <th scope="row">{{ client.total }}</th>
                             </tr>
                             <tr *ngIf="(records$ | async)?.length === 0">
                                 <td colspan="12" class="text-center">Aucun enregistrement trouvé</td>
