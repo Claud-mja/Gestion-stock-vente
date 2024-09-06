@@ -34,21 +34,16 @@
                             <tr *ngFor="let reste of records$ | async"
                                 (click)="openModal(exampleModalXL, { size: 'xl' }, reste)">
                                 <th scope="row">{{ reste.id }}</th>
-                                <td><ngb-highlight [result]="reste.idClient.toString()"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td>{{ reste.dtLivraison | date }}</td>
-                                <td><ngb-highlight [result]="reste.admin"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="reste.pannierType"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="reste.client"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="reste.etat"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td>{{ reste.montant | number:'1.2-2' }}</td>
-                                <td>{{ reste.verser | number:'1.2-2' }}</td>
-                                <td>{{ reste.reste | number:'1.2-2' }}</td>
-                                <td>{{ reste.nbrArticle }}</td>
+                                <th scope="row">{{ reste.idClient }}</th>
+                                <th scope="row">{{ reste.dtLivraison | date  }}</th>
+                                <th scope="row">{{ reste.admin }}</th>
+                                <th scope="row">{{ reste.pannierType }}</th>
+                                <th scope="row">{{ reste.client }}</th>
+                                <th scope="row">{{ reste.etat }}</th>
+                                <th scope="row">{{ reste.montant | number:'1.2-2' }}</th>
+                                <th scope="row">{{ reste.verser | number:'1.2-2' }}</th>
+                                <th scope="row">{{ reste.reste | number:'1.2-2' }}</th>
+                                <th scope="row">{{ reste.nbrArticle }}</th>
                             </tr>
                             <tr *ngIf="(records$ | async)?.length === 0">
                                 <td colspan="11" class="text-center">Aucun enregistrement trouvé</td>

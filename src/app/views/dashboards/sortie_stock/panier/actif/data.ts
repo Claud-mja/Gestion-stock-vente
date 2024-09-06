@@ -1,106 +1,97 @@
 export interface ActifType {
     id: number;
-    idPannierType: number;
-    idCaisse: number;
-    dateCommande: string;
-    dateAjout: string;
-    remarque: string;
+    idClient: number;
+    dtLivraison: Date;
     admin: string;
     pannierType: string;
     client: string;
-    montantReste: number;
-    montantVerser: number;
-    montantTotal: number;
+    etat: string;
+    montant: number;
+    verser: number;
+    reste: number;
+    nbrArticle: number;
 }
-
 
 export const ActifData: ActifType[] = [
     {
         id: 1,
-        idPannierType: 101,
-        idCaisse: 201,
-        dateCommande: '2023-09-01',
-        dateAjout: '2023-09-02',
-        remarque: 'Première commande',
+        idClient: 1001,
+        dtLivraison: new Date('2024-09-01'),
         admin: 'Admin1',
-        pannierType: 'Pannier Standard',
-        client: 'Client1',
-        montantReste: 100.00,
-        montantVerser: 200.00,
-        montantTotal: 300.00
+        pannierType: 'Pannier A',
+        client: 'Client A',
+        etat: 'En attente',
+        montant: 5000,
+        verser: 2000,
+        reste: 3000,
+        nbrArticle: 10
     },
     {
         id: 2,
-        idPannierType: 102,
-        idCaisse: 202,
-        dateCommande: '2023-09-03',
-        dateAjout: '2023-09-04',
-        remarque: 'Commande express',
+        idClient: 1002,
+        dtLivraison: new Date('2024-09-02'),
         admin: 'Admin2',
-        pannierType: 'Pannier Premium',
-        client: 'Client2',
-        montantReste: 50.00,
-        montantVerser: 150.00,
-        montantTotal: 200.00
+        pannierType: 'Pannier B',
+        client: 'Client B',
+        etat: 'Livré',
+        montant: 8000,
+        verser: 8000,
+        reste: 0,
+        nbrArticle: 20
     },
     {
         id: 3,
-        idPannierType: 103,
-        idCaisse: 203,
-        dateCommande: '2023-09-05',
-        dateAjout: '2023-09-06',
-        remarque: 'Livraison prioritaire',
+        idClient: 1003,
+        dtLivraison: new Date('2024-09-03'),
         admin: 'Admin3',
-        pannierType: 'Pannier Express',
-        client: 'Client3',
-        montantReste: 75.00,
-        montantVerser: 225.00,
-        montantTotal: 300.00
+        pannierType: 'Pannier C',
+        client: 'Client C',
+        etat: 'Partiellement payé',
+        montant: 6000,
+        verser: 4000,
+        reste: 2000,
+        nbrArticle: 15
     }
 ];
 
 export const paginateData: ActifType[] = [
     {
         id: 1,
-        idPannierType: 101,
-        idCaisse: 201,
-        dateCommande: '2023-09-01',
-        dateAjout: '2023-09-02',
-        remarque: 'Première commande',
+        idClient: 1001,
+        dtLivraison: new Date('2024-09-01'),
         admin: 'Admin1',
-        pannierType: 'Pannier Standard',
-        client: 'Client1',
-        montantReste: 100.00,
-        montantVerser: 200.00,
-        montantTotal: 300.00
+        pannierType: 'Pannier A',
+        client: 'Client A',
+        etat: 'En attente',
+        montant: 5000,
+        verser: 2000,
+        reste: 3000,
+        nbrArticle: 10
     },
     {
         id: 2,
-        idPannierType: 102,
-        idCaisse: 202,
-        dateCommande: '2023-09-03',
-        dateAjout: '2023-09-04',
-        remarque: 'Commande express',
+        idClient: 1002,
+        dtLivraison: new Date('2024-09-02'),
         admin: 'Admin2',
-        pannierType: 'Pannier Premium',
-        client: 'Client2',
-        montantReste: 50.00,
-        montantVerser: 150.00,
-        montantTotal: 200.00
+        pannierType: 'Pannier B',
+        client: 'Client B',
+        etat: 'Livré',
+        montant: 8000,
+        verser: 8000,
+        reste: 0,
+        nbrArticle: 20
     },
     {
         id: 3,
-        idPannierType: 103,
-        idCaisse: 203,
-        dateCommande: '2023-09-05',
-        dateAjout: '2023-09-06',
-        remarque: 'Livraison prioritaire',
+        idClient: 1003,
+        dtLivraison: new Date('2024-09-03'),
         admin: 'Admin3',
-        pannierType: 'Pannier Express',
-        client: 'Client3',
-        montantReste: 75.00,
-        montantVerser: 225.00,
-        montantTotal: 300.00
+        pannierType: 'Pannier C',
+        client: 'Client C',
+        etat: 'Partiellement payé',
+        montant: 6000,
+        verser: 4000,
+        reste: 2000,
+        nbrArticle: 15
     }
-    // Continue adding more entries as needed
 ];

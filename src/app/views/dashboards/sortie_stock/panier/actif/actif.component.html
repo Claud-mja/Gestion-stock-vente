@@ -18,47 +18,38 @@
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">Id</th>
-                                <th scope="col">Id Pannier Type</th>
-                                <th scope="col">Id Caisse</th>
-                                <th scope="col">Date Commande</th>
-                                <th scope="col">Date Ajout</th>
-                                <th scope="col">Remarque</th>
+                                <th scope="col">Id Client</th>
+                                <th scope="col">Date Livraison</th>
                                 <th scope="col">Admin</th>
                                 <th scope="col">Pannier Type</th>
                                 <th scope="col">Client</th>
-                                <th scope="col">Montant Reste</th>
-                                <th scope="col">Montant Versé</th>
-                                <th scope="col">Montant Total</th>
+                                <th scope="col">État</th>
+                                <th scope="col">Montant</th>
+                                <th scope="col">Versé</th>
+                                <th scope="col">Reste</th>
+                                <th scope="col">Nbr Article</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let cree of records$ | async"
-                                (click)="openModal(exampleModalXL, { size: 'xl' }, cree)">
-                                <th scope="row">{{ cree.id }}</th>
-                                <td><ngb-highlight [result]="cree.idPannierType.toString()"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="cree.idCaisse.toString()"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td>{{ cree.dateCommande | date }}</td>
-                                <td>{{ cree.dateAjout | date }}</td>
-                                <td><ngb-highlight [result]="cree.remarque"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="cree.admin"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="cree.pannierType"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="cree.client"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td>{{ cree.montantReste | number:'1.2-2' }}</td>
-                                <td>{{ cree.montantVerser | number:'1.2-2' }}</td>
-                                <td>{{ cree.montantTotal | number:'1.2-2' }}</td>
+                            <tr *ngFor="let reste of records$ | async"
+                                (click)="openModal(exampleModalXL, { size: 'xl' }, reste)">
+                                <th scope="row">{{ reste.id }}</th>
+                                <th scope="row">{{ reste.idClient }}</th>
+                                <th scope="row">{{ reste.dtLivraison | date }}</th>
+                                <th scope="row">{{ reste.admin }}</th>
+                                <th scope="row">{{ reste.pannierType }}</th>
+                                <th scope="row">{{ reste.client }}</th>
+                                <th scope="row">{{ reste.etat }}</th>
+                                <th scope="row">{{ reste.montant | number:'1.2-2' }}</th>
+                                <th scope="row">{{ reste.verser | number:'1.2-2' }}</th>
+                                <th scope="row">{{ reste.reste | number:'1.2-2' }}</th>
+                                <th scope="row">{{ reste.nbrArticle }}</th>
                             </tr>
                             <tr *ngIf="(records$ | async)?.length === 0">
-                                <td colspan="12" class="text-center">Aucun enregistrement trouvé</td>
+                                <td colspan="11" class="text-center">Aucun enregistrement trouvé</td>
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
                 <div class="d-flex justify-content-between p-2">
                     <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="tableService.page"
@@ -93,137 +84,6 @@
                                 *ngFor="let item of modalData?.list">{{ item }}
                             </li>
                         </ul>
-                    </div>
-                </div>
-                <div class="accordion mt-4" id="updateAccordion">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingUpdate">
-                            <button class="accordion-button" [class.collapsed]="accordions['accordion2']" type="button"
-                                (click)="toggleAccordion('accordion2')">
-                                Mise à jour
-                            </button>
-                        </h2>
-                        <div class="accordion-collapse" [class.collapse]="accordions['accordion2']"
-                            [class.show]="!accordions['accordion2']">
-                            <div class="accordion-body">
-                                <form [formGroup]="creerForm" (ngSubmit)="onSubmit()">
-                                    <div class="row">
-                                        <!-- ID -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="id" class="form-label">ID</label>
-                                                <input type="text" id="id" class="form-control" formControlName="id" />
-                                            </div>
-                                        </div>
-
-                                        <!-- ID Pannier Type -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="idPannierType" class="form-label">ID Pannier Type</label>
-                                                <input type="text" id="idPannierType" class="form-control"
-                                                    formControlName="idPannierType" />
-                                            </div>
-                                        </div>
-
-                                        <!-- ID Caisse -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="idCaisse" class="form-label">ID Caisse</label>
-                                                <input type="text" id="idCaisse" class="form-control"
-                                                    formControlName="idCaisse" />
-                                            </div>
-                                        </div>
-
-                                        <!-- Date Commande -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="dateCommande" class="form-label">Date Commande</label>
-                                                <input type="date" id="dateCommande" class="form-control"
-                                                    formControlName="dateCommande" />
-                                            </div>
-                                        </div>
-
-                                        <!-- Date Ajout -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="dateAjout" class="form-label">Date Ajout</label>
-                                                <input type="date" id="dateAjout" class="form-control"
-                                                    formControlName="dateAjout" />
-                                            </div>
-                                        </div>
-
-                                        <!-- Remarque -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="remarque" class="form-label">Remarque</label>
-                                                <textarea id="remarque" class="form-control"
-                                                    formControlName="remarque"></textarea>
-                                            </div>
-                                        </div>
-
-                                        <!-- Admin -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="admin" class="form-label">Admin</label>
-                                                <input type="text" id="admin" class="form-control"
-                                                    formControlName="admin" />
-                                            </div>
-                                        </div>
-
-                                        <!-- Pannier Type -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="pannierType" class="form-label">Pannier Type</label>
-                                                <input type="text" id="pannierType" class="form-control"
-                                                    formControlName="pannierType" />
-                                            </div>
-                                        </div>
-
-                                        <!-- Client -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="client" class="form-label">Client</label>
-                                                <input type="text" id="client" class="form-control"
-                                                    formControlName="client" />
-                                            </div>
-                                        </div>
-
-                                        <!-- Montant Reste -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="montantReste" class="form-label">Montant Reste</label>
-                                                <input type="number" id="montantReste" class="form-control"
-                                                    formControlName="montantReste" />
-                                            </div>
-                                        </div>
-
-                                        <!-- Montant Verser -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="montantVerser" class="form-label">Montant Verser</label>
-                                                <input type="number" id="montantVerser" class="form-control"
-                                                    formControlName="montantVerser" />
-                                            </div>
-                                        </div>
-
-                                        <!-- Montant Total -->
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="montantTotal" class="form-label">Montant Total</label>
-                                                <input type="number" id="montantTotal" class="form-control"
-                                                    formControlName="montantTotal" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <button class="w-100 btn btn-block btn-primary">{{ isEditMode ? 'Traitement ...'
-                                            : 'Mettre à jour' }}</button>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

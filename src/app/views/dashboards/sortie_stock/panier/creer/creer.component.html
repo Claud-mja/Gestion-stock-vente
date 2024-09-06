@@ -35,23 +35,17 @@
                             <tr *ngFor="let cree of records$ | async"
                                 (click)="openModal(exampleModalXL, { size: 'xl' }, cree)">
                                 <th scope="row">{{ cree.id }}</th>
-                                <td><ngb-highlight [result]="cree.idPannierType.toString()"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="cree.idCaisse.toString()"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td>{{ cree.dateCommande | date }}</td>
-                                <td>{{ cree.dateAjout | date }}</td>
-                                <td><ngb-highlight [result]="cree.remarque"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="cree.admin"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="cree.pannierType"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="cree.client"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td>{{ cree.montantReste | number:'1.2-2' }}</td>
-                                <td>{{ cree.montantVerser | number:'1.2-2' }}</td>
-                                <td>{{ cree.montantTotal | number:'1.2-2' }}</td>
+                                <th scope="row">{{ cree.idPannierType }}</th>
+                                <th scope="row">{{ cree.idCaisse }}</th>
+                                <th scope="row">{{ cree.dateCommande }}</th>
+                                <th scope="row">{{ cree.dateAjout }}</th>
+                                <th scope="row">{{ cree.remarque }}</th>
+                                <th scope="row">{{ cree.admin }}</th>
+                                <th scope="row">{{ cree.pannierType }}</th>
+                                <th scope="row">{{ cree.client }}</th>
+                                <th scope="row">{{ cree.montantReste | number:'1.2-2' }}</th>
+                                <th scope="row">{{ cree.montantVerser | number:'1.2-2' }}</th>
+                                <th scope="row">{{ cree.montantTotal | number:'1.2-2' }}</th>
                             </tr>
                             <tr *ngIf="(records$ | async)?.length === 0">
                                 <td colspan="12" class="text-center">Aucun enregistrement trouvé</td>

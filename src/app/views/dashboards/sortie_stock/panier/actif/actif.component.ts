@@ -1,9 +1,9 @@
 import { Component, Directive, EventEmitter, inject, Input, Output, TemplateRef, ViewChildren, type PipeTransform, type QueryList } from '@angular/core'
-import { ActifData, paginateData, type ActifType } from './data' // Update this to match your creer data import
+import { ActifData, paginateData, type ActifType } from './data' 
 import type { Observable } from 'rxjs'
 import { NgbdSortableHeader } from '@/app/core/directive/sortable.directive'
 import { TableService } from '@/app/core/service/table.service'
-import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
+import { CommonModule, DecimalPipe } from '@angular/common'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 import { RouterLink } from '@angular/router'
@@ -43,16 +43,6 @@ export class NgbdCustomSortableHeader {
   }
 }
 
-function search(text: string, pipe: PipeTransform): ActifType[] {
-  return ActifData.filter((creer) => {
-    const term = text.toLowerCase()
-    return (
-      creer.remarque.toLowerCase().includes(term) ||
-      pipe.transform(creer.remarque).includes(term) ||
-      pipe.transform(creer.remarque).includes(term)
-    )
-  })
-}
 @Component({
   selector: 'app-actif',
   standalone: true,
@@ -68,8 +58,8 @@ export class ActifComponent {
     accordion1: true,
     accordion2: true
   };
-  creerForm: FormGroup;
-  newcreerForm: FormGroup;
+  resteForm: FormGroup;
+  newresteForm: FormGroup;
   isEditMode = false;
   isCreateMode = false;
   page = 1
@@ -98,7 +88,7 @@ export class ActifComponent {
 
     this.refreshProduit()
 
-    this.creerForm = this.fb.group({
+    this.resteForm = this.fb.group({
       id: ['', Validators.required],
       idPannierType: ['', Validators.required],
       idCaisse: ['', Validators.required],
@@ -113,7 +103,7 @@ export class ActifComponent {
       montantTotal: [0, [Validators.required, Validators.min(0)]]
     });
 
-    this.newcreerForm = this.fb.group({
+    this.newresteForm = this.fb.group({
       id: ['', Validators.required],
       idPannierType: ['', Validators.required],
       idCaisse: ['', Validators.required],
@@ -136,20 +126,20 @@ export class ActifComponent {
   loadActifData(dataUpdate: any): void {
     const data: ActifType = {
       id: dataUpdate.id,
-      idPannierType: dataUpdate.idPannierType,
-      idCaisse: dataUpdate.idCaisse,
-      dateCommande: dataUpdate.dateCommande,
-      dateAjout: dataUpdate.dateAjout,
-      remarque: dataUpdate.remarque,
+      idClient: dataUpdate.idClient,
+      dtLivraison: dataUpdate.dtLivraison,
       admin: dataUpdate.admin,
       pannierType: dataUpdate.pannierType,
       client: dataUpdate.client,
-      montantReste: dataUpdate.montantReste,
-      montantVerser: dataUpdate.montantVerser,
-      montantTotal: dataUpdate.montantTotal,
+      etat: dataUpdate.etat,
+      montant: dataUpdate.montant,
+      verser: dataUpdate.verser,
+      reste: dataUpdate.reste,
+      nbrArticle: dataUpdate.nbrArticle,
     };
-    this.creerForm.patchValue(data);
+    this.resteForm.patchValue(data);
   }
+
 
 
   toggleAccordion(id: string) {
@@ -158,23 +148,24 @@ export class ActifComponent {
     }
   }
 
-  openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions, creer: any) {
+  openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions, reste: any) {
     this.modalData = {
-      title: creer.nom,
-      contentTitle: creer.nom,
+      title: "",
+      contentTitle: "",
       list: [
-        `Remarque: ${creer.remarque}`,
-        `Nom: ${creer.nom}`,
-        `Admin: ${creer.admin}`,
-        `Type panier: ${creer.pannierType}`,
-        `Client: ${creer.client}`,
-        `Montant reste: ${creer.montantReste}`,
-        `Montant à verser: ${creer.montantVerser}`,
-        `Montant Total: ${creer.montantTotal}`,
+        `Date livraison: ${reste.dtLivraison}`,
+        `Nom: ${reste.admin}`,
+        `Admin: ${reste.pannierType}`,
+        `Client: ${reste.client}`,
+        `Etat: ${reste.etat}`,
+        `Montant: ${reste.montant}`,
+        `Verser: ${reste.verser}`,
+        `Reste: ${reste.reste}`,
+        `Nombre article: ${reste.nbrArticle}`,
       ]
     };
     this.modalService.open(content, options)
-    this.loadActifData(creer);
+    this.loadActifData(reste);
   }
 
   openModalNew(content: TemplateRef<HTMLElement>, options: NgbModalOptions) {
@@ -196,10 +187,6 @@ export class ActifComponent {
     }
   }
 
-
-  searchfilter() {
-    this.searchProduit = search(this.filter, this.pipe)
-  }
 
   refreshProduit() {
     this.Produit = paginateData
@@ -223,26 +210,25 @@ export class ActifComponent {
   }
 
   onSubmit(): void {
-    if (this.creerForm.valid) {
-      const ActifData: ActifType = this.creerForm.value;
+    if (this.resteForm.valid) {
+      const ActifData: ActifType = this.resteForm.value;
       if (this.isEditMode) {
         console.log('Mise à jour des données:', ActifData);
       } else {
-        console.log('Création d’un nouveau creer:', ActifData);
+        console.log('Création d’un nouveau reste:', ActifData);
       }
     }
   }
 
   onNewSubmit(): void {
-    if (this.newcreerForm.valid) {
-      const ActifData: ActifType = this.newcreerForm.value;
+    if (this.newresteForm.valid) {
+      const ActifData: ActifType = this.newresteForm.value;
       if (this.isCreateMode) {
         console.log('Ajout catégorie:', ActifData);
       } else {
-        console.log('Création d’un nouveau creer:', ActifData);
+        console.log('Création d’un nouveau reste:', ActifData);
       }
     }
   }
 }
-
 
