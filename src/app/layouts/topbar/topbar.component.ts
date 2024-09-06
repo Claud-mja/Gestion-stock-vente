@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store'
 import { SimplebarAngularModule } from 'simplebar-angular'
 import { TabItems } from './data'
 import { AuthenticationService } from '@/app/core/service/auth.service'
+import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'app-topbar',
@@ -16,11 +17,23 @@ import { AuthenticationService } from '@/app/core/service/auth.service'
     SimplebarAngularModule,
     NgbNavModule,
     RouterModule,
+    CommonModule
   ],
   templateUrl: './topbar.component.html',
   styles: ``,
 })
 export class TopbarComponent {
+  selectedLanguage = {
+    flag: 'assets/images/flags/us_flag.jpg',
+    name: 'Anglais',
+    langCode: 'en' 
+  };
+
+  languages = [
+    { flag: 'assets/images/flags/us_flag.jpg', name: 'Anglais', langCode: 'en' },
+    { flag: 'assets/images/flags/french_flag.jpg', name: 'Français', langCode: 'fr' }
+  ];
+
   tabItems = TabItems
   store = inject(Store)
   scrollY = 0
@@ -34,6 +47,18 @@ export class TopbarComponent {
   toggleMobileMenu() {
     this.mobileMenuButtonClicked.emit()
   }
+  changeLanguage(language: { flag: string; name: string; langCode: string }): void {
+    this.selectedLanguage = language;
+    this.translatePage(language.langCode);  
+  }
+
+  translatePage(langCode: string): void {
+    if (langCode === 'en') {
+      console.log('Switched to English');
+    } else if (langCode === 'fr') {
+      console.log('Switched to French');
+    }
+  }
 
   logOut() {
     if (confirm("Se deconnecter du site ?")) {
@@ -42,7 +67,6 @@ export class TopbarComponent {
     }
   }
 
-  // Change Theme
   changeTheme() {
     const color = document.documentElement.getAttribute('data-bs-theme')
     if (color == 'light') {
@@ -54,6 +78,7 @@ export class TopbarComponent {
       document.documentElement.setAttribute('data-bs-theme', color)
     })
   }
+
   handleScroll = () => {
     this.scrollY = window.scrollY
   }
