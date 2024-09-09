@@ -2,19 +2,31 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <div class="row align-items-center">
+                <div class="row align-items-center justify-content-between">
                     <div class="col-sm-6 text-left">
                         <h4 class="card-title">Ravitaillement</h4>
                     </div>
-                    <div class="col-sm-6 text-right">
+                    <div class="col-auto">
+                        <button
+                            [routerLink]="['/dashboard/stock-interne/mouvement-stock/nouveau']"
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addBoard"
+                        >
+                          <i class="fa-solid fa-plus me-1"></i> Add Product
+                        </button>
+                      </div>
+                    <!-- <div class="col-sm-6 text-right">
                         <a [routerLink]="['/dashboard/stock-interne/mouvement-stock/nouveau']"
                             class="btn btn-primary btn-sm float-right">Nouveau</a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="card-body pt-0">
                 <div class="table-responsive">
-                    <table class="table datatable">
+                    <app-table-header />
+                    <table class="table mb-0 text-nowrap" id="datatable_1">
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">Id</th>
@@ -22,34 +34,32 @@
                                 <th scope="col">Date validation</th>
                                 <th scope="col">Fournisseur</th>
                                 <th scope="col">Montant</th>
-                                <th scope="col">Paye</th>
-                                <th scope="col">Rap</th>
+                                <th scope="col">Payer</th>
+                                <th scope="col">Reste à payer</th>
+                                <th class="text-end">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let ravitaillement of records$ | async;"
-                                (click)="openModal(exampleModalXL, { size: 'xl' }, ravitaillement)">
+                            <tr *ngFor="let ravitaillement of records$ | async;">
                                 <th scope="row">{{ ravitaillement.id }}</th>
-                                <td><ngb-highlight [result]="ravitaillement.nom"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="ravitaillement.dateValidation"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="ravitaillement.fournisseur"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="ravitaillement.montant | number"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="ravitaillement.paye | number"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="ravitaillement.rap | number"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td class="ps-0" sortable="fournisseur" (sort)="onSort($event)">{{ ravitaillement.fournisseur }}</td>
+                                <td></td>
+                                <td class="text-end">
+                                    <a href="javascript:void(0);" class="me-0.5"
+                                        ><i class="las la-pen text-secondary fs-18"></i
+                                    ></a>
+                                    <a href="javascript:void(0);"
+                                        ><i class="las la-trash-alt text-secondary fs-18"></i
+                                    ></a>
+                                </td>
                             </tr>
                             <tr *ngIf="(records$ | async)?.length === 0">
                                 <td colspan="8" class="text-center">Aucun ravitaillement trouvé</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="d-flex justify-content-between p-2">
+                <!-- </div> -->
+                <!-- <div class="d-flex justify-content-between p-2">
                     <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="tableService.page"
                         [pageSize]="tableService.pageSize">
                     </ngb-pagination>
@@ -59,6 +69,8 @@
                         <option [ngValue]="4">4 par page</option>
                         <option [ngValue]="6">6 par page</option>
                     </select>
+                </div> -->
+                    <app-table-footer [total]="total$" />
                 </div>
             </div>
         </div>

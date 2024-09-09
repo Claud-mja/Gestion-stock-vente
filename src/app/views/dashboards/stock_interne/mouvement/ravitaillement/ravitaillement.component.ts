@@ -1,63 +1,21 @@
 import { Component, Directive, EventEmitter, inject, Input, Output, TemplateRef, ViewChildren, type PipeTransform, type QueryList } from '@angular/core'
 import { RavitaillementData, paginateData, type RavitaillementType } from './data' // Update this to match your ravitaillement data import
 import type { Observable } from 'rxjs'
-import { NgbdSortableHeader } from '@/app/core/directive/sortable.directive'
+import { NgbdSortableHeader, SortEvent } from '@/app/core/directive/sortable.directive'
 import { TableService } from '@/app/core/service/table.service'
 import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 import { RouterLink } from '@angular/router'
-
-export type SortColumn = keyof RavitaillementType | ''
-export type SortDirection = 'asc' | 'desc' | ''
-const rotate: { [key: string]: SortDirection } = {
-  asc: 'desc',
-  desc: '',
-  '': 'asc',
-}
-
-const compare = (v1: string | number, v2: string | number) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0)
-
-export type CustomSortEvent = {
-  column: SortColumn
-  direction: SortDirection
-}
-
-@Directive({
-  selector: 'th[sortable]',
-  standalone: true,
-  host: {
-    '[class.asc]': 'direction === "asc"',
-    '[class.desc]': 'direction === "desc"',
-    '(click)': 'rotate()',
-  },
-})
-export class NgbdCustomSortableHeader {
-  @Input() sortable: SortColumn = ''
-  @Input() direction: SortDirection = ''
-  @Output() sort = new EventEmitter<CustomSortEvent>()
-
-  rotate() {
-    this.direction = rotate[this.direction]
-    this.sort.emit({ column: this.sortable, direction: this.direction })
-  }
-}
-
-function search(text: string, pipe: PipeTransform): RavitaillementType[] {
-  return RavitaillementData.filter((ravitaillement) => {
-    const term = text.toLowerCase()
-    return (
-      ravitaillement.nom.toLowerCase().includes(term) ||
-      pipe.transform(ravitaillement.fournisseur).includes(term) ||
-      pipe.transform(ravitaillement.montant).includes(term)
-    )
-  })
-}
-
+import { RavitaillementListType } from '@/app/core/models/ravitaillement.model'
+import { TableFooterComponent } from '@/app/components/table/table-footer/table-footer.component'
+import { TableHeaderComponent } from '@/app/components/table/table-header/table-header.component'
+import { RavitaillementService } from '@/app/core/service/stck/ravitaillement.service'
+import { PageDetails, Paginated } from '@/app/common/paginatrd.interface'
 @Component({
   selector: 'app-ravitaillement',
   standalone: true,
-  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink],
+  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink , TableFooterComponent , TableHeaderComponent],
   templateUrl: './ravitaillement.component.html',
   styleUrls: ['./ravitaillement.component.scss']
 })
@@ -71,31 +29,36 @@ export class RavitaillementComponent {
   };
   ravitaillementForm: FormGroup;
   isEditMode = false;
-  page = 1
-  pageSize = 4
-  collectionSize = RavitaillementData.length
-  Produit!: RavitaillementType[]
+  
+  pageDetails : PageDetails = {
+    data_count : 0,
+    data_limit : 10,
+    data_now : 0,
+    page_max : 0,
+    page_now : 1
+  }
+  
   basicProduit = RavitaillementData.slice(0, 5)
   searchProduit = RavitaillementData.slice(0, 5)
   sortProduit = RavitaillementData.slice(0, 5)
-
-  records$: Observable<RavitaillementType[]>
+  
+  records$: Observable<RavitaillementListType[]>
   total$: Observable<number>
 
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<
-    NgbdSortableHeader<RavitaillementType>
+    NgbdSortableHeader<RavitaillementListType>
   >
 
-  public tableService = inject(TableService<RavitaillementType>)
+  public tableService = inject(TableService<RavitaillementListType>)
 
   ficheInfo: string = ''
   ficheFile: File | null = null
 
-  constructor(public pipe: DecimalPipe, private fb: FormBuilder) {
+  constructor(public pipe: DecimalPipe, private fb: FormBuilder , private ravService : RavitaillementService) {
     this.records$ = this.tableService.items$
     this.total$ = this.tableService.total$
 
-    this.refreshProduit()
+    // this.refreshProduit()
 
     this.ravitaillementForm = this.fb.group({
       nom: ['', Validators.required],
@@ -110,7 +73,19 @@ export class RavitaillementComponent {
 
 
   ngOnInit(): void {
-    this.tableService.setItems(RavitaillementData, 5)
+    // this.tableService.setItems(RavitaillementData, 5)
+    this.getRavList();
+  }
+
+  getRavList() : void {
+    console.log("ATOOO ");
+    
+    this.ravService.getRavs().subscribe((response: Paginated<RavitaillementListType>) => {
+        console.log(response.reulstat);
+        console.log(this.pageDetails);
+        
+        this.tableService.setItems(response.reulstat, this.pageDetails.data_limit);
+    })
   }
 
   loadRavitaillementData(dataUpdate: any): void {
@@ -164,27 +139,40 @@ export class RavitaillementComponent {
   }
 
 
-  searchfilter() {
-    this.searchProduit = search(this.filter, this.pipe)
-  }
+  // searchfilter() {
+  //   this.searchProduit = search(this.filter, this.pipe)
+  // }
 
-  refreshProduit() {
-    this.Produit = paginateData
-      .map((produitres, i) => ({
-        ...produitres,
-      }))
-      .slice(
-        (this.page - 1) * this.pageSize,
-        (this.page - 1) * this.pageSize + this.pageSize
-      )
-  }
+  // refreshProduit() {
+  //   this.Produit = paginateData
+  //     .map((produitres, i) => ({
+  //       ...produitres,
+  //     }))
+  //     .slice(
+  //       (this.page - 1) * this.pageSize,
+  //       (this.page - 1) * this.pageSize + this.pageSize
+  //     )
+  // }
 
-  onCompleteSort({ column, direction }: CustomSortEvent) {
-    for (const header of this.headers) {
+  // onCompleteSort({ column, direction }: CustomSortEvent) {
+  //   for (const header of this.headers) {
+  //     if (header.sortable !== column) {
+  //       header.direction = ''
+  //     }
+  //   }
+  //   this.tableService.sortColumn = column
+  //   this.tableService.sortDirection = direction
+  // }
+
+  onSort(event: any) {
+    const { column, direction } = event
+    // resetting other headers
+    this.headers.forEach((header) => {
       if (header.sortable !== column) {
         header.direction = ''
       }
-    }
+    })
+
     this.tableService.sortColumn = column
     this.tableService.sortDirection = direction
   }

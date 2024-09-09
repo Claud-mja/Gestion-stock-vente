@@ -1,3 +1,4 @@
+import { RavitaillementService } from '@/app/core/service/stck/ravitaillement.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,13 +13,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class NewRavitaillementComponent {
   ravitaillementForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private ravitailService : RavitaillementService) {
     this.ravitaillementForm = this.fb.group({
       fournisseur: ['', Validators.required],
       nom: ['', Validators.required],
       montant: [0, [Validators.required, Validators.min(0)]],
-      dateCreation: [new Date(), Validators.required],
-      dateValidation: [new Date(), Validators.required],
       remarque: ['']
     });
   }

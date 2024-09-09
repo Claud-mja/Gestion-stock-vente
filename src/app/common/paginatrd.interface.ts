@@ -1,8 +1,13 @@
 export interface Paginated<T> {
-    content: T[];
-    pageNumber: number;
-    perPage: number;
-    totalPage: number;
-    contentCount: number;
-  }
+    reulstat: T[];
+    desc : PageDetails
+}
+
+export interface PageDetails {
+  page_now : number;
+  page_max : number;
+  data_now : number;
+  data_count : number;
+  data_limit : number;
+}
   

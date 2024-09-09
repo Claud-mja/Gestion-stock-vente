@@ -145,6 +145,7 @@ export class TableService<T extends {}> {
     this.items = items
     this._set({ pageSize })
     this._set({ endIndex: pageSize })
+    this._search$.next()
   }
 
   private _set(patch: Partial<State<T>>): void {
@@ -153,6 +154,10 @@ export class TableService<T extends {}> {
   }
 
   private _search(): Observable<SearchResult<T>> {
+    if (this.items.length === 0) {
+      return of({ items: [], total: 0 });
+    }
+    
     const { pageSize, page, searchTerm, sortColumn, sortDirection } =
       this._state
     const searchableFields = Object.keys(this.items[0]) as (keyof T)[]
