@@ -31,7 +31,20 @@
                                 <td>{{ inventaire.titre }}</td>
                                 <td>{{ inventaire.remarque }}</td>
                                 <td>{{ inventaire.responsable }}</td>
-                                <td>{{ inventaire.etat }}</td>
+                                <span class="badge" [ngClass]="{
+                                    'bg-success-subtle text-success':
+                                      inventaire.etat == 'Completed',
+                                    'bg-danger-subtle text-danger':
+                                      inventaire.etat == 'Cancel',
+                                    'bg-secondary-subtle text-secondary':
+                                      inventaire.etat == 'Pending',
+                                  }">
+                                    <i class="fas me-1" [ngClass]="{
+                                      'fa-check': inventaire.etat == 'Completed',
+                                      'fa-xmark': inventaire.etat == 'Cancel',
+                                      'fa-clock': inventaire.etat == 'Pending',
+                                    }"></i>
+                                    {{ inventaire.etat }}</span>
                             </tr>
                             <tr *ngIf="(records$ | async)?.length === 0">
                                 <td colspan="5" class="text-center">Aucun inventaire trouvé</td>

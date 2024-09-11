@@ -6,13 +6,16 @@
                     <div class="col">
                         <h4 class="card-title">Liste produit</h4>
                     </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary" (click)="clickToNew()">
+                          <i class="fas fa-plus me-1"></i> Nouveau
+                        </button>
+                      </div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="mb-3 row">
-                    <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Rechercher
-                        :</label>
-                    <div class="col-xs-3 col-sm-auto">
+                    <div class="col-xs-8">
                         <input id="table-complete-search" type="text" class="form-control" name="searchTerm"
                             [(ngModel)]="tableService.searchTerm" placeholder="Rechercher un produit" />
                     </div>

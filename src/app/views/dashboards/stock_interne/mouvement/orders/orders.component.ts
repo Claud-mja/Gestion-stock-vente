@@ -21,4 +21,8 @@ export class OrdersComponent {
   clickToNew(){
     this.router.navigate(['/dashboard/stock-interne/mouvement-stock/nouveau'])
   }
+
+  deleteRavitaillement(id: string){
+    alert("DELETE IT " + id)
+  }
 }

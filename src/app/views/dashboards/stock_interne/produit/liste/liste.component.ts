@@ -17,6 +17,7 @@ import { TableService } from '@/app/core/service/table.service'
 import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
+import { Router } from '@angular/router'
 
 export type SortColumn = keyof DataTableProduitsType | ''
 export type SortDirection = 'asc' | 'desc' | ''
@@ -106,7 +107,7 @@ export class ListeComponent {
   ficheInfo: string = ''
   ficheFile: File | null = null
 
-  constructor(public pipe: DecimalPipe) {
+  constructor(public pipe: DecimalPipe, private router: Router) {
     this.records$ = this.tableService.items$
     this.total$ = this.tableService.total$
 
@@ -121,6 +122,9 @@ export class ListeComponent {
     if (this.accordions.hasOwnProperty(id)) {
       this.accordions[id as keyof typeof this.accordions] = !this.accordions[id as keyof typeof this.accordions];
     }
+  }
+  clickToNew(){
+    this.router.navigate(['/dashboard/stock-interne/new'])
   }
 
   openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions, produit: any) {
