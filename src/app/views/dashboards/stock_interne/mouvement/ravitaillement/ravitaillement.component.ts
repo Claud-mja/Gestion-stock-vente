@@ -15,7 +15,7 @@ import { PageDetails, Paginated } from '@/app/common/paginatrd.interface'
 @Component({
   selector: 'app-ravitaillement',
   standalone: true,
-  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink , TableFooterComponent , TableHeaderComponent],
+  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink, TableFooterComponent, TableHeaderComponent],
   templateUrl: './ravitaillement.component.html',
   styleUrls: ['./ravitaillement.component.scss']
 })
@@ -29,19 +29,19 @@ export class RavitaillementComponent {
   };
   ravitaillementForm: FormGroup;
   isEditMode = false;
-  
-  pageDetails : PageDetails = {
-    data_count : 0,
-    data_limit : 10,
-    data_now : 0,
-    page_max : 0,
-    page_now : 1
+
+  pageDetails: PageDetails = {
+    data_count: 0,
+    data_limit: 10,
+    data_now: 0,
+    page_max: 0,
+    page_now: 1
   }
-  
+
   basicProduit = RavitaillementData.slice(0, 5)
   searchProduit = RavitaillementData.slice(0, 5)
   sortProduit = RavitaillementData.slice(0, 5)
-  
+
   records$: Observable<RavitaillementListType[]>
   total$: Observable<number>
 
@@ -54,7 +54,7 @@ export class RavitaillementComponent {
   ficheInfo: string = ''
   ficheFile: File | null = null
 
-  constructor(public pipe: DecimalPipe, private fb: FormBuilder , private ravService : RavitaillementService) {
+  constructor(public pipe: DecimalPipe, private fb: FormBuilder, private ravService: RavitaillementService) {
     this.records$ = this.tableService.items$
     this.total$ = this.tableService.total$
 
@@ -77,14 +77,14 @@ export class RavitaillementComponent {
     this.getRavList();
   }
 
-  getRavList() : void {
+  getRavList(): void {
     console.log("ATOOO ");
-    
+
     this.ravService.getRavs().subscribe((response: Paginated<RavitaillementListType>) => {
-        console.log(response.reulstat);
-        console.log(this.pageDetails);
-        
-        this.tableService.setItems(response.reulstat, this.pageDetails.data_limit);
+      console.log(response.reulstat);
+      console.log(this.pageDetails);
+
+      this.tableService.setItems(response.reulstat, this.pageDetails.data_limit);
     })
   }
 

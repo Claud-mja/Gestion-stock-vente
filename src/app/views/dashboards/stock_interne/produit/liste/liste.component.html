@@ -14,7 +14,7 @@
                         :</label>
                     <div class="col-xs-3 col-sm-auto">
                         <input id="table-complete-search" type="text" class="form-control" name="searchTerm"
-                            [(ngModel)]="tableService.searchTerm" />
+                            [(ngModel)]="tableService.searchTerm" placeholder="Rechercher un produit" />
                     </div>
                     @if (tableService.loading$ | async) {
                     <span class="col col-form-label">Chargement...</span>
