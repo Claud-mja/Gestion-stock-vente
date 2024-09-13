@@ -22,29 +22,39 @@
                                 <th scope="col">Remarque</th>
                                 <th scope="col">Responsable</th>
                                 <th scope="col">État</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let inventaire of records$ | async"
-                                (click)="openModal(inventaireModal, { size: 'xl' }, inventaire)">
+                            <tr *ngFor="let inventaire of records$ | async">
                                 <th scope="row">{{ inventaire.id }}</th>
                                 <td>{{ inventaire.titre }}</td>
                                 <td>{{ inventaire.remarque }}</td>
                                 <td>{{ inventaire.responsable }}</td>
-                                <span class="badge" [ngClass]="{
-                                    'bg-success-subtle text-success':
-                                      inventaire.etat == 'Completed',
-                                    'bg-danger-subtle text-danger':
-                                      inventaire.etat == 'Cancel',
-                                    'bg-secondary-subtle text-secondary':
-                                      inventaire.etat == 'Pending',
-                                  }">
-                                    <i class="fas me-1" [ngClass]="{
-                                      'fa-check': inventaire.etat == 'Completed',
-                                      'fa-xmark': inventaire.etat == 'Cancel',
-                                      'fa-clock': inventaire.etat == 'Pending',
-                                    }"></i>
-                                    {{ inventaire.etat }}</span>
+                                <td>
+                                    <span class="badge" [ngClass]="{
+                                        'bg-success-subtle text-success':
+                                          inventaire.etat == 'Completed',
+                                        'bg-danger-subtle text-danger':
+                                          inventaire.etat == 'Cancel',
+                                        'bg-secondary-subtle text-secondary':
+                                          inventaire.etat == 'Pending',
+                                      }">
+                                        <i class="fas me-1" [ngClass]="{
+                                          'fa-check': inventaire.etat == 'Completed',
+                                          'fa-xmark': inventaire.etat == 'Cancel',
+                                          'fa-clock': inventaire.etat == 'Pending',
+                                        }"></i>
+                                        {{ inventaire.etat }}</span>
+                                </td>
+                                <td>
+                                    <a [routerLink]="['/dashboard/stock-interne/mouvement-stock/inventaire-detail/', inventaire.id]"
+                                        class="me-0.5"><i class="las la-pen text-secondary fs-18"></i></a>
+                                    <a href="javascript:void(0);"
+                                        (click)="openModal(inventaireModal, { size: 'xl' }, inventaire)">
+                                        <i class="las la-info text-secondary fs-18"></i>
+                                    </a>
+                                </td>
                             </tr>
                             <tr *ngIf="(records$ | async)?.length === 0">
                                 <td colspan="5" class="text-center">Aucun inventaire trouvé</td>
@@ -79,7 +89,6 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h5>{{ modalData?.contentTitle }}</h5>
                         <ul class="list-group mt-2 mb-0">
                             <li class="list-group-item d-flex justify-content-between align-items-center"
                                 *ngFor="let item of modalData?.list">{{ item }}
