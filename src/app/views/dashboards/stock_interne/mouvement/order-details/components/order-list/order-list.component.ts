@@ -19,6 +19,8 @@ export class OrderListComponent {
   @Input() openModal!: () => void;
   @Input() removeItem!: (id: number) => void;
   @Output() updateQuantity: EventEmitter<{ id: number, quantity: number }> = new EventEmitter();
+  @Output() updateQuantityAdded: EventEmitter<{ id: number, quantity: number }> = new EventEmitter();
+  @Output() updatePriceAdded: EventEmitter<{ id: number, price: number }> = new EventEmitter();
   currency = currency
   currentYear = currentYear
 
@@ -38,5 +40,16 @@ export class OrderListComponent {
     const inputElement = event.target as HTMLInputElement;
     const newQuantity = Number(inputElement.value);
     this.updateQuantity.emit({ id, quantity: newQuantity });
+  }
+  handleQuantityChangeAdded(id: number, event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const newQuantity = Number(inputElement.value);
+    this.updateQuantityAdded.emit({ id, quantity: newQuantity });
+  }
+
+  handlePriceChangeAdded(id: number, event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const newPrice = Number(inputElement.value);
+    this.updatePriceAdded.emit({ id, price: newPrice });
   }
 }

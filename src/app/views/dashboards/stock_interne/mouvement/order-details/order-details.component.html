@@ -7,6 +7,8 @@
       [openModal]="openModal.bind(this, modalAddProduct, { size: 'md' })"
       [removeItem]="removeItem.bind(this)"
       (updateQuantity)="onQuantityUpdate($event)"
+      (updateQuantityAdded)="onQuantityUpdateAdded($event)"
+      (updatePriceAdded)="onPriceUpdateAdded($event)"
     />
   </div>
   <div class="col-lg-4">

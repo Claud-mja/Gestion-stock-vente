@@ -9,11 +9,8 @@
       </div>
       <!--end col-->
       <div class="col-auto">
-        <button class="btn btn-primary mr-2" (click)="triggerOpenModal()">
-          <i class="fas fa-plus me-1"></i> Ajout produit
-        </button>
         <button class="btn btn-primary" (click)="triggerOpenModal()">
-          <i class="fas fa-file me-1"></i> Sauvé
+          <i class="fas fa-plus me-1"></i> Ajout produit
         </button>
       </div>
       <!--end col-->
@@ -27,7 +24,7 @@
         <thead class="table-light">
           <tr>
             <th>Nom</th>
-            <th class="text-end">Prix</th>
+            <th class="text-end">{{ currency }} Prix</th>
             <th class="text-end">Quantité</th>
             <th class="text-end">Total</th>
             <th class="text-end">Action</th>
@@ -45,7 +42,7 @@
                   }}</span>
               </p>
             </td>
-            <td class="text-end">{{ currency }}{{ data.price }}</td>
+            <td class="text-end">{{ data.price }}</td>
             <td class="text-end w-80">
               <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
                 [value]="data.quantity" (change)="handleQuantityChange(data.id!, $event)"
@@ -84,9 +81,9 @@
         <thead class="table-light">
           <tr>
             <th>Nom</th>
-            <th class="text-end">Prix</th>
-            <th class="text-end">Quantité</th>
-            <th class="text-end">Total</th>
+            <th class="text-center">{{ currency }} Prix</th>
+            <th class="text-center">Quantité</th>
+            <th class="text-center">Total</th>
           </tr>
         </thead>
         <tbody>
@@ -101,15 +98,33 @@
                   }}</span>
               </p>
             </td>
-            <td class="text-end">{{ currency }}{{ data.price }}</td>
-            <td class="text-end w-80">
-              {{ data.quantity }}
+            <td class="text-center w-80">
+              <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
+              [value]="data.price" (change)="handlePriceChangeAdded(data.id!, $event)"
+              placeholder=".form-control-lg" /></td>
+            <td class="text-center w-80">
+              <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
+                [value]="data.quantity" (change)="handleQuantityChangeAdded(data.id!, $event)"
+                placeholder=".form-control-lg" />
             </td>
-            <td class="text-end">{{ currency }}{{ data.price * data.quantity }}</td>
+            <td class="text-center">{{ currency }}{{ data.price * data.quantity }}</td>
           </tr>
           }
         </tbody>
       </table>
     </div>
+  </div>
+  <div class="card-footer">
+    <div class="row align-items-center">
+      <div class="col"></div>
+      <div class="col-auto">
+        <button class="btn btn-primary">
+          <i class="fas fa-file me-1"></i> Sauvegardé
+        </button>
+      </div>
+      <!--end col-->
+      <!--end col-->
+    </div>
+    <!--end row-->
   </div>
 </div>

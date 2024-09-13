@@ -98,8 +98,29 @@ export class OrderDetailsComponent {
       return order;
     });
     this.orderData = updatedOrderData; 
-    console.log(this.orderData);
     
+  }
+
+  onQuantityUpdateAdded(event: { id: number, quantity: number }) {
+    const { id, quantity } = event;
+    const updatedOrderDataAdded = this.orderDataAjoute.map(order => {
+      if (order.id === id) {
+        return { ...order, quantity, total: order.price * quantity };
+      }
+      return order;
+    });
+    this.orderDataAjoute = updatedOrderDataAdded; 
+  }
+
+  onPriceUpdateAdded(event: { id: number, price: number }) {
+    const { id, price } = event;
+    const updatedOrderDataAdded = this.orderDataAjoute.map(order => {
+      if (order.id === id) {
+        return { ...order, price, total: price * order.quantity };
+      }
+      return order;
+    });
+    this.orderDataAjoute = updatedOrderDataAdded; 
   }
 
   filterData() {
