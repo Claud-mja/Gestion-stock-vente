@@ -3,7 +3,7 @@ import { OrderListComponent } from './components/order-list/order-list.component
 import { BoughtComponent } from './components/bought/bought.component'
 import { SummaryComponent } from './components/summary/summary.component'
 import { InformationComponent } from './components/information/information.component'
-import { AllRavitaillementProduct, RavitaillementProduct } from './data'
+import { AllRavitaillementProduct, RavitaillementProduct, RavitaillementProductAjoute } from './data'
 import { ActivatedRoute, Params, Router } from '@angular/router'
 import { ProductListType } from './productlist.interface'
 import { RavitaillementUpdateType } from '../orders/data'
@@ -30,6 +30,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 export class OrderDetailsComponent {
   idRav: string | undefined;
   orderData: ProductListType[] = []
+  orderDataAjoute: ProductListType[] = []
   currency = currency
   orderDataAll = AllRavitaillementProduct
   ravitaillementDetaille: RavitaillementUpdateType | undefined;
@@ -48,6 +49,7 @@ export class OrderDetailsComponent {
     this.route.params.subscribe((params: Params) => {
       this.idRav = params['idRav'];
       this.orderData = RavitaillementProduct
+      this.orderDataAjoute = RavitaillementProductAjoute
       // SERVICE TO CAL DETAIL RAVITAILLEMENT
       this.ravitaillementDetaille = {
         order_id: this.idRav ?? '546987',
@@ -76,6 +78,7 @@ export class OrderDetailsComponent {
       this.orderDataAll.forEach((data) => {
         if (data.id === id) {
           this.orderData.push(data);
+          this.orderData = this.orderData
         }
       });
     }

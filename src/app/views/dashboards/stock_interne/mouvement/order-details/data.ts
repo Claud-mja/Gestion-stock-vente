@@ -15,6 +15,30 @@ export const OrderInfo = {
 }
 
 export const RavitaillementProduct: ProductListType[] = [
+  // {
+  //   id: 1,
+  //   product: {
+  //     image: 'assets/images/products/03.png',
+  //     name: 'Royal Purse',
+  //     description: 'Pure Leather 100%',
+  //   },
+  //   price: 80,
+  //   quantity: 3,
+  //   total: 240,
+  // },
+  // {
+  //   id: 2,
+  //   product: {
+  //     image: 'assets/images/products/04.png',
+  //     name: 'Apple Watch',
+  //     description: 'Size-05 (Model 2021)',
+  //   },
+  //   price: 100,
+  //   quantity: 1,
+  //   total: 100,
+  // }
+]
+export const RavitaillementProductAjoute: ProductListType[] = [
   {
     id: 1,
     product: {

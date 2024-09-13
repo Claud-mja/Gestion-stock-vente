@@ -14,6 +14,7 @@ import { RavitaillementUpdateType } from '../../../orders/data';
 
 export class OrderListComponent {
   @Input() orderData: ProductListType[] = [];
+  @Input() orderDataAjoute: ProductListType[] = [];
   @Input() infoRavitaillement: RavitaillementUpdateType | undefined;
   @Input() openModal!: () => void;
   @Input() removeItem!: (id: number) => void;

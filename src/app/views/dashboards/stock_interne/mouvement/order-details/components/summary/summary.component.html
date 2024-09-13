@@ -6,7 +6,8 @@
       </div>
       <!--end col-->
       <div class="col-auto">
-        <span class="badge rounded text-info bg-info-subtle fs-12 p-1" *ngIf="infoRavitaillement">{{infoRavitaillement.fournisseur}}</span>
+        <span class="badge rounded text-info bg-info-subtle fs-12 p-1"
+          *ngIf="infoRavitaillement">{{infoRavitaillement.fournisseur}}</span>
       </div>
       <!--end col-->
     </div>
@@ -33,12 +34,16 @@
     <hr class="hr-dashed" />
     <div class="d-flex justify-content-between">
       <h4 class="mb-0">Grand Total :</h4>
-      <h4 class="mb-0">{{ currency }}{{ total.toFixed(2) }}</h4>
+      <!-- <h4 class="mb-0">{{ currency }}{{ total.toFixed(2) }}</h4> -->
+      <h4 *ngIf="this.infoRavitaillement && this.infoRavitaillement.amount" class="mb-0"
+        [ngClass]="{'text-danger': total > this.infoRavitaillement.amount}">
+        {{ currency }}{{ total.toFixed(2) }}
+      </h4>
     </div>
     <hr class="hr-dashed" />
     <div class="w-100">
       <button class="btn btn-primary btn-block w-100" (click)="emitFinalOrderData()">
-        Validé
+        Sauvé
       </button>
     </div>
   </div>

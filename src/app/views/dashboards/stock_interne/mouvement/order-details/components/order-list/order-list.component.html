@@ -4,13 +4,16 @@
       <div class="col">
         <h4 class="card-title">Ravitaillement #{{ infoRavitaillement.order_id }}</h4>
         <p class="mb-0 text-muted mt-1">
-          {{ infoRavitaillement.rav_name }} - {{ infoRavitaillement.product_details }}
+          {{ infoRavitaillement.rav_name }} - {{ infoRavitaillement.product_details }} - {{ infoRavitaillement.amount }}
         </p>
       </div>
       <!--end col-->
       <div class="col-auto">
-        <button class="btn btn-primary" (click)="triggerOpenModal()">
+        <button class="btn btn-primary mr-2" (click)="triggerOpenModal()">
           <i class="fas fa-plus me-1"></i> Ajout produit
+        </button>
+        <button class="btn btn-primary" (click)="triggerOpenModal()">
+          <i class="fas fa-file me-1"></i> Sauvé
         </button>
       </div>
       <!--end col-->
@@ -44,8 +47,9 @@
             </td>
             <td class="text-end">{{ currency }}{{ data.price }}</td>
             <td class="text-end w-80">
-              <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100" [value]="data.quantity"
-                (change)="handleQuantityChange(data.id!, $event)" placeholder=".form-control-lg" />
+              <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
+                [value]="data.quantity" (change)="handleQuantityChange(data.id!, $event)"
+                placeholder=".form-control-lg" />
             </td>
             <td class="text-end">{{ currency }}{{ data.price * data.quantity }}</td>
             <td class="text-end">
@@ -62,3 +66,50 @@
   <!--card-body-->
 </div>
 <!--end card-->
+
+<div class="card">
+  <div class="card-header">
+    <div class="row align-items-center" *ngIf="infoRavitaillement">
+      <div class="col">
+        <h4 class="card-title">Produit ajouté</h4>
+      </div>
+      <!--end col-->
+      <!--end col-->
+    </div>
+    <!--end row-->
+  </div>
+  <div class="card-body pt-0">
+    <div class="table-responsive">
+      <table class="table mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Nom</th>
+            <th class="text-end">Prix</th>
+            <th class="text-end">Quantité</th>
+            <th class="text-end">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (data of orderDataAjoute; track $index) {
+          <tr>
+            <td>
+              <img [src]="data.product.image" alt="" height="40" />
+              <p class="d-inline-block align-middle mb-0 ms-0.5">
+                <span class="d-block align-middle mb-0 product-name text-body">{{ data.product.name }}</span>
+                <span class="text-muted font-13">{{
+                  data.product.description
+                  }}</span>
+              </p>
+            </td>
+            <td class="text-end">{{ currency }}{{ data.price }}</td>
+            <td class="text-end w-80">
+              {{ data.quantity }}
+            </td>
+            <td class="text-end">{{ currency }}{{ data.price * data.quantity }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

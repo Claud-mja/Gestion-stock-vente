@@ -35,9 +35,9 @@ export class SummaryComponent implements OnChanges {
     });
     this.subTotal = this.itemSubTotal;
     this.total = this.subTotal;
-    if (this.infoRavitaillement) {
-      this.infoRavitaillement.amount = this.total;
-    }
+    // if (this.infoRavitaillement) {
+    //   this.infoRavitaillement.amount = this.total;
+    // }
   }
 
   emitFinalOrderData() {
