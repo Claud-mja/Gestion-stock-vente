@@ -1,4 +1,6 @@
+import { QueryParam } from './../../common/queryRequest';
 import { MenuItem } from '../models/menu.model'
+import { HttpParams } from '@angular/common/http';
 
 export const findAllParent = (menuItems: MenuItem[], menuItem: any): any => {
   let parents = []
@@ -40,4 +42,16 @@ export function shuffleArray(array: any[]): void {
     const j = Math.floor(Math.random() * (i + 1))
     ;[array[i], array[j]] = [array[j], array[i]]
   }
+}
+
+export const buildQueriesParams = (queries: QueryParam[]): HttpParams => {
+  let params = new HttpParams(); // Créez une nouvelle instance ici
+
+  for (const query of queries) {
+    params = params.set(query.key, query.value); // Réassigner params à chaque appel de set()
+  }
+
+  console.log(params.keys());
+
+  return params; // Retournez l'objet modifié
 }
