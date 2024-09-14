@@ -11,12 +11,19 @@ import {
   type QueryList,
 } from '@angular/core'
 import { DataTableProduct, paginateData, type DataTableProduitsType } from './data'
-import type { Observable } from 'rxjs'
+import { Observable } from 'rxjs'
 import { NgbdSortableHeader } from '@/app/core/directive/sortable.directive'
 import { TableService } from '@/app/core/service/table.service'
 import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
+import { ProduitService } from '@/app/core/service/stck/produit.service'
+import { ProduitList } from '@/app/core/models/produit.model'
+import { PageDetails, Paginated } from '@/app/common/paginatrd.interface'
+import { environment } from '@/environments/environment.development'
+import { TableFooterComponent } from '@/app/components/table/table-footer/table-footer.component'
+import { TableHeaderComponent } from '@/app/components/table/table-header/table-header.component'
+import { RouterLink } from '@angular/router'
 
 export type SortColumn = keyof DataTableProduitsType | ''
 export type SortDirection = 'asc' | 'desc' | ''
@@ -72,49 +79,76 @@ function search(text: string, pipe: PipeTransform): DataTableProduitsType[] {
     NgbPaginationModule,
     CommonModule,
     FormsModule,
+    RouterLink,
     NgbHighlight,
     NgbdSortableHeader,
+    TableHeaderComponent, TableFooterComponent
   ],
   templateUrl: './liste.component.html',
   styleUrls: ['./liste.component.scss'] // Updated from styleUrl to styleUrls
 })
 export class ListeComponent {
+  records$: Observable<ProduitList[]>
+  total$: Observable<number>
+  pageSize$: Observable<number>;
+
   filter!: string
-  private modalService = inject(NgbModal)
+  private modalService = inject(NgbModal);
+  private prodServvice = inject(ProduitService);
+  public img_url = environment.baseUrlImg+'/produit';
+
+  pageDetails : PageDetails = {
+    data_count : 0,
+    data_limit : 10,
+    data_now : 0,
+    page_max : 0,
+    page_now : 1
+  }
+
   modalData: any;
   accordions: { [key: string]: boolean } = {
     accordion1: true,
     accordion2: true
   };
-  page = 1
-  pageSize = 4
-  collectionSize = DataTableProduct.length
-  Produit!: DataTableProduitsType[]
-  basicProduit = DataTableProduct.slice(0, 5)
-  searchProduit = DataTableProduct.slice(0, 5)
-  sortProduit = DataTableProduct.slice(0, 5)
+ 
+  Produit!: ProduitList[]
 
-  records$: Observable<DataTableProduitsType[]>
-  total$: Observable<number>
 
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<
-    NgbdSortableHeader<DataTableProduitsType>
+    NgbdSortableHeader<ProduitList>
   >
 
-  public tableService = inject(TableService<DataTableProduitsType>)
+  public tableService = inject(TableService<ProduitList>)
 
   ficheInfo: string = ''
   ficheFile: File | null = null
 
   constructor(public pipe: DecimalPipe) {
     this.records$ = this.tableService.items$
-    this.total$ = this.tableService.total$
-
-    this.refreshProduit()
+    this.total$ = this.tableService.total$;
+    this.pageSize$ = this.tableService.pageSize$;
+  }
+  
+  ngOnInit(): void {
+    this.pageSize$.subscribe(size => {
+      this.pageDetails.data_limit = size;
+      this.getProduitList();
+    });
   }
 
-  ngOnInit(): void {
-    this.tableService.setItems(DataTableProduct, 5)
+  initDataTableService(dataPage : PageDetails){
+    this.pageDetails.data_count = dataPage.data_count;
+    this.tableService.setTotal(dataPage.data_count);
+  }
+
+  getProduitList(){
+    // console.log(this.tableService);
+    this.tableService.setLoading(true);
+    this.prodServvice.getProduits(this.pageDetails).subscribe((response :  Paginated<ProduitList>) => {
+        this.tableService.setItems(response.reulstat,response.desc.data_limit);
+        console.log("Total ==> ", this.tableService.total$);
+        // this.tableService.setLoading(false);
+    })
   }
 
   toggleAccordion(id: string) {
@@ -123,21 +157,24 @@ export class ListeComponent {
     }
   }
 
-  openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions, produit: any) {
+  openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions, produit: ProduitList) {
     this.modalData = {
-      title: produit.name,
-      image: produit.photo,
-      contentTitle: produit.name,
+      title: produit.nom,
+      image: "https://api.croq-kilos.com/media/cache/article_banner_webp/uploads/medias/61e92b883c2bd666378151.webp",
+      contentTitle: produit.nom,
       badge: produit.etat,
       date: '07 Oct 2024',
       list: [
         `Seuil: ${produit.seuil}`,
-        `Prix Achat: ${produit.prixAchat}`,
-        `Prix Vente: ${produit.prixVente}`,
+        `Prix Achat: ${produit.prixachat}`,
+        `Prix Vente: ${produit.prixvente}`,
         `Depot: ${produit.depot}`,
         `Uniter: ${produit.uniter}`
       ]
     };
+
+    console.log(this.modalData);
+    
     this.modalService.open(content, options)
   }
 
@@ -159,34 +196,36 @@ export class ListeComponent {
   }
 
   onSort({ column, direction }: CustomSortEvent) {
-    for (const header of this.headers) {
-      if (header.sortable !== column) {
-        header.direction = ''
-      }
-    }
-    if (direction === '' || column === '') {
-      this.sortProduit = DataTableProduct
-    } else {
-      this.sortProduit = [...DataTableProduct].sort((a, b) => {
-        const res = compare(a[column], b[column])
-        return direction === 'asc' ? res : -res
-      })
-    }
+    // for (const header of this.headers) {
+    //   if (header.sortable !== column) {
+    //     header.direction = ''
+    //   }
+    // }
+    // if (direction === '' || column === '') {
+    //   this.sortProduit = DataTableProduct
+    // } else {
+    //   this.sortProduit = [...DataTableProduct].sort((a, b) => {
+    //     const res = compare(a[column], b[column])
+    //     return direction === 'asc' ? res : -res
+    //   })
+    // }
   }
 
   searchfilter() {
-    this.searchProduit = search(this.filter, this.pipe)
+    // this.searchProduit = search(this.filter, this.pipe)
   }
 
   refreshProduit() {
-    this.Produit = paginateData
-      .map((produitres, i) => ({
-        ...produitres,
-      }))
-      .slice(
-        (this.page - 1) * this.pageSize,
-        (this.page - 1) * this.pageSize + this.pageSize
-      )
+    // this.Produit = paginateData
+    //   .map((produitres, i) => ({
+    //     ...produitres,
+    //   }))
+    //   .slice(
+    //     (this.page - 1) * this.pageSize,
+    //     (this.page - 1) * this.pageSize + this.pageSize
+    //   )
+
+    
   }
 
   onCompleteSort({ column, direction }: CustomSortEvent) {
@@ -195,7 +234,12 @@ export class ListeComponent {
         header.direction = ''
       }
     }
-    this.tableService.sortColumn = column
+    // this.tableService.sortColumn = column
     this.tableService.sortDirection = direction
+  }
+
+  onImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/no-image.png';
   }
 }

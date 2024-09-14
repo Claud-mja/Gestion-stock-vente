@@ -12,4 +12,9 @@ import { FormsModule } from '@angular/forms'
 })
 export class TableHeaderComponent {
   constructor(public tableService: TableService<any>) {}
+
+  onPageSizeChange(newSize: number) {
+    this.tableService.setPageSize(newSize);
+  }
+
 }

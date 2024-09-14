@@ -14,5 +14,7 @@ import type { Observable } from 'rxjs'
 export class TableFooterComponent {
   @Input() total!: Observable<number>
 
-  constructor(public tableService: TableService<any>) {}
+  constructor(public tableService: TableService<any>) {
+    
+  }
 }

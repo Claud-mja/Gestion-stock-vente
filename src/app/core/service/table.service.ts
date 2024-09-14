@@ -44,6 +44,7 @@ export class TableService<T extends {}> {
   private _search$ = new Subject<void>()
   private _items$ = new BehaviorSubject<T[]>([])
   private _total$ = new BehaviorSubject<number>(0)
+  private _pageSize$ = new BehaviorSubject<number>(10)
 
   items: T[] = []
   private _state: State<T> = {
@@ -82,8 +83,16 @@ export class TableService<T extends {}> {
     return this._total$.asObservable()
   }
 
+  setTotal(total: number) {
+    this._total$.next(total);
+  }
+
   get loading$(): Observable<boolean> {
     return this._loading$.asObservable()
+  }
+
+  setLoading(loading : boolean) {
+    this._loading$.next(loading);
   }
 
   get page(): number {
@@ -98,8 +107,19 @@ export class TableService<T extends {}> {
     return this._state.endIndex
   }
 
+  // Expose pageSize as an Observable
+  get pageSize$(): Observable<number> {
+    return this._pageSize$.asObservable()
+  }
+
   get pageSize(): number {
     return this._state.pageSize
+  }
+
+  setPageSize(pageSize: number) {
+    this._state.pageSize = pageSize
+    this._pageSize$.next(pageSize)
+    this._set({ pageSize })
   }
 
   get searchTerm(): string {
