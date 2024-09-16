@@ -29,33 +29,40 @@
                     <table class="table mb-0 text-nowrap" id="datatable_1">
                         <thead class="table-light">
                             <tr>
-                                <th scope="col">Id</th>
+                                <th scope="col">#</th>
                                 <th scope="col">Nom</th>
-                                <th scope="col">Date validation</th>
                                 <th scope="col">Fournisseur</th>
                                 <th scope="col">Montant</th>
+                                <th scope="col">Date validation</th>
                                 <th scope="col">Payer</th>
                                 <th scope="col">Reste à payer</th>
                                 <th class="text-end">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let ravitaillement of records$ | async;">
-                                <th scope="row">{{ ravitaillement.id }}</th>
-                                <td class="ps-0" sortable="fournisseur" (sort)="onSort($event)">{{ ravitaillement.fournisseur }}</td>
-                                <td></td>
-                                <td class="text-end">
-                                    <a href="javascript:void(0);" class="me-0.5"
-                                        ><i class="las la-pen text-secondary fs-18"></i
-                                    ></a>
-                                    <a href="javascript:void(0);"
-                                        ><i class="las la-trash-alt text-secondary fs-18"></i
-                                    ></a>
-                                </td>
-                            </tr>
-                            <tr *ngIf="(records$ | async)?.length === 0">
-                                <td colspan="8" class="text-center">Aucun ravitaillement trouvé</td>
-                            </tr>
+                            @for (ravitaillement of records$ | async; track $index) {
+                                <tr>
+                                    <th scope="row">{{ $index+1 }}</th>
+                                    <td class="ps-0" sortable="titre" (sort)="onSort($event)">{{ ravitaillement.titre }}</td>
+                                    <td class="ps-0" sortable="fournisseur" (sort)="onSort($event)">{{ ravitaillement.fournisseur }}</td>
+                                    <td class="ps-0" sortable="montant" (sort)="onSort($event)">{{ ravitaillement.montant }}</td>
+                                    <td class="ps-0" sortable="datevalidation" (sort)="onSort($event)">{{ ravitaillement.date_validation==undefined ? 'Non définit' : ravitaillement.date_validation | date }}</td>
+                                    <td class="ps-0" sortable="payer" (sort)="onSort($event)">{{ ravitaillement.payer }}</td>
+                                    <td class="ps-0" sortable="rap" (sort)="onSort($event)">{{ ravitaillement.rap }}</td>
+                                    <td class="text-end">
+                                        <a href="javascript:void(0);" class="me-0.5"
+                                            ><i class="las la-pen text-secondary fs-18"></i
+                                        ></a>
+                                        <a href="javascript:void(0);"
+                                            ><i class="las la-trash-alt text-secondary fs-18"></i
+                                        ></a>
+                                    </td>
+                                </tr>
+                            }@empty {
+                                <tr *ngIf="(records$ | async)?.length === 0">
+                                    <td colspan="8" class="text-center">Aucun ravitaillement trouvé</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 <!-- </div> -->

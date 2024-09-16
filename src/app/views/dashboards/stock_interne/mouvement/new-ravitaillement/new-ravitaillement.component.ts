@@ -1,6 +1,9 @@
+import { Paginated } from '@/app/common/paginatrd.interface';
+import { FournisseurList } from '@/app/core/models/fournisseur.model';
+import { FournisseurService } from '@/app/core/service/stck/fournisseur.service';
 import { RavitaillementService } from '@/app/core/service/stck/ravitaillement.service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -11,9 +14,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './new-ravitaillement.component.scss'
 })
 export class NewRavitaillementComponent {
-  ravitaillementForm: FormGroup;
+  
+  private forunService = inject(FournisseurService);
+  private ravitailService = inject( RavitaillementService);
 
-  constructor(private fb: FormBuilder, private ravitailService : RavitaillementService) {
+  ravitaillementForm: FormGroup;
+  fourns !: FournisseurList[];
+
+  constructor(private fb: FormBuilder, ) {
     this.ravitaillementForm = this.fb.group({
       fournisseur: ['', Validators.required],
       nom: ['', Validators.required],
@@ -22,7 +30,23 @@ export class NewRavitaillementComponent {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getFournisseurs();
+  }
+
+  getFournisseurs() {
+    this.forunService.getFournisseurs().subscribe({
+      next : (response : Paginated<FournisseurList>) => {
+          console.log(response);
+          this.fourns = response.reulstat;    
+          this.ravitaillementForm.get('fournisseur')?.setValue(response.reulstat[0].nom)      
+      },
+      error: (error) => {
+        console.error('Erreur lors de la création du produit', error);
+        // Afficher un message d'erreur à l'utilisateur
+      }
+    })
+  }
 
   onSubmit(): void {
     if (this.ravitaillementForm.valid) {

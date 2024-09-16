@@ -9,92 +9,135 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <!-- Caisse -->
-                            <div class="mb-3">
-                                <label for="caisse-select" class="form-label">Caisse</label>
-                                <select class="form-control" formControlName="caisse" id="caisse-select">
-                                    <option value="CP">Caisse Principale</option>
-                                </select>
-                            </div>
-                            <!-- Dépôt -->
+                <form [formGroup]="productsForm">
+                    <div class="row mb-5" style="border-bottom: 1px solid #f5f5f5;">
+                        <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="depot-select" class="form-label">Dépôt</label>
-                                <select class="form-control" formControlName="depot" id="depot-select">
-                                    <option value="iDEP1">Dépôt 1</option>
-                                    <option value="iDEP2">Dépôt 2</option>
-                                </select>
-                            </div>
-                            <!-- Type -->
-                            <div class="mb-3">
-                                <label for="type-select" class="form-label">Type</label>
-                                <select class="form-control" formControlName="type" id="type-select">
-                                    <option value="iTYP1">Périssable</option>
-                                    <option value="iTYP2">Non Périssable</option>
-                                </select>
-                            </div>
-                            <!-- Catégorie -->
-                            <div class="mb-3">
-                                <label for="cat-select" class="form-label">Catégorie</label>
-                                <select class="form-control" formControlName="category" id="cat-select">
-                                    <option value="iCAT1">Personnel</option>
-                                    <option value="iCAT2">Production</option>
+                                <select class="form-control" formControlName="depot" id="depot-select" (change)="onChangeDepot($event.target)">
+                                    <option *ngFor="let depot of depotsProd" [value]="depot.id">{{ depot.nom }}</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="table-responsive">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="zone-select" class="form-label">Zone</label>
+                                <select class="form-control" formControlName="zone" id="zone-select" (change)="onChangeZone($event.target)">
+                                    <option *ngFor="let zone of zonesProd" [value]="zone.id">{{ zone.nom }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="type-select" class="form-label">Type</label>
+                                <select class="form-control" formControlName="type" id="type-select">
+                                    <option *ngFor="let type of typesProd" [value]="type.id">{{ type.nom }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="categ-select" class="form-label">Catégorie</label>
+                                <select class="form-control" formControlName="categ" id="categ-select">
+                                    <option *ngFor="let category of categsProd" [value]="category.id">{{ category.nom }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-auto mb-3 d-flex w-100" style="justify-content: flex-end;">
+                            <button type="button" class="btn btn-primary" (click)="onAddPorduct()">
+                                <i class="fas fa-plus me-1"></i> Ajouter Ligne
+                            </button>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="table-responsive" style="min-height: 350px; max-height: 400px; overflow-y: auto;">
                                 <table class="table table-sm table-hover text-nowrap">
-                                    <thead>
+                                    <thead style="position: sticky; top: 0; background-color: #fff;">
                                         <tr>
+                                            <th [width]="30">#</th>
                                             <th>Nom</th>
                                             <th>Ref</th>
-                                            <th>Seuil</th>
-                                            <th>Prix d'achat</th>
-                                            <th>Prix de vente</th>
                                             <th>Unité</th>
-                                            <th>Sauvegarder</th>
+                                            <th>Casier</th>
+                                            <th>Perissable</th>
+                                            <th>Seriazable</th>
+                                            <th [width]="80">Qt equivalence</th>
+                                            <th [width]="80">Seuil</th>
+                                            <th [width]="120">Prix d'achat</th>
+                                            <th [width]="120">Prix de vente</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr *ngFor="let product of products?.controls; let i = index">
-                                            <td><input class="form-control" [formControlName]="i"
-                                                    formControlName="name" /></td>
-                                            <td><input class="form-control" [formControlName]="i"
-                                                    formControlName="ref" /></td>
-                                            <td><input class="form-control" [formControlName]="i"
-                                                    formControlName="threshold" /></td>
-                                            <td><input class="form-control" [formControlName]="i"
-                                                    formControlName="purchasePrice" />
-                                            </td>
-                                            <td><input class="form-control" [formControlName]="i"
-                                                    formControlName="salePrice" /></td>
+                                    <tbody formArrayName="products">
+                                        <tr *ngFor="let product of products.controls; let i = index" [formGroupName]="i">
+                                            <th scope="row">{{ i + 1 }}</th>
+                                            <td><input class="form-control" type="text" formControlName="nom" /></td>
+                                            <td><input class="form-control" type="text" formControlName="ref" /></td>
                                             <td>
-                                                <select class="form-control" [formControlName]="i"
-                                                    formControlName="unit">
-                                                    <option value="UNTAR">Article</option>
-                                                    <option value="UNTBT">Boîte</option>
-                                                    <option value="UNTPI">Pièce</option>
-                                                    <option value="UNTSC">Sac</option>
+                                                <select class="form-select" id="categorie-input" formControlName="uniter">
+                                                    <option selected>Choisir un unité</option>
+                                                    @for (unite of unitesProd; track $index) {
+                                                        <option [value]="unite.id">{{ unite.nom }}</option>
+                                                    }
                                                 </select>
                                             </td>
-                                            <td><input class="form-control" type="checkbox" [formControlName]="i"
-                                                    formControlName="save" /></td>
+                                            <td>
+                                                <select class="form-select" id="categorie-input" formControlName="casier">
+                                                    <option selected>Choisir un casier</option>
+                                                    @for (casier of casiersProd; track $index) {
+                                                        <option [value]="casier.id">{{ casier.nom }}</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td class="text-center">
+                                                <input
+                                                    style="height: 36px; width: 36px;"
+                                                    formControlName="perissable"
+                                                
+                                                    class="form-check-input"
+                                                    type="checkbox"
+                                                />
+                                            </td>
+                                            <td class="text-center">
+                                                <input
+                                                    style="height: 36px; width: 36px;"
+                                                    formControlName="seriazable"
+                                                
+                                                    class="form-check-input"
+                                                    type="checkbox"
+                                                />
+                                            </td>
+                                            <td><input class="form-control" type="number" formControlName="qt_equivalance" /></td>
+                                            <td><input class="form-control" type="number" formControlName="seuil" /></td>
+                                            <td><input class="form-control" type="number" formControlName="prixachat" /></td>
+                                            <td><input class="form-control" type="number" formControlName="prixvente" /></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-danger btn-sm" (click)="onRemoveProduct(i)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <button type="button" class="btn btn-primary" (click)="addProduct()">Ajouter
-                                    Produit</button>
                             </div>
                         </div>
                     </div>
                 </form>
                 <div class="row">
-                    <div class="col text-center mt-3">
-                        <button type="button" class="w-100 btn-block btn btn-primary">Envoyer</button>
-                    </div>
+                    @if (products.length>0) {
+                        <div class="col text-center mt-3">
+                            <button [disabled]="!productsForm.valid || loadSave" type="submit" class="w-100 btn btn-primary" (click)="onSubmit()">
+                                @if (!loadSave) {
+                                    Sauver
+                                }@else{
+                                    <span role="status">Sauvegardement...</span>
+                                    <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+                                }
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

@@ -14,8 +14,15 @@
                         <div class="row">
                             <!-- Fournisseur -->
                             <div class="col-md-6 mb-3">
-                                <label for="fournisseur" class="form-label">Fournisseur (Société/Grossiste)</label>
-                                <input type="text" id="fournisseur" class="form-control" formControlName="fournisseur" />
+                                <!-- <label for="fournisseur" class="form-label">Fournisseur (Société/Grossiste)</label>
+                                <input type="text" id="fournisseur" class="form-control" formControlName="fournisseur" /> -->
+                                <label class="mb-2">Fournisseur (Société/Grossiste)</label>
+                                <select class="form-select" id="type-input" formControlName="type">
+                                    <option selected>Choisir un type</option>
+                                    @for (forn of fourns; track $index) {
+                                        <option [value]="forn.id">{{ forn.nom }}</option>
+                                    }
+                                </select>
                             </div>
                 
                             <!-- Nom -->
