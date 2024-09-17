@@ -215,6 +215,7 @@ export class NewComponent implements OnInit {
       next: (response : ApiResponse) => {
         console.log('Produit créé avec succès', response);
         // Rediriger ou afficher un message de succès
+        this.initForm();
       },
       error: (error) => {
         console.error('Erreur lors de la création du produit', error);

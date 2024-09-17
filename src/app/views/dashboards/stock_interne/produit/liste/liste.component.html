@@ -48,8 +48,8 @@
                                 </th>
                                 <th scope="col" sortable="uniter" (sort)="onCompleteSort($event)">Uniter</th>
                                 <th scope="col" sortable="depot" (sort)="onCompleteSort($event)">Depot</th>
-                                <th scope="col" sortable="etat" (sort)="onCompleteSort($event)">Etat</th>
                                 <th scope="col" sortable="qtStock" (sort)="onCompleteSort($event)">Qantité en stock</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,24 +65,26 @@
                                     class="me-2 align-self-center rounded" /></td>
                                 <td><ngb-highlight [result]="produit.nom"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="produit.seuil | number"
+                                <td class="text-lg-end"><ngb-highlight [result]="produit.seuil | number"
                                     [term]="tableService.searchTerm"></ngb-highlight></td>
                                 <td><ngb-highlight [result]="produit.cat"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
                                 <td><ngb-highlight [result]="produit.types"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
-                                    <td><ngb-highlight [result]="produit.prixachat | number"
+                                <td class="text-lg-end"><ngb-highlight [result]="produit.prixachat | number"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="produit.prixvente | number"
+                                <td class="text-lg-end"><ngb-highlight [result]="produit.prixvente | number"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
                                 <td><ngb-highlight [result]="produit.uniter"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
                                 <td><ngb-highlight [result]="produit.depot"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="produit.etat"
+                                <td class="text-lg-end"><ngb-highlight [result]="produit.qt_stock | number"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="produit.qt_stock | number"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
+                                <td class="text-lg-end">
+                                    <i class="las la-file-alt text-secondary fs-18"></i>
+                                    <i class="las la-trash-alt text-secondary fs-18"></i>
+                                </td>
                             </tr>
                             } @empty {
                             <tr>

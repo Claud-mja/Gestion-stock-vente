@@ -17,6 +17,8 @@ import { TableService } from '@/app/core/service/table.service'
 import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
+import { TableHeaderComponent } from '@/app/components/table/table-header/table-header.component'
+import { TableFooterComponent } from '@/app/components/table/table-footer/table-footer.component'
 
 export type SortColumn = keyof DataTableProduitsType | ''
 export type SortDirection = 'asc' | 'desc' | ''
@@ -74,6 +76,8 @@ function search(text: string, pipe: PipeTransform): DataTableProduitsType[] {
     FormsModule,
     NgbHighlight,
     NgbdSortableHeader,
+    TableHeaderComponent,
+    TableFooterComponent
   ],
   templateUrl: './alert-stock.component.html',
   styleUrl: './alert-stock.component.scss'

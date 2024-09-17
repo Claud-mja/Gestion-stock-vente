@@ -50,6 +50,14 @@ export class ProduitService {
     )
   }
 
+  saveMultiProduit(dataProd : any[]) : Observable<ApiResponse> {
+    return this.http.post(`${environment.baseStockUrl}/produit/add-multi` , dataProd).pipe(
+      map((response) => {
+        return response as ApiResponse
+      })
+    )
+  }
+
   editProduit(id : string , produitData : any) : Observable<ApiResponse> {
     return this.http.put(`${environment.baseStockUrl}/produit/${id}`, produitData).pipe(
       map((response) => {
