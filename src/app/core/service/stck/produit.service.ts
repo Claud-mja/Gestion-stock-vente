@@ -5,6 +5,8 @@ import { map, Observable } from 'rxjs';
 import { ProduitCreate, ProduitInfo, ProduitList } from '../../models/produit.model';
 import { environment } from '@/environments/environment.development';
 import { ApiResponse } from '@/app/common/apiResponse';
+import { QueryParam } from '@/app/common/queryRequest';
+import { buildQueriesParams } from '../../helpers/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +24,25 @@ export class ProduitService {
      }).pipe(
       map((response) => {
         return (response as ApiResponse).data as Paginated<ProduitList>
+      })
+    );
+  }
+
+  getProdsElement(queries : QueryParam[]) : Observable<Paginated<ProduitList>> {
+    let params = new HttpParams();
+
+    if (queries && queries.length>0) {
+      params = buildQueriesParams(queries);
+    }
+    
+
+    return this.http.get(`${environment.baseStockUrl}/produit/onElement`,
+      {
+        params :  params.keys().length ? params : undefined
+      }
+    ).pipe(
+      map((response) => {
+        return (response as ApiResponse).data as Paginated<ProduitList>;
       })
     );
   }

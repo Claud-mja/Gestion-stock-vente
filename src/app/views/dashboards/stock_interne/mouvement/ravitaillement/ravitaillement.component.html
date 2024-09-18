@@ -50,9 +50,7 @@
                                     <td class="ps-0" sortable="payer" (sort)="onSort($event)">{{ ravitaillement.payer }}</td>
                                     <td class="ps-0" sortable="rap" (sort)="onSort($event)">{{ ravitaillement.rap }}</td>
                                     <td class="text-end">
-                                        <a href="javascript:void(0);" class="me-0.5"
-                                            ><i class="las la-pen text-secondary fs-18"></i
-                                        ></a>
+                                        <a [routerLink]="['/dashboard/stock-interne/mouvement-stock/ravitaillement-details/', ravitaillement.id ]" class="me-0.5"><i class="las la-pen text-secondary fs-18"></i></a>
                                         <a href="javascript:void(0);"
                                             ><i class="las la-trash-alt text-secondary fs-18"></i
                                         ></a>

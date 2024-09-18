@@ -7,15 +7,15 @@ import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 import { RouterLink } from '@angular/router'
-import { RavitaillementListType } from '@/app/core/models/ravitaillement.model'
 import { TableFooterComponent } from '@/app/components/table/table-footer/table-footer.component'
 import { TableHeaderComponent } from '@/app/components/table/table-header/table-header.component'
 import { RavitaillementService } from '@/app/core/service/stck/ravitaillement.service'
 import { PageDetails, Paginated } from '@/app/common/paginatrd.interface'
+import { RavitaillementListType } from '@/app/core/models/ravitaillement.model'
 @Component({
   selector: 'app-ravitaillement',
   standalone: true,
-  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink, TableFooterComponent, TableHeaderComponent],
+  imports: [NgbPaginationModule, CommonModule, RouterLink, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink, TableFooterComponent, TableHeaderComponent],
   templateUrl: './ravitaillement.component.html',
   styleUrls: ['./ravitaillement.component.scss']
 })

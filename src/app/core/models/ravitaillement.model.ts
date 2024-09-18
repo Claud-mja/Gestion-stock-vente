@@ -20,7 +20,7 @@ export type RavitaillementListType =  {
     
 }
 export interface RavitaillementList  {
-    id : number,
+    id : string,
     fournisseur : string,
     titre : string,
     montant : string,
@@ -31,13 +31,16 @@ export interface RavitaillementList  {
 }
 
 export interface RavitaillementInfo {
-    id ?: number,
+    id : string,
     fournisseur_name : string,
+    fournisseur_adresse : string,
+    fournisseur_tel : string,
+    fournisseur_email : string,
     titre : string,
-    montant : string,
+    montant : number,
     date_creation : Date,
     dateajout : Date,
-    datevalidation : Date,
+    date_validation : Date,
     remarque : string,
     etat : string
 }

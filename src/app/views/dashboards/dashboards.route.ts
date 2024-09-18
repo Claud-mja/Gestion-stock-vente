@@ -20,12 +20,10 @@ import { TypeProduitComponent } from './stock_interne/configuration/type-produit
 import { StComponent } from './st/st.component'
 import { ListeComponent } from './stock_interne/produit/liste/liste.component'
 import { NewComponent } from './stock_interne/produit/new/new.component'
-import { NewRavitaillementComponent } from './stock_interne/mouvement/new-ravitaillement/new-ravitaillement.component'
-import { NewInventaireComponent } from './stock_interne/mouvement/new-inventaire/new-inventaire.component'
+import { NewRavitaillementComponent } from './stock_interne/mouvement/ravitaillement/new-ravitaillement/new-ravitaillement.component'
+import { NewInventaireComponent } from './stock_interne/mouvement/inventaire/new-inventaire/new-inventaire.component'
 import { OrderDetailsComponent } from './stock_interne/mouvement/order-details/order-details.component'
-import { OrderListComponent } from './stock_interne/mouvement/order-details/components/order-list/order-list.component'
-import { OrdersComponent } from './stock_interne/mouvement/orders/orders.component'
-import { InventaireDetailsComponent } from './stock_interne/mouvement/inventaire-details/inventaire-details.component'
+import { DetailsComponent } from './stock_interne/mouvement/ravitaillement/details/details.component'
 
 export const DASHBOARD_ROUTES: Route[] = [
   {
@@ -54,6 +52,26 @@ export const DASHBOARD_ROUTES: Route[] = [
     data: { title: 'Alerte Stock' },
   },
   {
+    path: 'stock-interne/mouvement-stock/nouveau',
+    component: NewRavitaillementComponent,
+    data: { title: 'Nouveau Ravitaillement' },
+  },
+  {
+    path: 'stock-interne/mouvement-stock/ravitaillement',
+    component: RavitaillementComponent,
+    data: { title: 'Ravitaillement' },
+  },
+  {
+    path: 'stock-interne/mouvement-stock/ravitaillement-details/:id',
+    component: DetailsComponent,
+    data: { title: 'Ravitaillement' },
+  },
+  {
+    path: 'stock-interne/mouvement-stock/ravitaillement-detail/:id',
+    component: OrderDetailsComponent,
+    data: { title: 'Ravitaillement' },
+  },
+  {
     path: 'stock-interne/mouvement-stock/nouveau-iventaire',
     component: NewInventaireComponent,
     data: { title: 'Nouveau Ravitaillement' },
@@ -62,36 +80,6 @@ export const DASHBOARD_ROUTES: Route[] = [
     path: 'stock-interne/mouvement-stock/inventaire',
     component: InventaireComponent,
     data: { title: 'Inventaire' },
-  },
-  // {
-  //   path: 'stock-interne/mouvement-stock/nouveau',
-  //   component: NewRavitaillementComponent,
-  //   data: { title: 'Nouveau Ravitaillement' },
-  // },
-  // {
-  //   path: 'stock-interne/mouvement-stock/ravitaillement',
-  //   component: RavitaillementComponent,
-  //   data: { title: 'Ravitaillement' },
-  // },
-  {
-    path: 'stock-interne/mouvement-stock/nouveau',
-    component: NewRavitaillementComponent,
-    data: { title: 'Nouveau Ravitaillement' },
-  },
-  {
-    path: 'stock-interne/mouvement-stock/inventaire-detail/:idInv',
-    component: InventaireDetailsComponent,
-    data: { title: 'Détail Inventaire' },
-  },
-  {
-    path: 'stock-interne/mouvement-stock/ravitaillement-detail/:idRav',
-    component: OrderDetailsComponent,
-    data: { title: 'Détail Ravitaillement' },
-  },
-  {
-    path: 'stock-interne/mouvement-stock/ravitaillement',
-    component: OrdersComponent,
-    data: { title: 'Ravitaillement' },
   },
   {
     path: 'stock-interne/mouvement-stock/historique',
