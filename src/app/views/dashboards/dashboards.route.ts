@@ -82,6 +82,11 @@ export const DASHBOARD_ROUTES: Route[] = [
     data: { title: 'Inventaire' },
   },
   {
+    path: 'stock-interne/mouvement-stock/inventaire-detail/:id',
+    component: InventaireComponent,
+    data: { title: 'Inventaire' },
+  },
+  {
     path: 'stock-interne/mouvement-stock/historique',
     component: HistoriqueComponent,
     data: { title: 'Historique' },

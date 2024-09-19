@@ -27,8 +27,8 @@ export type ProduitList = {
     prix_virtuel : number;
     qt_stock : string;
     qt_stock_pan : string;
-    perissable : boolean;
-    serizable : boolean;
+    persissable : boolean;
+    seriazable : boolean;
     depot : string;
     zone : string;
     casier : string;

@@ -13,8 +13,9 @@ import { RavitaillementInfo } from '@/app/core/models/ravitaillement.model';
 })
 export class SummaryComponent implements OnChanges {
   @Input() orderData: RavDetailsList[] = [];
+  @Input() orderDataAdded: RavDetailsList[] = [];
   @Input() infoRavitaillement: RavitaillementInfo | undefined;
-  @Output() finalOrderData: EventEmitter<any> = new EventEmitter<any>();
+  @Output() vaalidateRav: EventEmitter<void> = new EventEmitter<void>();
   
   itemSubTotal: number = 0;
   subTotal: number = 0;
@@ -35,15 +36,13 @@ export class SummaryComponent implements OnChanges {
     });
     this.subTotal = this.itemSubTotal;
     this.total = this.subTotal;
+   
     // if (this.infoRavitaillement) {
     //   this.infoRavitaillement.amount = this.total;
     // }
   }
 
   emitFinalOrderData() {
-    this.finalOrderData.emit({
-      'product': this.orderData,
-      'inventaire': this.infoRavitaillement,
-    });
+    this.vaalidateRav.emit();
   }
 }

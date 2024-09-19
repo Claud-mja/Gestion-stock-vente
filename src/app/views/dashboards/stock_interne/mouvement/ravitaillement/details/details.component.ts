@@ -42,9 +42,11 @@ export class DetailsComponent {
     notIn : false,
   }
 
-  idRav: string | undefined;
+  idRav !: string;
   ravDetails: RavDetailsList[] = []
   ravDetailsAdded: RavDetailsList[] = []
+  initialRavDetails : RavDetailsList[] = [];
+  totalMount : Number = 0;
 
   ravProducts : ProduitList[] = []
   ravitaillementInfo : RavitaillementInfo | undefined;
@@ -84,6 +86,7 @@ export class DetailsComponent {
       next : (response : Paginated<RavDetailsList>) => {
         console.log("Response : ", response);
         this.ravDetailsAdded =  response.reulstat;
+        this.initialRavDetails = response.reulstat;
       }, error : (error : HttpErrorResponse) =>{
         console.log("Error : ", error);
       }
@@ -109,8 +112,7 @@ export class DetailsComponent {
 
     const queries : QueryParam[] = [
       { key : 'el' , value : 'rav' },
-      { key : 'id' , value : this.idRav ? this.idRav : '' },
-      // { key : 'cond' , value : cond },
+      { key : 'id' , value : this.idRav},
       { key : 'page' , value : JSON.stringify(page) },
     ]
 
@@ -133,71 +135,109 @@ export class DetailsComponent {
     imgElement.src = 'assets/images/no-image.png';
   }
 
-  handleFinalOrderData(updatedOrderData: any) {
-    alert("Ok be")
-    console.log('Final order data received:', updatedOrderData);
-  }
-
   AddItemToParent(prod : ProduitList) {
-    const itemExists = this.ravDetails.some((item) => item.id_prod == prod.id);
+    const itemExists = this.ravDetails.some((item) => item.id_produit == prod.id);
     if (!itemExists) {
-      // this.ravProducts.forEach((data) => {
-      //   if (data.id === id) {
-          this.ravDetails.push({
-            id_prod : prod.id,
-            prod_image : prod.photo,
-            produit : prod.nom,
-            pu_achat : prod.prixachat,
-            pu_vente : prod.prixvente,
-            qt_ajouter : 0,
-            montant : 0,
-          });
-          // this.orderData = this.orderData
-      //   }
-      // });
+      this.ravDetails.push({
+        id_ravitaillement : this.idRav ,
+        id_produit : prod.id,
+        prod_image : prod.photo,
+        prod_name : prod.nom,
+        pu_achat : prod.prixachat,
+        pu_vente : prod.prixvente,
+        qt_ajouter : 0,
+        montant : 0,
+      });
     }
   }
 
-  removeItem(id: string) {
-    this.ravDetails = this.ravDetails.filter((data) => data.id_prod !== id);
+  removeItem(id: string , type : string) {
+    if (type == 'added') {
+      this.ravDetailService.deleteDetails(id).subscribe({
+        next : (response : ApiResponse )=> {
+          console.log(response);
+          this.ravDetailsAdded = this.ravDetailsAdded.filter((data) => data.id !== id);
+          this.getListDetails();
+          this.getListProdNotDetails();
+        },
+        error : (err : HttpErrorResponse) => {
+          console.log(err);
+        }
+      })
+    }else if(type == 'new') {
+      this.ravDetails = this.ravDetails.filter((data) => data.id_produit !== id);
+    }
     this.filterData();
   }
 
-  onQuantityUpdate(event: { id: string, quantity: number }) {
+  onQuantityUpdate(event: { id: string, quantity: number , type : string }) {
     
-    const { id, quantity } = event;
-    const updatedOrderData = this.ravDetails.map(order => {
-      if (order.id_prod === id) {
-        return { ...order, quantity, montant : order.pu_achat * quantity };
-      }
-      return order;
-    });
-    console.log(" HUHUHU ", event);
+    const { id, quantity , type } = event;
+
+    if (type =='added') {
+      const updatedOrderDataAdded = this.ravDetailsAdded.map(order => {
+        if (order.id_produit === id) {
+          return { ...order, qt_ajouter : quantity, montant : order.pu_achat * quantity };
+        }
+        return order;
+      });
+      this.ravDetailsAdded = updatedOrderDataAdded;  
+
+    }else if (type == 'new') {
+      const updatedOrderData = this.ravDetails.map(order => {
+        if (order.id_produit === id) {
+          return { ...order, qt_ajouter : quantity, montant : order.pu_achat * quantity };
+        }
+        return order;
+      });
+      this.ravDetails = updatedOrderData; 
+    }
     
-    this.ravDetails = updatedOrderData; 
     
   }
 
-  onQuantityUpdateAdded(event: { id: string, quantity: number }) {
-    const { id, quantity } = event;
-    const updatedOrderDataAdded = this.ravDetailsAdded.map(order => {
-      if (order.id_prod === id) {
-        return { ...order, quantity, montant : order.pu_achat * quantity };
-      }
-      return order;
-    });
-    this.ravDetailsAdded = updatedOrderDataAdded; 
+  onUpdateSelPrice(event: { id: string, priceSel: number , type : string }) {
+    const { id, priceSel , type } = event;
+
+    if (type =='added') {   
+      const updatedOrderDataAdded = this.ravDetailsAdded.map(order => {
+        if (order.id_produit === id) {
+          return { ...order, pu_vente : priceSel };
+        }
+        return order;
+      });
+      this.ravDetailsAdded = updatedOrderDataAdded; 
+    }else if (type == 'new') {
+      const updatedOrderData = this.ravDetails.map(order => {
+        if (order.id_produit === id) {
+          return { ...order, pu_vente : priceSel };
+        }
+        return order;
+      });
+      this.ravDetails = updatedOrderData; 
+    }
   }
 
-  onPriceUpdateAdded(event: { id: string, price: number }) {
-    const { id, price } = event;
-    const updatedOrderDataAdded = this.ravDetailsAdded.map(order => {
-      if (order.id_prod === id) {
-        return { ...order, price, montant : price * order.qt_ajouter };
-      }
-      return order;
-    });
-    this.ravDetailsAdded = updatedOrderDataAdded; 
+  onUpdatePurchasePrice(event: { id: string, pricePurchase: number , type : string }) {
+    const { id, pricePurchase , type } = event;
+
+    if (type =='added') {   
+      const updatedOrderDataAdded = this.ravDetailsAdded.map(order => {
+        if (order.id_produit === id) {
+          return { ...order, pu_achat : pricePurchase , montant : (pricePurchase * order.qt_ajouter) };
+        }
+        return order;
+      });
+      this.ravDetailsAdded = updatedOrderDataAdded; 
+    }else if (type == 'new') {
+      const updatedOrderData = this.ravDetails.map(order => {
+        if (order.id_produit === id) {
+          return { ...order, pu_achat : pricePurchase , montant : (pricePurchase * order.qt_ajouter) };
+        }
+        return order;
+      });
+      this.ravDetails = updatedOrderData; 
+    }
   }
 
   filterData() {
@@ -250,6 +290,54 @@ export class DetailsComponent {
 
   openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions) {
     this.modalService.open(content, options)
+  }
+
+  submitClicked( event : { dataIns : RavDetailsList[] , dataUpt : RavDetailsList[] }) {
+    const { dataIns, dataUpt } = event;
+    const dataAddedModified =  this.getModifiedRavDetails(dataUpt);
+
+    if (dataIns.length> 0) {
+      this.ravDetailService.addMultipleDetails(dataIns).subscribe({
+        next : (response : ApiResponse) =>{
+          this.ravDetails = [];
+          this.getListDetails();
+          this.getListProdNotDetails();
+        },
+        error : (err : HttpErrorResponse) => {
+          console.log(err , " ERR INSERT RAV");
+        }
+      })
+    }
+
+    if (dataAddedModified.length> 0) {
+      console.log(dataAddedModified);
+        this.ravDetailService.editMultipleDetails(this.idRav , dataAddedModified).subscribe({
+          next : (response : ApiResponse) =>{
+            this.getListDetails();
+          },
+          error : (err : HttpErrorResponse) => {
+            console.log(err , " ERR EDIT RAV");
+          }
+        })
+    }
+  }
+
+  getModifiedRavDetails(datasAdded : RavDetailsList[]): RavDetailsList[] {
+    return datasAdded.filter((addedDetail: RavDetailsList) => {
+      const initialDetail = this.initialRavDetails.find((initDetail: RavDetailsList) => initDetail.id_produit === addedDetail.id_produit);
+      return initialDetail ? !this.ravDetailService.compareRavDetails(addedDetail, initialDetail) : true;
+    });
+  }
+
+  onValidateRav() {
+    this.ravDetailService.validDetails(this.idRav).subscribe({
+      next : (response : ApiResponse) =>{
+          this.getRavitaillement(this.idRav);
+      },
+      error : (err : HttpErrorResponse) => {
+        console.log(err , " ERR EDIT RAV");
+      }
+    })
   }
 
 }

@@ -45,7 +45,7 @@ export class InventaireDetailsComponent {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.idInv = params['idInv'];
+      this.idInv = params['id'];
       this.orderData = InventaireProduct
       this.orderDataAjoute = InventaireProductAjoute
       // SERVICE TO CAL DETAIL RAVITAILLEMENT

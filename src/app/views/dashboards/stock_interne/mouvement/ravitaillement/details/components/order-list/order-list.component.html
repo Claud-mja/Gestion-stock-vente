@@ -1,6 +1,6 @@
-<div class="card">
+<div class="card" *ngIf="infoRavitaillement && infoRavitaillement.etat!=50">
   <div class="card-header">
-    <div class="row align-items-center" *ngIf="infoRavitaillement">
+    <div class="row align-items-center" >
       <div class="col">
         <h4 class="card-title">Ravitaillement #{{ infoRavitaillement.id }}</h4>
         <p class="mb-0 text-muted mt-1">
@@ -9,9 +9,9 @@
       </div>
       <!--end col-->
       <div class="col-auto">
-        <button class="btn btn-primary" (click)="triggerOpenModal()">
-          <i class="fas fa-plus me-1"></i> Ajout produit
-        </button>
+          <button class="btn btn-primary" (click)="triggerOpenModal()">
+            <i class="fas fa-plus me-1"></i> Ajout produit
+          </button>
       </div>
       <!--end col-->
     </div>
@@ -35,24 +35,44 @@
           @for (data of orderData; track $index) {
           <tr>
             <td>
-              <img [src]="data.prod_image" alt="" height="40" />
-              <p class="d-inline-block align-middle mb-0 ms-0.5">
-                <span class="d-block align-middle mb-0 product-name text-body">{{ data.produit }}</span>
-                <!-- <span class="text-muted font-13">{{
-                  data.product.description
-                  }}</span> -->
+              <img [src]="img_url+'/'+data.prod_image" (error)="onImageError($event)" alt="" height="40" />
+              <p class="d-inline-block align-middle mb-0 ms-0.5" style="margin-left: 8px;">
+                <span class="d-block align-middle mb-0 product-name text-body">{{ data.prod_name }}</span>
+                <span class="text-muted font-13">{{
+                  data.remarque ? data.remarque : 'Aucun description' 
+                  }}</span>
               </p>
             </td>
-            <td class="text-end">{{ data.pu_achat }}</td>
-            <td class="text-end">{{ data.pu_vente }}</td>
+            <td class="text-end">
+              <div class="d-flex justify-content-end">
+                <input 
+                  style="width: 100px;"
+                  class="form-control form-control-sm ext-center" 
+                  [value]="data.pu_achat"
+                  (change)="handlePurchasePriceChange(data.id_produit!, $event , 'new')"
+                  type="number" 
+                  min="0" />
+              </div>
+            </td>
+            <td class="text-end">
+              <div class="d-flex justify-content-end">
+                <input 
+                  style="width: 100px;"
+                  class="form-control form-control-sm ext-center" 
+                  [value]="data.pu_vente"
+                  (change)="handleSelPriceChange(data.id_produit!, $event , 'new')"
+                  type="number" 
+                  min="0" />
+              </div>
+            </td>
             <td class="text-end w-80">
               <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
-                [value]="data.qt_ajouter" (change)="handleQuantityChange(data.id_prod!, $event)"
+                [value]="data.qt_ajouter" (change)="handleQuantityChange(data.id_produit!, $event, 'new')"
                 placeholder=".form-control-lg" />
             </td>
             <td class="text-end">{{ currency }}{{ data.pu_achat * data.qt_ajouter }}</td>
             <td class="text-end">
-              <button class="btn btn-danger btn-sm" (click)="handleDeleteItem(data.id!)">
+              <button class="btn btn-danger btn-sm" (click)="handleDeleteItem(data.id_produit!, 'new')">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
@@ -70,7 +90,16 @@
   <div class="card-header">
     <div class="row align-items-center" *ngIf="infoRavitaillement">
       <div class="col">
-        <h4 class="card-title">Produit ajouté</h4>
+        @if (infoRavitaillement.etat!=50) {
+          <h4 class="card-title">Produit ajouté</h4>
+        }@else {
+          <div class="col">
+            <h4 class="card-title">Ravitaillement #{{ infoRavitaillement.id }}</h4>
+            <p class="mb-0 text-muted mt-1">
+              {{ infoRavitaillement.titre }} - {{ infoRavitaillement.montant }}
+            </p>
+          </div>
+        }
       </div>
       <!--end col-->
       <!--end col-->
@@ -85,35 +114,77 @@
             <th>Nom</th>
             <th class="text-end">{{ currency }} Prix Achat</th>
             <th class="text-end">{{ currency }} Prix Vente</th>
-            <th class="text-end">Quantité</th>
+            <th class="text-end">Quantité Ajouter</th>
             <th class="text-end">Total</th>
-            <th class="text-end">Action</th>
+            @if (infoRavitaillement?.etat!=50) {
+              <th class="text-end">Action</th>
+            }
           </tr>
         </thead>
         <tbody>
           @for (data of orderDataAdded; track $index) {
           <tr>
-            <td>
+            <td >
               <img [src]="img_url+'/'+data.prod_image" (error)="onImageError($event)" alt="" height="40" />
-              <p class="d-inline-block align-middle mb-0 ms-0.5">
-                <span class="d-block align-middle mb-0 product-name text-body">{{ data.produit }}</span>
-                <!-- <span class="text-muted font-13">{{
-                  data.product.description
-                  }}</span> -->
+              <p class="d-inline-block align-middle mb-0 ms-0.5" style="margin-left: 8px;">
+                <span class="d-block align-middle mb-0 product-name text-body">{{ data.prod_name }}</span>
+                <span class="text-muted font-13">{{
+                  data.remarque ? data.remarque : 'Aucun description' 
+                  }}</span>
               </p>
             </td>
-            <td class="text-end">{{ data.pu_achat }}</td>
-            <td class="text-end">{{ data.pu_vente }}</td>
-            <td class="text-end w-80">
-              <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
-                [value]="data.qt_ajouter" (change)="handleQuantityChange(data.id_prod!, $event)"
-                placeholder=".form-control-lg" />
+            <td class="text-end">
+              @if (infoRavitaillement?.etat==50) {
+                {{ data.pu_achat }}
+              }@else {
+                <div class="d-flex justify-content-end">
+                  <input 
+                    style="width: 100px;"
+                    class="form-control form-control-sm ext-center" 
+                    [value]="data.pu_achat"
+                    (change)="handlePurchasePriceChange(data.id_produit!, $event , 'added')"
+                    type="number" 
+                    min="0" />
+                </div>
+              }
+            </td>
+            <td class="text-end">
+              @if (infoRavitaillement?.etat==50) {
+                {{ data.pu_vente }}
+              }@else {
+                <div class="d-flex justify-content-end">
+                  <input 
+                    style="width: 100px;"
+                    class="form-control form-control-sm ext-center" 
+                    [value]="data.pu_vente"
+                    (change)="handleSelPriceChange(data.id_produit!, $event , 'added')"
+                    type="number" 
+                    min="0" />
+                </div>
+              }
+            </td>
+            <td class="text-end">
+              @if (infoRavitaillement?.etat==50) {
+                {{ data.qt_ajouter }}
+              }@else {
+                <div class="d-flex justify-content-end">
+                  <input 
+                    class="form-control form-control-sm w-80 text-center" 
+                    type="number" 
+                    min="0" 
+                    [value]="data.qt_ajouter" 
+                    (change)="handleQuantityChange(data.id_produit!, $event , 'added')"
+                    placeholder=".form-control-lg" />
+                </div>
+              }
             </td>
             <td class="text-end">{{ data.pu_achat * data.qt_ajouter }}</td>
             <td class="text-end">
-              <button class="btn btn-danger btn-sm" (click)="handleDeleteItem(data.id!)">
-                <i class="fas fa-trash"></i>
-              </button>
+              @if (infoRavitaillement?.etat != 50) {
+                <button class="btn btn-danger btn-sm" (click)="handleDeleteItem(data.id! , 'added')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              }
             </td>
           </tr>
           }
@@ -121,17 +192,17 @@
       </table>
     </div>
   </div>
-  <div class="card-footer">
-    <div class="row align-items-center">
-      <div class="col"></div>
-      <div class="col-auto">
-        <button class="btn btn-primary">
-          <i class="fas fa-file me-1"></i> Sauvegardé
-        </button>
+
+  @if (infoRavitaillement?.etat!=50) {
+    <div class="card-footer">
+      <div class="row align-items-center">
+        <div class="col"></div>
+        <div class="col-auto">
+          <button class="btn btn-primary" (click)="onSubmit()">
+            <i class="fas fa-file me-1"></i> Sauvegardé
+          </button>
+        </div>
       </div>
-      <!--end col-->
-      <!--end col-->
     </div>
-    <!--end row-->
-  </div>
+  }
 </div>

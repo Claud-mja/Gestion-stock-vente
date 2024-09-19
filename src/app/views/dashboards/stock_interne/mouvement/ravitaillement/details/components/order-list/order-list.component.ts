@@ -18,10 +18,11 @@ export class OrderListComponent {
   @Input() orderDataAdded: RavDetailsList[] = [];
   @Input() infoRavitaillement: RavitaillementInfo | undefined;
   @Input() openModal!: () => void;
-  @Input() removeItem!: (id: string) => void;
-  @Output() updateQuantity: EventEmitter<{ id: string, quantity: number }> = new EventEmitter();
-  @Output() updateQuantityAdded: EventEmitter<{ id: string, quantity: number }> = new EventEmitter();
-  @Output() updatePriceAdded: EventEmitter<{ id: string, price: number }> = new EventEmitter();
+  @Input() removeItem!: (id: string , type : string) => void;
+  @Output() updateQuantity: EventEmitter<{ id: string, quantity: number , type : string }> = new EventEmitter();
+  @Output() updateSelPrice: EventEmitter<{ id: string, priceSel : number , type : string }> = new EventEmitter();
+  @Output() updatePurchasePrice: EventEmitter<{ id: string, pricePurchase : number  , type : string}> = new EventEmitter();
+  @Output() submitClicked = new EventEmitter<{ dataIns : RavDetailsList[] , dataUpt : RavDetailsList[]}>();
   currency = currency
   currentYear = currentYear
 
@@ -33,37 +34,51 @@ export class OrderListComponent {
     }
   }
 
-  handleDeleteItem(id: string) {
+  handleDeleteItem(id: string , type  : string) {
     if (this.removeItem) {
-      this.removeItem(id);
+      this.removeItem(id , type);
     }
   }
 
-  handleQuantityChange(id: string, event: Event) {
-    console.log("QT ch", id , event);
-    
+  handleQuantityChange(id : string, event : Event , type : string) {
     const inputElement = event.target as HTMLInputElement;
     const newQuantity = Number(inputElement.value);
-    this.updateQuantity.emit({ id, quantity: newQuantity });
+    this.updateQuantity.emit({ id, quantity: newQuantity , type });
   }
 
-  handleQuantityChangeAdded(id: string, event: Event) {
-    console.log("QT chAdd" , id , event);
-    
+  handlePurchasePriceChange(id : string, event : Event , type : string) {
     const inputElement = event.target as HTMLInputElement;
-    const newQuantity = Number(inputElement.value);
-    this.updateQuantityAdded.emit({ id, quantity: newQuantity });
+    const newPurchasePrice= Number(inputElement.value);
+    this.updatePurchasePrice.emit({ id , pricePurchase : newPurchasePrice , type })
   }
-
-  handlePriceChangeAdded(id: string, event: Event) {
+  
+  handleSelPriceChange(id : string , event : Event , type : string) {
     const inputElement = event.target as HTMLInputElement;
-    const newPrice = Number(inputElement.value);
-    this.updatePriceAdded.emit({ id, price: newPrice });
+    const newSelPrice= Number(inputElement.value);
+    this.updateSelPrice.emit({ id , priceSel : newSelPrice , type })
   }
 
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = 'assets/images/no-image.png';
+  }
+
+  onSubmit(){
+    console.log(this.orderData , "Data to insert");
+    console.log(this.orderDataAdded , "Data to update");
+
+    const dataToIns: RavDetailsList[] = this.orderData.filter(
+      (ravDet: RavDetailsList) => 
+        ravDet.qt_ajouter > 0 && 
+        ravDet.pu_achat > 0 && 
+        ravDet.pu_vente > 0
+    );
+  
+    // Afficher les données filtrées pour insertion
+    console.log(dataToIns, "Filtered data to insert");
+    
+    const dataToUpdate : RavDetailsList[] = this.orderDataAdded.filter((ravDet : RavDetailsList) => ravDet.qt_ajouter > 0 && ravDet.pu_achat> 0 && ravDet.pu_vente > 0); ; 
+    this.submitClicked.emit({ dataIns : dataToIns , dataUpt : dataToUpdate });
   }
 
 }

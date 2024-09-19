@@ -6,8 +6,8 @@
       </div>
       <!--end col-->
       <div class="col-auto">
-        <span class="badge rounded text-info bg-info-subtle fs-12 p-1"
-          *ngIf="infoRavitaillement">{{infoRavitaillement.fournisseur_name}}</span>
+        <span [ngClass]="infoRavitaillement.etat==1 ? 'text-info bg-info-subtle' : 'text-success bg-success-subtle' " class="badge rounded  fs-12 p-1"
+          *ngIf="infoRavitaillement">{{infoRavitaillement.etat_lib}}</span>
       </div>
       <!--end col-->
     </div>
@@ -37,15 +37,17 @@
       <!-- <h4 class="mb-0">{{ currency }}{{ total.toFixed(2) }}</h4> -->
       <h4 *ngIf="this.infoRavitaillement && this.infoRavitaillement.montant" class="mb-0"
         [ngClass]="{'text-danger': total > this.infoRavitaillement.montant}">
-        {{ currency }}{{ total.toFixed(2) }}
+        {{ currency }}{{ total.toFixed(2)+' '+orderDataAdded.length }}
       </h4>
     </div>
-    <hr class="hr-dashed" />
-    <div class="w-100">
-      <button class="btn btn-primary btn-block w-100" (click)="emitFinalOrderData()">
-        Validé
-      </button>
-    </div>
+    @if (infoRavitaillement?.etat!=50) {
+      <hr class="hr-dashed" />
+      <div class="w-100">
+        <button class="btn btn-primary btn-block w-100" (click)="emitFinalOrderData()">
+          Validé
+        </button>
+      </div>
+    }
   </div>
   <!--card-body-->
 </div>

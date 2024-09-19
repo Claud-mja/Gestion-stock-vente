@@ -33,7 +33,7 @@ export class RavitaillementDetailsService {
     );
   }
 
-  addDetails (details : any) : Observable<ApiResponse> {
+  addDetails (details : RavDetailsList) : Observable<ApiResponse> {
     return this.http.post(`${environment.baseStockUrl}/ravitaillementDetails` , details).pipe(
       map((response) => {
         return response as ApiResponse
@@ -41,11 +41,42 @@ export class RavitaillementDetailsService {
     )
   }
 
-  addMultipleDetails ( details : any[]) : Observable<ApiResponse> {
+  addMultipleDetails ( details : RavDetailsList[]) : Observable<ApiResponse> {
     return this.http.post(`${environment.baseStockUrl}/ravitaillementDetails/add-multi` , details).pipe(
       map((response) => {
         return response as ApiResponse
       })
     )
   }
+
+  editMultipleDetails ( idRav : string ,details : RavDetailsList[]) : Observable<ApiResponse> {
+    return this.http.put(`${environment.baseStockUrl}/ravitaillementDetails/edit-multi/${idRav}` , details).pipe(
+      map((response) => {
+        return response as ApiResponse
+      })
+    )
+  }
+
+  deleteDetails( id : string ) : Observable<ApiResponse> {
+    return this.http.delete(`${environment.baseStockUrl}/ravitaillementDetails/${id}`).pipe(
+      map((response) => {
+        return response as ApiResponse
+      })
+    )
+  }
+
+  compareRavDetails(ravDetail1: RavDetailsList, ravDetail2: RavDetailsList): boolean {
+    return ravDetail1.pu_achat === ravDetail2.pu_achat &&
+           ravDetail1.pu_vente === ravDetail2.pu_vente &&
+           ravDetail1.qt_ajouter === ravDetail2.qt_ajouter 
+  }
+
+  validDetails(idRav : string) : Observable<ApiResponse> {
+    return this.http.put(`${environment.baseStockUrl}/ravitaillementDetails/valid/${idRav}`,{}).pipe(
+      map((response) => {
+        return response as ApiResponse
+      })
+    )
+  }
+  
 }

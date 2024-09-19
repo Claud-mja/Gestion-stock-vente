@@ -42,5 +42,6 @@ export interface RavitaillementInfo {
     dateajout : Date,
     date_validation : Date,
     remarque : string,
-    etat : string
+    etat : number,
+    etat_lib : string,
 }

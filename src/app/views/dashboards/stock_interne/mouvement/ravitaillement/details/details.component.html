@@ -7,15 +7,17 @@
         [openModal]="openModal.bind(this, modalAddProduct, { size: 'lg' })"
         [removeItem]="removeItem.bind(this)"
         (updateQuantity)="onQuantityUpdate($event)"
-        (updateQuantityAdded)="onQuantityUpdateAdded($event)"
-        (updatePriceAdded)="onPriceUpdateAdded($event)"
+        (updateSelPrice)="onUpdateSelPrice($event)"
+        (updatePurchasePrice)="onUpdatePurchasePrice($event)"
+        (submitClicked)="submitClicked($event)"
       />
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-4" >
       <order-details-summary
       [orderData]="ravDetails" 
+      [orderDataAdded]="initialRavDetails"
       [infoRavitaillement]="ravitaillementInfo"
-      (finalOrderData)="handleFinalOrderData($event)"
+      (vaalidateRav)="onValidateRav()"
       />
       <order-details-information
       [orderData]="ravDetailsAdded" 
@@ -48,6 +50,8 @@
                     <th>Nom</th>
                     <th class="text-end">Prix Achat</th>
                     <th class="text-end">Prix Vente</th>
+                    <th class="text-end">Seriazable</th>
+                    <th class="text-end">Perissable</th>
                     <th class="text-end">Quantité</th>
                     <th class="text-end">Action</th>
                   </tr>
@@ -64,6 +68,8 @@
                           </td>
                           <td class="text-end">{{ currency }}{{ data.prixachat }}</td>
                           <td class="text-end">{{ currency }}{{ data.prixvente }}</td>
+                          <td class="text-end">{{ currency }}{{ data.seriazable}}</td>
+                          <td class="text-end">{{ currency }}{{ data.persissable }}</td>
                           <td class="text-end">{{ data.qt_stock }}</td>
                           <td class="text-end">
                             <button class="btn btn-primary btn-sm" (click)="AddItemToParent(data)">
