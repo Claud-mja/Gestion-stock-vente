@@ -18,9 +18,9 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="responsable" class="form-label">Responsable</label>
-                                <input type="text" id="responsable" class="form-control"
-                                    formControlName="responsable" />
+                                <label for="date_creation" class="form-label" >Date création</label>
+                                <input [max]="maxDate" type="date" id="date_creation" class="form-control"
+                                    formControlName="date_creation" />
                             </div>
                         </div>
 
@@ -30,15 +30,15 @@
                                 <textarea id="remarque" class="form-control" formControlName="remarque"></textarea>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <!-- <div class="col-md-6 mb-3">
                                 <label for="etat" class="form-label">État</label>
                                 <input type="text" id="etat" class="form-control" formControlName="etat" />
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 text-end">
-                                <button type="submit" class="w-100 btn-block btn btn-primary">Envoyer</button>
+                                <button type="submit" [disabled]="!inventaireForm.valid" class="w-100 btn-block btn btn-primary">Envoyer</button>
                             </div>
                         </div>
                     </div>

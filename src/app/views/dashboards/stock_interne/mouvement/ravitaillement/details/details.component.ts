@@ -20,6 +20,7 @@ import { SummaryComponent } from './components/summary/summary.component';
 import { InformationComponent } from './components/information/information.component';
 import { RavitaillementService } from '@/app/core/service/stck/ravitaillement.service';
 import { environment } from '@/environments/environment.development';
+import { of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-details',
@@ -292,10 +293,9 @@ export class DetailsComponent {
     this.modalService.open(content, options)
   }
 
-  submitClicked( event : { dataIns : RavDetailsList[] , dataUpt : RavDetailsList[] }) {
-    const { dataIns, dataUpt } = event;
-    const dataAddedModified =  this.getModifiedRavDetails(dataUpt);
-
+  submitClicked( event : { dataIns : RavDetailsList[] }) {
+    const { dataIns } = event;
+    
     if (dataIns.length> 0) {
       this.ravDetailService.addMultipleDetails(dataIns).subscribe({
         next : (response : ApiResponse) =>{
@@ -307,18 +307,8 @@ export class DetailsComponent {
           console.log(err , " ERR INSERT RAV");
         }
       })
-    }
-
-    if (dataAddedModified.length> 0) {
-      console.log(dataAddedModified);
-        this.ravDetailService.editMultipleDetails(this.idRav , dataAddedModified).subscribe({
-          next : (response : ApiResponse) =>{
-            this.getListDetails();
-          },
-          error : (err : HttpErrorResponse) => {
-            console.log(err , " ERR EDIT RAV");
-          }
-        })
+    }else{
+      console.log("Aucun produit valide à ravitailler !");
     }
   }
 
@@ -330,14 +320,28 @@ export class DetailsComponent {
   }
 
   onValidateRav() {
-    this.ravDetailService.validDetails(this.idRav).subscribe({
-      next : (response : ApiResponse) =>{
-          this.getRavitaillement(this.idRav);
-      },
-      error : (err : HttpErrorResponse) => {
-        console.log(err , " ERR EDIT RAV");
-      }
-    })
+    const dataAddedModified = this.getModifiedRavDetails(this.ravDetailsAdded);
+  
+    if (dataAddedModified.length > 0) {
+      this.ravDetailService.editMultipleDetails(this.idRav, dataAddedModified)
+        .pipe(
+          switchMap(() => this.ravDetailService.validDetails(this.idRav)),
+          tap(() => this.getListDetails())
+        )
+        .subscribe({
+          next: () => this.getRavitaillement(this.idRav),
+          error: (err: HttpErrorResponse) => console.log(err, " ERR EDIT RAV"),
+        });
+    } else {
+      this.ravDetailService.validDetails(this.idRav)
+        .pipe(
+          tap(() => this.getListDetails())
+        )
+        .subscribe({
+          next: () => this.getRavitaillement(this.idRav),
+          error: (err: HttpErrorResponse) => console.log(err, " ERR EDIT RAV"),
+        });
+    }
   }
 
 }

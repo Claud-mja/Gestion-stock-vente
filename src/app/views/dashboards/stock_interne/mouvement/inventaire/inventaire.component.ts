@@ -1,3 +1,4 @@
+import { QueryParam } from '@/app/common/queryRequest';
 import { Component, Directive, EventEmitter, inject, Input, Output, TemplateRef, ViewChildren, type PipeTransform, type QueryList } from '@angular/core'
 import { InventaireData, paginateData, type InventaireType } from './data' // Update this to match your inventaire data import
 import type { Observable } from 'rxjs'
@@ -7,6 +8,12 @@ import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 import { RouterLink } from '@angular/router'
+import { InventaireList } from '@/app/core/models/inventaire.model'
+import { InventaireService } from '@/app/core/service/stck/inventaire.service'
+import { Paginated } from '@/app/common/paginatrd.interface';
+import { HttpErrorResponse } from '@angular/common/http';
+import { TableFooterComponent } from '@/app/components/table/table-footer/table-footer.component';
+import { TableHeaderComponent } from '@/app/components/table/table-header/table-header.component';
 
 export type SortColumn = keyof InventaireType | ''
 export type SortDirection = 'asc' | 'desc' | ''
@@ -46,13 +53,16 @@ export class NgbdCustomSortableHeader {
 @Component({
   selector: 'app-inventaire',
   standalone: true,
-  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink],
+  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink , TableHeaderComponent, TableFooterComponent],
   templateUrl: './inventaire.component.html',
   styleUrls: ['./inventaire.component.scss']
 })
 export class InventaireComponent {
-  filter!: string
   private modalService = inject(NgbModal)
+  private invService = inject(InventaireService);
+
+
+  filter!: string
   modalData: any;
   accordions: { [key: string]: boolean } = {
     accordion1: true,
@@ -63,19 +73,19 @@ export class InventaireComponent {
   page = 1
   pageSize = 4
   collectionSize = InventaireData.length
-  Produit!: InventaireType[]
+  inventaires !: InventaireList[]
   basicProduit = InventaireData.slice(0, 5)
   searchProduit = InventaireData.slice(0, 5)
   sortProduit = InventaireData.slice(0, 5)
 
-  records$: Observable<InventaireType[]>
+  records$: Observable<InventaireList[]>
   total$: Observable<number>
 
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<
-    NgbdSortableHeader<InventaireType>
+    NgbdSortableHeader<InventaireList>
   >
 
-  public tableService = inject(TableService<InventaireType>)
+  public tableService = inject(TableService<InventaireList>)
 
   ficheInfo: string = ''
   ficheFile: File | null = null
@@ -84,18 +94,45 @@ export class InventaireComponent {
     this.records$ = this.tableService.items$
     this.total$ = this.tableService.total$
 
-    this.refreshProduit()
+    // this.refreshProduit()
 
     this.inventaireForm = this.fb.group({
       titre: ['', Validators.required],
       remarque: ['', Validators.required],
-      responsable: [0, Validators.required],
-      etat: [0, Validators.required]
+      // responsable: [0, Validators.required],
+      date_creation : ['' , Validators.required]
+      // etat: [0, Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.tableService.setItems(InventaireData, 5)
+    this.getInventaires();
+    // this.tableService.setItems(InventaireData, 5)
+
+  }
+
+  getInventaires() {
+    const queries : QueryParam[] = [
+      { key : '$page[limit]' , value : this.pageSize },
+      { key : '$page[rang]' , value : this.page },
+    ]
+
+    this.invService.getInvs(queries).subscribe({
+      next : (response : Paginated<InventaireList>) => {
+        this.inventaires = response.reulstat;
+        this.page = response.desc.page_now;
+        this.pageSize = response.desc.data_limit;
+
+        this.tableService.setItems(this.inventaires , this.pageSize);
+        console.log(response.reulstat);
+        this.tableService.setPageSize(this.pageSize);
+        this.tableService.setTotal(response.desc.data_count);
+      },
+      error : (error : HttpErrorResponse) => {
+        console.log('Error list inventaire : ', error);
+        
+      }
+    })
   }
 
   loadInventaireData(dataUpdate: any): void {
@@ -147,16 +184,16 @@ export class InventaireComponent {
   }
 
 
-  refreshProduit() {
-    this.Produit = paginateData
-      .map((produitres, i) => ({
-        ...produitres,
-      }))
-      .slice(
-        (this.page - 1) * this.pageSize,
-        (this.page - 1) * this.pageSize + this.pageSize
-      )
-  }
+  // refreshProduit() {
+  //   this.inventaires = paginateData
+  //     .map((produitres, i) => ({
+  //       ...produitres,
+  //     }))
+  //     .slice(
+  //       (this.page - 1) * this.pageSize,
+  //       (this.page - 1) * this.pageSize + this.pageSize
+  //     )
+  // }
 
   onCompleteSort({ column, direction }: CustomSortEvent) {
     for (const header of this.headers) {
@@ -164,8 +201,8 @@ export class InventaireComponent {
         header.direction = ''
       }
     }
-    this.tableService.sortColumn = column
-    this.tableService.sortDirection = direction
+    // this.tableService.sortColumn = column
+    // this.tableService.sortDirection = direction
   }
 
   onSubmit(): void {

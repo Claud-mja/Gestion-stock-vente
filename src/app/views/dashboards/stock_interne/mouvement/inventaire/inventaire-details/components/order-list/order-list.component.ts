@@ -3,6 +3,9 @@ import { currency, currentYear } from '@/app/common/constants'
 import { CommonModule } from '@angular/common';
 import { IventaireUpdateType } from '../../data';
 import { ProductListType } from '../../productlist.interface';
+import { environment } from '@/environments/environment.development';
+import { InvDetailInfo, InvDetailList } from '@/app/core/models/inventaireDetails.model';
+import { InventaireList } from '@/app/core/models/inventaire.model';
 
 @Component({
   selector: 'order-list',
@@ -13,16 +16,22 @@ import { ProductListType } from '../../productlist.interface';
 })
 
 export class OrderListComponent {
-  @Input() orderData: ProductListType[] = [];
-  @Input() orderDataAjoute: ProductListType[] = [];
-  @Input() infoDetaille: IventaireUpdateType | undefined;
+  @Input() orderData: InvDetailList[] = [];
+  @Input() orderDataAdded: InvDetailList[] = [];
+  @Input() invInfo: InventaireList | undefined;
   @Input() openModal!: () => void;
-  @Input() removeItem!: (id: number) => void;
-  @Output() updateQuantity: EventEmitter<{ id: number, quantity: number }> = new EventEmitter();
-  @Output() updateQuantityAdded: EventEmitter<{ id: number, quantity: number }> = new EventEmitter();
-  @Output() updatePriceAdded: EventEmitter<{ id: number, price: number }> = new EventEmitter();
+  @Input() removeItem!: (id: string , type : string) => void;
+  @Output() updateQuantity: EventEmitter<{ id: string, quantity: number , type : string }> = new EventEmitter();
+  @Output() updateQuantityAdded: EventEmitter<{ id: string, quantity: number , type : string }> = new EventEmitter();
+  @Output() updatePurchasePrice: EventEmitter<{ id: string, pricePurchase: number , type : string }> = new EventEmitter();
+  @Output() updateSelPrice: EventEmitter<{ id: string, priceSel: number , type : string }> = new EventEmitter();
+  @Output() submitClicked = new EventEmitter<{ dataIns : InvDetailList[] }>();
+  @Output() validClicked = new EventEmitter<void>();
+
   currency = currency
-  currentYear = currentYear
+  currentYear = currentYear;
+
+  public img_url = environment.baseUrlImg+'/produit';
 
   triggerOpenModal() {
     if (this.openModal) {
@@ -30,26 +39,40 @@ export class OrderListComponent {
     }
   }
 
-  handleDeleteItem(id: number) {
+  handleDeleteItem(id: string , type  : string) {
     if (this.removeItem) {
-      this.removeItem(id);
+      this.removeItem(id , type);
     }
   }
 
-  handleQuantityChange(id: number, event: Event) {
+  handleQuantityChange(id : string, event : Event , type : string) {
     const inputElement = event.target as HTMLInputElement;
     const newQuantity = Number(inputElement.value);
-    this.updateQuantity.emit({ id, quantity: newQuantity });
-  }
-  handleQuantityChangeAdded(id: number, event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const newQuantity = Number(inputElement.value);
-    this.updateQuantityAdded.emit({ id, quantity: newQuantity });
+    this.updateQuantity.emit({ id, quantity: newQuantity , type });
   }
 
-  handlePriceChangeAdded(id: number, event: Event) {
+  handlePurchasePriceChange(id : string, event : Event , type : string) {
     const inputElement = event.target as HTMLInputElement;
-    const newPrice = Number(inputElement.value);
-    this.updatePriceAdded.emit({ id, price: newPrice });
+    const newPurchasePrice= Number(inputElement.value);
+    this.updatePurchasePrice.emit({ id , pricePurchase : newPurchasePrice , type })
+  }
+  
+  handleSelPriceChange(id : string , event : Event , type : string) {
+    const inputElement = event.target as HTMLInputElement;
+    const newSelPrice= Number(inputElement.value);
+    this.updateSelPrice.emit({ id , priceSel : newSelPrice , type })
+  }
+
+  onImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/no-image.png';
+  }
+
+  onSubmit(){
+    this.submitClicked.emit({ dataIns : this.orderData });
+  }
+
+  onValid() {
+    this.validClicked.emit();
   }
 }

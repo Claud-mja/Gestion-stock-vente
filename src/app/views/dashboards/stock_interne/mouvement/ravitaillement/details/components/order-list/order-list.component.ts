@@ -22,7 +22,7 @@ export class OrderListComponent {
   @Output() updateQuantity: EventEmitter<{ id: string, quantity: number , type : string }> = new EventEmitter();
   @Output() updateSelPrice: EventEmitter<{ id: string, priceSel : number , type : string }> = new EventEmitter();
   @Output() updatePurchasePrice: EventEmitter<{ id: string, pricePurchase : number  , type : string}> = new EventEmitter();
-  @Output() submitClicked = new EventEmitter<{ dataIns : RavDetailsList[] , dataUpt : RavDetailsList[]}>();
+  @Output() submitClicked = new EventEmitter<{ dataIns : RavDetailsList[] }>();
   currency = currency
   currentYear = currentYear
 
@@ -64,9 +64,6 @@ export class OrderListComponent {
   }
 
   onSubmit(){
-    console.log(this.orderData , "Data to insert");
-    console.log(this.orderDataAdded , "Data to update");
-
     const dataToIns: RavDetailsList[] = this.orderData.filter(
       (ravDet: RavDetailsList) => 
         ravDet.qt_ajouter > 0 && 
@@ -74,11 +71,7 @@ export class OrderListComponent {
         ravDet.pu_vente > 0
     );
   
-    // Afficher les données filtrées pour insertion
-    console.log(dataToIns, "Filtered data to insert");
-    
-    const dataToUpdate : RavDetailsList[] = this.orderDataAdded.filter((ravDet : RavDetailsList) => ravDet.qt_ajouter > 0 && ravDet.pu_achat> 0 && ravDet.pu_vente > 0); ; 
-    this.submitClicked.emit({ dataIns : dataToIns , dataUpt : dataToUpdate });
+    this.submitClicked.emit({ dataIns : dataToIns });
   }
 
 }

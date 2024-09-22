@@ -24,6 +24,7 @@ import { NewRavitaillementComponent } from './stock_interne/mouvement/ravitaille
 import { NewInventaireComponent } from './stock_interne/mouvement/inventaire/new-inventaire/new-inventaire.component'
 import { OrderDetailsComponent } from './stock_interne/mouvement/order-details/order-details.component'
 import { DetailsComponent } from './stock_interne/mouvement/ravitaillement/details/details.component'
+import { InventaireDetailsComponent } from './stock_interne/mouvement/inventaire/inventaire-details/inventaire-details.component'
 
 export const DASHBOARD_ROUTES: Route[] = [
   {
@@ -83,7 +84,7 @@ export const DASHBOARD_ROUTES: Route[] = [
   },
   {
     path: 'stock-interne/mouvement-stock/inventaire-detail/:id',
-    component: InventaireComponent,
+    component: InventaireDetailsComponent,
     data: { title: 'Inventaire' },
   },
   {

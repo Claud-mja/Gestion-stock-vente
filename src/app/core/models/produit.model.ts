@@ -25,8 +25,8 @@ export type ProduitList = {
     prixachat : number;
     prixvente : number;
     prix_virtuel : number;
-    qt_stock : string;
-    qt_stock_pan : string;
+    qt_stock : number;
+    qt_stock_pan : number;
     persissable : boolean;
     seriazable : boolean;
     depot : string;
