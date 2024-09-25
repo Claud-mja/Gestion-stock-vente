@@ -174,6 +174,52 @@ export const MENU_ITEMS: MenuItem[] = [
       }
     ],
   },
+
+  {
+    key: 'livraison',
+    label: 'Livraison',
+    isTitle: true,
+  },
+  {
+    key: 'conf-liv-init',
+    icon: 'iconoir-settings',  
+    label: 'Configuration initiale',
+    collapsed: true,
+    subMenu: [
+      {
+        key: 'conf-liv-init-revendeur',
+        label: 'Revendeurs',
+        url: 'dashboard/livraison/configurations/revendeurs',
+        parentKey: 'revendeurs',
+      },
+      {
+        key: 'conf-liv-init-categorie',
+        label: 'Axe',
+        url: 'dashboard/livraison/configurations/axe',
+        parentKey: 'axe',
+      },
+    ],
+  },
+  {
+    key: 'fact-liv-init',
+    icon: 'file-invoice',  
+    label: 'Facturations',
+    collapsed: true,
+    subMenu: [
+      {
+        key: 'fact-liv-init-revendeur',
+        label: 'Bon de commandes',
+        url: 'dashboard/livraison/facturations/bon-de-commande',
+        parentKey: 'bdc',
+      },
+      // {
+      //   key: 'fact-liv-init-categorie',
+      //   label: 'Axe',
+      //   url: 'dashboard/livraison/configurations/axe',
+      //   parentKey: 'axe',
+      // },
+    ],
+  },
 ];
 
 /*export const MENU_ITEMS: MenuItem[] = [
