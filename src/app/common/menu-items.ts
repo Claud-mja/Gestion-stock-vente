@@ -119,6 +119,12 @@ export const MENU_ITEMS: MenuItem[] = [
         label: 'Carte de credit',
         url: 'dashboard/sortie-stock/mouvement-sortant/carte-credit',
         parentKey: 'carte-credit',
+      },
+      {
+        key: 'mouvement-sortant-carte-livraison',
+        label: 'Carte de livraison',
+        url: 'dashboard/sortie-stock/mouvement-sortant/carte-livraison',
+        parentKey: 'carte-credit',
       }
     ],
   },

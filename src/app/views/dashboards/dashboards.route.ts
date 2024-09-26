@@ -25,6 +25,9 @@ import { NewInventaireComponent } from './stock_interne/mouvement/inventaire/new
 import { OrderDetailsComponent } from './stock_interne/mouvement/order-details/order-details.component'
 import { DetailsComponent } from './stock_interne/mouvement/ravitaillement/details/details.component'
 import { InventaireDetailsComponent } from './stock_interne/mouvement/inventaire/inventaire-details/inventaire-details.component'
+import { CarteSimpleImplComponent } from './sortie_stock/mouvement_sortant/carte-simple-impl/carte-simple-impl.component'
+import { CarteCreditImplComponent } from './sortie_stock/mouvement_sortant/carte-credit-impl/carte-credit-impl.component'
+import { CarteLivraisonComponent } from './sortie_stock/mouvement_sortant/carte-livraison/carte-livraison.component'
 
 export const DASHBOARD_ROUTES: Route[] = [
   {
@@ -114,13 +117,18 @@ export const DASHBOARD_ROUTES: Route[] = [
   },
   {
     path: 'sortie-stock/mouvement-sortant/carte-simple',
-    component: CarteSimpleComponent,
+    component: CarteSimpleImplComponent,
     data: { title: 'Carte simple' },
   },
   {
     path: 'sortie-stock/mouvement-sortant/carte-credit',
-    component: CarteCreditComponent,
+    component: CarteCreditImplComponent,
     data: { title: 'Carte de credit' },
+  },
+  {
+    path: 'sortie-stock/mouvement-sortant/carte-livraison',
+    component: CarteLivraisonComponent,
+    data: { title: 'Carte de livraison' },
   },
   {
     path: 'sortie-stock/panier/creer',
