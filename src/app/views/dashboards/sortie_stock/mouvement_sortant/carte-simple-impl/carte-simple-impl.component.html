@@ -87,25 +87,11 @@
     <order-list [orderData]="orderData" [orderDataAjoute]="orderDataAjoute" [infoCarte]="carteDetaille"
       [removeItem]="removeItem.bind(this)" (updateQuantity)="onQuantityUpdate($event)"
       (updateQuantityAdded)="onQuantityUpdateAdded($event)" (updatePriceAdded)="onPriceUpdateAdded($event)" />
-    <div class="card">
-      <div class="card-header">
-        <div class="row align-items-center">
-          <div class="col">
-            <h4 class="card-title">Validé la carte</h4>
-            <p class="mb-0 text-muted mt-1">
-              Selectionné type de paiement
-            </p>
-          </div>
-          <div class="col-auto">
-            
-          </div>
-        </div>
-      </div>
-    </div>
+    <order-details-summary [orderData]="orderData" [infoCarte]="carteDetaille"
+      (finalOrderData)="ValidateData($event)" />
   </div>
   <div class="col-lg-12">
-    <!-- <order-details-summary [orderData]="orderData" [infoCarte]="carteDetaille"
-      (finalOrderData)="handleFinalOrderData($event)" /> -->
+
     <!-- <order-details-information [orderData]="orderData" [infoCarte]="carteDetaille" /> -->
   </div>
 </div>

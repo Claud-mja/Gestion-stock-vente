@@ -69,9 +69,11 @@ export class CarteSimpleImplComponent {
     });
   }
 
-  handleFinalOrderData(updatedOrderData: any) {
-    alert("Ok be")
-    console.log('Final order data received:', updatedOrderData);
+  ValidateData(updatedOrderData: any) {
+    console.log("Liste #################################");
+    console.log(this.orderDataAll);
+    console.log("Ajouté #################################");
+    console.log(updatedOrderData);
   }
 
   UpdateQuantiteAndQuantiteAdd() {
@@ -99,8 +101,11 @@ export class CarteSimpleImplComponent {
 
   AddItemToParent(id: number) {
     this.orderDataAll = this.orderDataAll.map((data) => {
-      if (data.id === id && data.quantityAdd != null) {
-        this.orderData.push({ ...data });
+      if (data.id === id && data.quantityAdd != null && data.quantityAdd != 0 && data.quantity >= data.quantityAdd) {
+        this.orderData.push({
+          ...data,
+          total: data.price * data.quantityAdd
+        });
         return {
           ...data,
           quantity: data.quantity - data.quantityAdd,
@@ -113,14 +118,18 @@ export class CarteSimpleImplComponent {
   }
 
   removeItem(id: number, item: any) {
-    item.quantityAdd = 0;
     const existingItemIndex = this.orderDataAll.findIndex((data) => data.id === item.id);
     if (existingItemIndex !== -1) {
-      this.orderDataAll[existingItemIndex] = item;
-    } else {
-      this.orderDataAll.push(item);
+      this.orderDataAll[existingItemIndex] = {
+        ...this.orderDataAll[existingItemIndex],
+        quantity: this.orderDataAll[existingItemIndex].quantity + item.quantityAdd,
+        quantityAdd: 0
+      };
     }
-    this.orderData = this.orderData.filter((data) => data.id !== id);
+    const orderDataIndex = this.orderData.findIndex((data) => data.id === id && data === item);
+    if (orderDataIndex !== -1) {
+      this.orderData.splice(orderDataIndex, 1);
+    }
     this.filterData();
   }
 
@@ -168,6 +177,7 @@ export class CarteSimpleImplComponent {
     } else {
       this.filteredData = [...this.orderDataAll.filter(data => data.quantity > 0)];
     }
+    this.orderData = this.orderData.filter(data => data.quantity > 0);
     this.paginateData();
   }
 
