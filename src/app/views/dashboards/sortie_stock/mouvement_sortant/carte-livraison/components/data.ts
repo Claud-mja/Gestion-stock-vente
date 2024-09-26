@@ -1,6 +1,6 @@
 import { currentYear } from '@/app/common/constants'
 
-export type RavitaillementUpdateType = {
+export type CarteUpdateType = {
   order_id: string
   rav_name: string
   product_details: string
@@ -10,7 +10,7 @@ export type RavitaillementUpdateType = {
   amount: number
 }
 
-export const RavitaillementUpdateData: RavitaillementUpdateType[] = [
+export const CarteUpdateData: CarteUpdateType[] = [
   {
     order_id: '546987',
     rav_name: 'Bata Shoes',

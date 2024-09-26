@@ -1,23 +1,14 @@
 <div class="card">
   <div class="card-header">
-    <div class="row align-items-center" *ngIf="infoRavitaillement">
+    <div class="row align-items-center" *ngIf="infoCarte">
       <div class="col">
-        <h4 class="card-title">Ravitaillement #{{ infoRavitaillement.order_id }}</h4>
+        <h4 class="card-title">Liste ajouté</h4>
         <p class="mb-0 text-muted mt-1">
-          {{ infoRavitaillement.rav_name }} - {{ infoRavitaillement.product_details }} - {{ infoRavitaillement.amount }}
+          Aujourd'hui : {{ today | date: 'dd/MM/yyyy' }}
         </p>
       </div>
-      <!--end col-->
-      <div class="col-auto">
-        <button class="btn btn-primary" (click)="triggerOpenModal()">
-          <i class="fas fa-plus me-1"></i> Ajout produit
-        </button>
-      </div>
-      <!--end col-->
     </div>
-    <!--end row-->
   </div>
-  <!--end card-header-->
   <div class="card-body pt-0">
     <div class="table-responsive">
       <table class="table mb-0">
@@ -25,7 +16,7 @@
           <tr>
             <th>Nom</th>
             <th class="text-end">{{ currency }} Prix</th>
-            <th class="text-end">Quantité</th>
+            <th class="text-end">Ajouté</th>
             <th class="text-end">Total</th>
             <th class="text-end">Action</th>
           </tr>
@@ -43,14 +34,10 @@
               </p>
             </td>
             <td class="text-end">{{ data.price }}</td>
-            <td class="text-end w-80">
-              <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
-                [value]="data.quantity" (change)="handleQuantityChange(data.id!, $event)"
-                placeholder=".form-control-lg" />
-            </td>
-            <td class="text-end">{{ currency }}{{ data.price * data.quantity }}</td>
+            <td class="text-end">{{ data.quantityAdd ? data.quantityAdd : 1 }}</td>
+            <td class="text-end">{{ currency }}{{ data.price * (data.quantityAdd ? data.quantityAdd : 1) }}</td>
             <td class="text-end">
-              <button class="btn btn-danger btn-sm" (click)="handleDeleteItem(data.id!)">
+              <button class="btn btn-danger btn-sm" (click)="handleDeleteItem(data.id!, data)">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
@@ -64,16 +51,13 @@
 </div>
 <!--end card-->
 
-<div class="card">
+<!-- <div class="card">
   <div class="card-header">
-    <div class="row align-items-center" *ngIf="infoRavitaillement">
+    <div class="row align-items-center" *ngIf="infoCarte">
       <div class="col">
         <h4 class="card-title">Produit ajouté</h4>
       </div>
-      <!--end col-->
-      <!--end col-->
     </div>
-    <!--end row-->
   </div>
   <div class="card-body pt-0">
     <div class="table-responsive">
@@ -122,9 +106,6 @@
           <i class="fas fa-file me-1"></i> Sauvegardé
         </button>
       </div>
-      <!--end col-->
-      <!--end col-->
     </div>
-    <!--end row-->
   </div>
-</div>
+</div> -->

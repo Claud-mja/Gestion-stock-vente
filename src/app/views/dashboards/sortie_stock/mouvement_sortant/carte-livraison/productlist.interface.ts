@@ -9,5 +9,6 @@ export interface ProductListType {
     product: ProductType
     price: number
     quantity: number
+    quantityAdd?: number | null
     total: number
 }

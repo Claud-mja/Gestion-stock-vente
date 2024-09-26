@@ -124,7 +124,7 @@ export const MENU_ITEMS: MenuItem[] = [
         key: 'mouvement-sortant-carte-livraison',
         label: 'Carte de livraison',
         url: 'dashboard/sortie-stock/mouvement-sortant/carte-livraison',
-        parentKey: 'carte-credit',
+        parentKey: 'carte-livraison',
       }
     ],
   },

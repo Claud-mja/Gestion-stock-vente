@@ -14,7 +14,7 @@ export const OrderInfo = {
   pincode: 'NY 10917',
 }
 
-export const RavitaillementProduct: ProductListType[] = [
+export const CarteProduct: ProductListType[] = [
   // {
   //   id: 1,
   //   product: {
@@ -38,7 +38,7 @@ export const RavitaillementProduct: ProductListType[] = [
   //   total: 100,
   // }
 ]
-export const RavitaillementProductAjoute: ProductListType[] = [
+export const CarteProductAjoute: ProductListType[] = [
   {
     id: 1,
     product: {
@@ -64,7 +64,7 @@ export const RavitaillementProductAjoute: ProductListType[] = [
 ]
 
 
-export const AllRavitaillementProduct: ProductListType[] = [
+export const AllCarteProduct: ProductListType[] = [
   {
     id: 1,
     product: {

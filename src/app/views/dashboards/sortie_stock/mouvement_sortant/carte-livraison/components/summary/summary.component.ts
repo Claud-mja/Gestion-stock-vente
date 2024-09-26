@@ -1,20 +1,21 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, type OnInit } from '@angular/core'
-import { RavitaillementProduct } from '../../data'
+import { CarteProduct } from '../../data'
 import { currency } from '@/app/common/constants'
 import { ProductListType } from '../../productlist.interface';
-import { RavitaillementUpdateType } from '../data';
+import { CarteUpdateType } from '../data';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'order-details-summary',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './summary.component.html',
   styles: ``,
 })
 export class SummaryComponent implements OnChanges {
   @Input() orderData: ProductListType[] = [];
-  @Input() infoRavitaillement: RavitaillementUpdateType | undefined;
+  @Input() infoCarte: CarteUpdateType | undefined;
   @Output() finalOrderData: EventEmitter<any> = new EventEmitter<any>();
   
   itemSubTotal: number = 0;
@@ -35,15 +36,11 @@ export class SummaryComponent implements OnChanges {
     });
     this.subTotal = this.itemSubTotal;
     this.total = this.subTotal;
-    // if (this.infoRavitaillement) {
-    //   this.infoRavitaillement.amount = this.total;
-    // }
   }
 
   emitFinalOrderData() {
     this.finalOrderData.emit({
       'product': this.orderData,
-      'inventaire': this.infoRavitaillement,
     });
   }
 }

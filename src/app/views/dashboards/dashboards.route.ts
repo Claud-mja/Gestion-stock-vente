@@ -23,8 +23,8 @@ import { OrderDetailsComponent } from './stock_interne/mouvement/order-details/o
 import { DetailsComponent } from './stock_interne/mouvement/ravitaillement/details/details.component'
 import { InventaireDetailsComponent } from './stock_interne/mouvement/inventaire/inventaire-details/inventaire-details.component'
 import { CarteSimpleImplComponent } from './sortie_stock/mouvement_sortant/carte-simple-impl/carte-simple-impl.component'
-import { CarteCreditImplComponent } from './sortie_stock/mouvement_sortant/carte-credit-impl/carte-credit-impl.component'
 import { CarteLivraisonComponent } from './sortie_stock/mouvement_sortant/carte-livraison/carte-livraison.component'
+import { CarteCreditImplComponent } from './sortie_stock/mouvement_sortant/carte-credit-impl/carte-credit-impl.component'
 
 export const DASHBOARD_ROUTES: Route[] = [
   {

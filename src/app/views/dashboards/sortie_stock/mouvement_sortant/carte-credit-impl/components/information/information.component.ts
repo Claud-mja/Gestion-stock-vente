@@ -1,7 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core'
 import { OrderInfo } from '../../data'
 import { currency } from '@/app/common/constants'
-import { RavitaillementUpdateType } from '../data';
+import { CarteUpdateType } from '../data';
 import { ProductListType } from '../../productlist.interface';
 
 @Component({
@@ -13,7 +13,7 @@ import { ProductListType } from '../../productlist.interface';
 })
 export class InformationComponent {
   @Input() orderData: ProductListType[] = [];
-  @Input() infoRavitaillement: RavitaillementUpdateType | undefined;
+  @Input() infoCarte: CarteUpdateType | undefined;
   orderInfo = OrderInfo
   currency = currency
   total: number = 0
