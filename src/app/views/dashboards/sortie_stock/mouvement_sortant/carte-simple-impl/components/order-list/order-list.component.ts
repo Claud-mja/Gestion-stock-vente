@@ -18,7 +18,7 @@ export class OrderListComponent {
   @Input() orderDataAjoute: ProductListType[] = [];
   @Input() infoCarte: CarteUpdateType | undefined;
   @Input() openModal!: () => void;
-  @Input() removeItem!: (id: number) => void;
+  @Input() removeItem!: (id: number, item: any) => void;
   @Output() updateQuantity: EventEmitter<{ id: number, quantityAdd: number }> = new EventEmitter();
   @Output() updateQuantityAdded: EventEmitter<{ id: number, quantity: number }> = new EventEmitter();
   @Output() updatePriceAdded: EventEmitter<{ id: number, price: number }> = new EventEmitter();
@@ -32,9 +32,9 @@ export class OrderListComponent {
     }
   }
 
-  handleDeleteItem(id: number) {
+  handleDeleteItem(id: number, item: any) {
     if (this.removeItem) {
-      this.removeItem(id);
+      this.removeItem(id, item);
     }
   }
 

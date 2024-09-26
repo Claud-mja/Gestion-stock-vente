@@ -37,7 +37,7 @@
             <td class="text-end">{{ data.quantityAdd ? data.quantityAdd : 1 }}</td>
             <td class="text-end">{{ currency }}{{ data.price * (data.quantityAdd ? data.quantityAdd : 1) }}</td>
             <td class="text-end">
-              <button class="btn btn-danger btn-sm" (click)="handleDeleteItem(data.id!)">
+              <button class="btn btn-danger btn-sm" (click)="handleDeleteItem(data.id!, data)">
                 <i class="fas fa-trash"></i>
               </button>
             </td>

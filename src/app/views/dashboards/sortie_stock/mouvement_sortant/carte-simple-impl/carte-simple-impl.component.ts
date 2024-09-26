@@ -32,9 +32,9 @@ export class CarteSimpleImplComponent {
   orderData: ProductListType[] = []
   orderDataAjoute: ProductListType[] = []
   currency = currency
-  orderDataAll = AllCarteProduct
   carteDetaille: CarteUpdateType | undefined;
   private modalService = inject(NgbModal)
+  orderDataAll: ProductListType[] = []
   filteredData: ProductListType[] = [];
   paginatedData: ProductListType[] = [];
   searchTerm: string = '';
@@ -43,7 +43,9 @@ export class CarteSimpleImplComponent {
   totalPages: number = 1;
   totalPagesArray: number[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) { }
+  constructor(private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {
+    this.orderDataAll = AllCarteProduct
+  }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -72,30 +74,6 @@ export class CarteSimpleImplComponent {
     console.log('Final order data received:', updatedOrderData);
   }
 
-  AddItemToParent(id: number) {
-    const itemExists = this.orderData.some((item) => item.id === id);
-    if (!itemExists) {
-      this.orderDataAll = this.orderDataAll.map((data) => {
-        if (data.id === id && data.quantityAdd != null) {
-          this.orderData.push({ ...data });
-
-          return {
-            ...data,
-            quantity: data.quantity - data.quantityAdd,
-            quantityAdd: 0 
-          };
-        }
-        return data;
-      });
-
-      this.orderDataAll = this.orderDataAll.filter(data => data.quantity > 0);
-      this.paginateData()
-      console.log('Updated orderDataAll:', this.orderDataAll);
-      console.log('Updated orderData:', this.orderData);
-    }
-  }
-
-
   UpdateQuantiteAndQuantiteAdd() {
     this.orderDataAll = this.orderDataAll.map(data => {
       const quantityAdd = data.quantityAdd ?? 0;
@@ -106,7 +84,6 @@ export class CarteSimpleImplComponent {
       };
     });
   }
-
 
   handleQuantityChange(id: number, event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -120,7 +97,29 @@ export class CarteSimpleImplComponent {
     this.onQuantityUpdate({ id, quantityAdd: newQuantityAdd });
   }
 
-  removeItem(id: number) {
+  AddItemToParent(id: number) {
+    this.orderDataAll = this.orderDataAll.map((data) => {
+      if (data.id === id && data.quantityAdd != null) {
+        this.orderData.push({ ...data });
+        return {
+          ...data,
+          quantity: data.quantity - data.quantityAdd,
+          quantityAdd: 0
+        };
+      }
+      return data;
+    });
+    this.filterData();
+  }
+
+  removeItem(id: number, item: any) {
+    item.quantityAdd = 0;
+    const existingItemIndex = this.orderDataAll.findIndex((data) => data.id === item.id);
+    if (existingItemIndex !== -1) {
+      this.orderDataAll[existingItemIndex] = item;
+    } else {
+      this.orderDataAll.push(item);
+    }
     this.orderData = this.orderData.filter((data) => data.id !== id);
     this.filterData();
   }
@@ -167,7 +166,7 @@ export class CarteSimpleImplComponent {
         data.product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     } else {
-      this.filteredData = [...this.orderDataAll];
+      this.filteredData = [...this.orderDataAll.filter(data => data.quantity > 0)];
     }
     this.paginateData();
   }

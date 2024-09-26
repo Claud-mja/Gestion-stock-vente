@@ -28,7 +28,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of paginatedData; let i = index; trackBy: trackByIndex">
+              <tr *ngFor="let data of paginatedData; let i = index;">
                 <td>
                   <img [src]="data.product.image" alt="" height="40" />
                   <p class="d-inline-block align-middle mb-0 ms-0.5">
@@ -41,7 +41,6 @@
                 <td class="text-end">
                   <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
                     [value]="data.quantityAdd !== null && data.quantityAdd !== undefined ? data.quantityAdd : 0"
-                    [ngClass]="{'input-error': data.quantity < (data.quantityAdd || 0) || data.quantityAdd === 0}"
                     (change)="handleQuantityChange(data.id!, $event)" placeholder=".form-control-lg" />
                 </td>
                 <td class="text-end">
@@ -88,10 +87,25 @@
     <order-list [orderData]="orderData" [orderDataAjoute]="orderDataAjoute" [infoCarte]="carteDetaille"
       [removeItem]="removeItem.bind(this)" (updateQuantity)="onQuantityUpdate($event)"
       (updateQuantityAdded)="onQuantityUpdateAdded($event)" (updatePriceAdded)="onPriceUpdateAdded($event)" />
+    <div class="card">
+      <div class="card-header">
+        <div class="row align-items-center">
+          <div class="col">
+            <h4 class="card-title">Validé la carte</h4>
+            <p class="mb-0 text-muted mt-1">
+              Selectionné type de paiement
+            </p>
+          </div>
+          <div class="col-auto">
+            
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- <div class="col-lg-12">
-    <order-details-summary [orderData]="orderData" [infoCarte]="carteDetaille"
-      (finalOrderData)="handleFinalOrderData($event)" />
-    <order-details-information [orderData]="orderData" [infoCarte]="carteDetaille" />
-  </div> -->
+  <div class="col-lg-12">
+    <!-- <order-details-summary [orderData]="orderData" [infoCarte]="carteDetaille"
+      (finalOrderData)="handleFinalOrderData($event)" /> -->
+    <!-- <order-details-information [orderData]="orderData" [infoCarte]="carteDetaille" /> -->
+  </div>
 </div>
