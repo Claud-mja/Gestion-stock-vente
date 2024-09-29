@@ -25,6 +25,7 @@ import { InventaireDetailsComponent } from './stock_interne/mouvement/inventaire
 import { CarteSimpleImplComponent } from './sortie_stock/mouvement_sortant/carte-simple-impl/carte-simple-impl.component'
 import { CarteLivraisonComponent } from './sortie_stock/mouvement_sortant/carte-livraison/carte-livraison.component'
 import { CarteCreditImplComponent } from './sortie_stock/mouvement_sortant/carte-credit-impl/carte-credit-impl.component'
+import { SimulationComponent } from './commande/simulation/simulation.component'
 
 export const DASHBOARD_ROUTES: Route[] = [
   {
@@ -65,11 +66,6 @@ export const DASHBOARD_ROUTES: Route[] = [
   {
     path: 'stock-interne/mouvement-stock/ravitaillement-details/:id',
     component: DetailsComponent,
-    data: { title: 'Ravitaillement' },
-  },
-  {
-    path: 'stock-interne/mouvement-stock/ravitaillement-detail/:id',
-    component: OrderDetailsComponent,
     data: { title: 'Ravitaillement' },
   },
   {
@@ -156,5 +152,10 @@ export const DASHBOARD_ROUTES: Route[] = [
     path: 'sortie-stock/distribution/detaille-panier',
     component: DetaillePanierComponent,
     data: { title: 'Détail panier' },
+  },
+  {
+    path: 'commande/simulation',
+    component: SimulationComponent,
+    data: { title: 'Simulation commande' },
   },
 ]

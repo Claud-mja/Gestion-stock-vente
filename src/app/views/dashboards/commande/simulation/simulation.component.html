@@ -1,0 +1,112 @@
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-sm-6 text-left">
+                        <h4 class="card-title">Simulation</h4>
+                    </div>
+                    <div class="col-auto">
+                        <button
+                            [routerLink]="['/dashboard/stock-interne/simulation/nouveau']"
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addSimulation"
+                        >
+                            <i class="fa-solid fa-plus me-1"></i> Ajouter une Simulation
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="table-responsive">
+                    <app-table-header />
+                    <table class="table mb-0 text-nowrap" id="datatable_simulation">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom de la Simulation</th>
+                                <th scope="col">Date de Simulation</th>
+                                <th scope="col">Statut</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (simulation of records$ | async; track $index) {
+                                <tr>
+                                    <th scope="row">{{ $index + 1 }}</th>
+                                    <td class="ps-0" sortable="nom" (sort)="onSort($event)">{{ simulation.nom }}</td>
+                                    <!-- <td class="ps-0" sortable="cout" (sort)="onSort($event)">{{ simulation.coutEstime }}</td> -->
+                                    <td class="ps-0" sortable="dateSimulation" (sort)="onSort($event)">{{ simulation.dateSimulation | date }}</td>
+                                    <td class="ps-0" sortable="statut" (sort)="onSort($event)">{{ simulation.etat }}</td>
+                                    <td class="text-end">
+                                        <a [routerLink]="['/dashboard/stock-interne/simulation/details/', simulation.id]" class="me-0.5"><i class="las la-pen text-secondary fs-18"></i></a>
+                                        <a href="javascript:void(0);" ><i class="las la-trash-alt text-secondary fs-18"></i></a>
+                                    </td>
+                                </tr>
+                            } @empty {
+                                <tr *ngIf="(records$ | async)?.length === 0">
+                                    <td colspan="7" class="text-center">Aucune simulation trouvée</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <app-table-footer [total]="total$" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #addSimulation let-modal class="modal-dialog modal-xl" id="add-simulation-modal" tabindex="-1"
+    role="dialog" aria-labelledby="addSimulationModalLabel" aria-hidden="true">
+    <div class="w-100 mt-0 mb-0 modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter une simulation</h5>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="simulationForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="nomSimulation" class="form-label">Nom de la Simulation</label>
+                                <input type="text" id="nomSimulation" class="form-control" formControlName="nom" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="typeProduit" class="form-label">Type de Produit</label>
+                                <input type="text" id="typeProduit" class="form-control" formControlName="type" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="dateSimulation" class="form-label">Date de Simulation</label>
+                                <input type="date" id="dateSimulation" class="form-control" formControlName="dateSimulation" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="coutEstime" class="form-label">Coût Estimé</label>
+                                <input type="number" id="coutEstime" class="form-control" formControlName="coutEstime" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="statut" class="form-label">Statut</label>
+                                <select id="statut" class="form-select" formControlName="statut">
+                                    <option value="en_cours">En cours</option>
+                                    <option value="termine">Terminé</option>
+                                    <option value="annule">Annulé</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button class="w-100 btn btn-block btn-primary">{{ isEditMode ? 'Traitement ...' : 'Créer la Simulation' }}</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Quitter</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
