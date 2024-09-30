@@ -87,7 +87,7 @@ export class CarteCreditImplComponent {
     });
   }
 
-  handleQuantityChange(id: number, event: Event) {
+  handleQuantityChange(id: string, event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const newQuantityAdd = Number(inputElement.value);
     const order = this.orderDataAll.find(order => order.id === id);
@@ -99,7 +99,7 @@ export class CarteCreditImplComponent {
     this.onQuantityUpdate({ id, quantityAdd: newQuantityAdd });
   }
 
-  AddItemToParent(id: number) {
+  AddItemToParent(id: string) {
     this.orderDataAll = this.orderDataAll.map((data) => {
       if (data.id === id && data.quantityAdd != null && data.quantityAdd != 0 && data.quantity >= data.quantityAdd) {
         this.orderData.push({
@@ -117,7 +117,7 @@ export class CarteCreditImplComponent {
     this.filterData();
   }
 
-  removeItem(id: number, item: any) {
+  removeItem(id: string, item: any) {
     const existingItemIndex = this.orderDataAll.findIndex((data) => data.id === item.id);
     if (existingItemIndex !== -1) {
       this.orderDataAll[existingItemIndex] = {
@@ -133,7 +133,7 @@ export class CarteCreditImplComponent {
     this.filterData();
   }
 
-  onQuantityUpdate(event: { id: number, quantityAdd: number }) {
+  onQuantityUpdate(event: { id: string, quantityAdd: number }) {
     const { id, quantityAdd } = event;
     const updatedOrderData = this.orderDataAll.map(order => {
       if (order.id === id) {
@@ -147,7 +147,7 @@ export class CarteCreditImplComponent {
     this.orderDataAll = updatedOrderData;
   }
 
-  onQuantityUpdateAdded(event: { id: number, quantity: number }) {
+  onQuantityUpdateAdded(event: { id: string, quantity: number }) {
     const { id, quantity } = event;
     const updatedOrderDataAdded = this.orderDataAjoute.map(order => {
       if (order.id === id) {
@@ -158,7 +158,7 @@ export class CarteCreditImplComponent {
     this.orderDataAjoute = updatedOrderDataAdded;
   }
 
-  onPriceUpdateAdded(event: { id: number, price: number }) {
+  onPriceUpdateAdded(event: { id: string, price: number }) {
     const { id, price } = event;
     const updatedOrderDataAdded = this.orderDataAjoute.map(order => {
       if (order.id === id) {
@@ -220,5 +220,10 @@ export class CarteCreditImplComponent {
 
   openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions) {
     this.modalService.open(content, options)
+  }
+
+  onImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/no-image.png';
   }
 }

@@ -2,7 +2,7 @@
   <div class="card-header">
     <div class="row align-items-center" *ngIf="infoCarte">
       <div class="col">
-        <h4 class="card-title">Liste ajouté</h4>
+        <h4 class="card-title">Produit ajouté</h4>
         <p class="mb-0 text-muted mt-1">
           Aujourd'hui : {{ today | date: 'dd/MM/yyyy' }}
         </p>
@@ -15,7 +15,7 @@
         <thead class="table-light">
           <tr>
             <th>Nom</th>
-            <th class="text-end">{{ currency }} Prix</th>
+            <th class="text-end">Prix</th>
             <th class="text-end">Ajouté</th>
             <th class="text-end">Total</th>
             <th class="text-end">Action</th>
@@ -33,9 +33,9 @@
                   }}</span>
               </p>
             </td>
-            <td class="text-end">{{ data.price }}</td>
+            <td class="text-end">{{ data.price+ ' Ar' }}</td>
             <td class="text-end">{{ data.quantityAdd ? data.quantityAdd : 1 }}</td>
-            <td class="text-end">{{ currency }}{{ data.price * (data.quantityAdd ? data.quantityAdd : 1) }}</td>
+            <td class="text-end">{{ data.price * (data.quantityAdd ? data.quantityAdd : 1) + ' Ar' }}</td>
             <td class="text-end">
               <button class="btn btn-danger btn-sm" (click)="handleDeleteItem(data.id!, data)">
                 <i class="fas fa-trash"></i>

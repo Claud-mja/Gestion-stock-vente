@@ -22,8 +22,8 @@ export const CarteProduct: ProductListType[] = [
   //     name: 'Royal Purse',
   //     description: 'Pure Leather 100%',
   //   },
-  //   price: 80,
-  //   quantity: 3,
+  //   price: 3000.00,
+  //   quantity: 24,
   //   total: 240,
   // },
   // {
@@ -33,32 +33,32 @@ export const CarteProduct: ProductListType[] = [
   //     name: 'Apple Watch',
   //     description: 'Size-05 (Model 2021)',
   //   },
-  //   price: 100,
+  //   price: 2600.00,
   //   quantity: 1,
   //   total: 100,
   // }
 ]
 export const CarteProductAjoute: ProductListType[] = [
   {
-    id: 1,
+    id: 'PR1',
     product: {
-      image: 'assets/images/products/03.png',
-      name: 'Royal Purse',
+      image: 'assets/images/products/03ji.png',
+      name: 'Produit A',
       description: 'Pure Leather 100%',
     },
-    price: 80,
-    quantity: 3,
+    price: 3000.00,
+    quantity: 24,
     total: 240,
   },
   {
-    id: 2,
+    id: 'PR1002',
     product: {
-      image: 'assets/images/products/04.png',
-      name: 'Apple Watch',
+      image: 'assets/images/products/04ji.png',
+      name: 'Coca-cola',
       description: 'Size-05 (Model 2021)',
     },
-    price: 100,
-    quantity: 1,
+    price: 2600.00,
+    quantity: 4,
     total: 100,
   }
 ]
@@ -66,58 +66,47 @@ export const CarteProductAjoute: ProductListType[] = [
 
 export const AllCarteProduct: ProductListType[] = [
   {
-    id: 1,
+    id: "PR1",
     product: {
-      image: 'assets/images/products/03.png',
-      name: 'Royal Purse',
+      image: 'assets/images/products/03ji.png',
+      name: 'Produit A',
       description: 'Pure Leather 100%',
     },
-    price: 80,
-    quantity: 3,
+    price: 3000.00,
+    quantity: 24,
     total: 240,
   },
   {
-    id: 2,
+    id: "PR1002",
     product: {
-      image: 'assets/images/products/04.png',
-      name: 'Apple Watch',
+      image: 'assets/images/products/04ji.png',
+      name: 'Coca-cola',
       description: 'Size-05 (Model 2021)',
     },
-    price: 100,
-    quantity: 1,
+    price: 2600.00,
+    quantity: 4,
     total: 100,
   },
   {
-    id: 3,
+    id: "PR1003",
     product: {
-      image: 'assets/images/products/06.png',
-      name: 'Cosco Volleyball',
+      image: 'assets/images/products/06ji.png',
+      name: 'Coca-cola4',
       description: 'size-04 (Model 2021)',
     },
-    price: 20,
-    quantity: 4,
+    price: 2600.00,
+    quantity: 2,
     total: 80,
   },
   {
-    id: 4,
+    id: "PR1004",
     product: {
-      image: 'assets/images/products/05.png',
-      name: 'Reebok Shoes',
+      image: 'assets/images/products/05ji.png',
+      name: 'Coca-cola95',
       description: 'size-08 (Model 2021)',
     },
-    price: 50,
-    quantity: 10,
-    total: 500,
-  },
-  {
-    id: 5,
-    product: {
-      image: 'assets/images/products/01.png',
-      name: 'Modern Chair',
-      description: 'Size-Medium (Model 2021)',
-    },
-    price: 70,
+    price: 2600.00,
     quantity: 2,
-    total: 140,
-  },
+    total: 500,
+  }
 ]

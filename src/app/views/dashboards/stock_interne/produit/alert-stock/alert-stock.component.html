@@ -27,20 +27,15 @@
                                 <th scope="col" sortable="types" (sort)="onCompleteSort($event)">Types</th>
                                 <th scope="col" sortable="depot" (sort)="onCompleteSort($event)">Depot</th>
                                 <th scope="col" sortable="uniter" (sort)="onCompleteSort($event)">Uniter</th>
-                                <th scope="col" sortable="produit" (sort)="onCompleteSort($event)">Produit</th>
                                 <th scope="col" sortable="etat" (sort)="onCompleteSort($event)">Etat</th>
                                 <th scope="col" sortable="qtStock" (sort)="onCompleteSort($event)">Qt stock</th>
-                                <th scope="col" sortable="prixVirtuel" (sort)="onCompleteSort($event)">Prix virtuel
-                                </th>
-                                <th scope="col" sortable="qtStockPan" (sort)="onCompleteSort($event)">Qt stock pan
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             @for (produit of records$ | async; track produit) {
                             <tr (click)="openModal(exampleModalXL, { size: 'xl' }, produit)">
                                 <th scope="row">{{ produit.id }}</th>
-                                <td><img [src]="produit.photo" alt="Photo de {{ produit.name }}" class="me-2"
+                                <td><img [src]="produit.photo+'label'" (error)="onImageError($event)" alt="Photo de {{ produit.name }}" class="me-2"
                                         style="width: 20px" /></td>
                                 <td><ngb-highlight [result]="produit.name"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
@@ -60,18 +55,10 @@
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
                                 <td><ngb-highlight [result]="produit.uniter"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="produit.produit"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
                                 <td><ngb-highlight [result]="produit.etat"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
                                 <td><ngb-highlight [result]="produit.qtStock | number"
                                         [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="produit.prixVirtuel | number"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td><ngb-highlight [result]="produit.qtStockPan | number"
-                                        [term]="tableService.searchTerm"></ngb-highlight></td>
-                                <td>{{ produit.options }}</td>
-                            </tr>
                             } @empty {
                             <tr>
                                 <td colspan="16" style="text-align: center">Aucun produit trouvé</td>

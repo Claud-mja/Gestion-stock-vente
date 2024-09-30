@@ -5,7 +5,7 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, inject, QueryList, TemplateRef, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SimulationData, SimulationType } from './data';
+import { LivraisonData, LivraisonType, SimulationData, SimulationType } from './data';
 import { Observable } from 'rxjs';
 import { NgbdSortableHeader } from '@/app/core/directive/sortable.directive';
 import { TableService } from '@/app/core/service/table.service';
@@ -39,18 +39,18 @@ export class SimulationComponent {
     page_now: 1
   }
 
-  basicProduit = SimulationData.slice(0, 5)
-  searchProduit = SimulationData.slice(0, 5)
-  sortProduit = SimulationData.slice(0, 5)
+  basicProduit = LivraisonData.slice(0, 5)
+  searchProduit = LivraisonData.slice(0, 5)
+  sortProduit = LivraisonData.slice(0, 5)
 
-  records$: Observable<SimulationType[]>
+  records$: Observable<LivraisonType[]>
   total$: Observable<number>
 
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<
-    NgbdSortableHeader<SimulationType>
+    NgbdSortableHeader<LivraisonType>
   >
 
-  public tableService = inject(TableService<SimulationType>)
+  public tableService = inject(TableService<LivraisonType>)
 
   ficheInfo: string = ''
   ficheFile: File | null = null
@@ -61,7 +61,7 @@ export class SimulationComponent {
     this.total$ = this.tableService.total$
 
     // Initialiser les données
-    this.tableService.setItems(SimulationData, this.pageDetails.data_limit);
+    this.tableService.setItems(LivraisonData, this.pageDetails.data_limit);
 
     this.simulationForm = this.fb.group({
       nom: ['', Validators.required],

@@ -5,7 +5,7 @@ export interface ProductType {
 }
 
 export interface ProductListType {
-    id?: number
+    id?: string
     product: ProductType
     price: number
     quantity: number

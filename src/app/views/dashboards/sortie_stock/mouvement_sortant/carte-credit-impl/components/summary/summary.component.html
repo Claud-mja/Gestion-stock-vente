@@ -15,7 +15,15 @@
     </div>
   </div>
   <div class="card-body pt-0">
-    <div class="form-group">
+    <div class=" mb-2 form-group">
+      <label for="">Type de panier</label>
+      <select name="typePanier" id="typePanier" [(ngModel)]="typePanier" class="form-control">
+        <option *ngFor="let panier of paniers" [value]="panier">
+          {{ panier }}
+        </option>
+      </select>
+    </div>
+    <div class=" mb-2 form-group">
       <label for="">Type de paiement</label>
       <select name="typePayement" id="typePayement" [(ngModel)]="typePayement" class="form-control">
         <option *ngFor="let payment of paymentMethods" [value]="payment">
@@ -23,9 +31,9 @@
         </option>
       </select>
     </div>
-    <div class="mt-2 form-group">
+    <div class="form-group">
       <label for="">Client</label>
-      <select name="typePayement" id="typePayement" [(ngModel)]="typePayement" class="form-control">
+      <select name="client" id="client" [(ngModel)]="client" class="form-control" [disabled]="typePanier=='Simple'">
         <option *ngFor="let client of clientMethods" [value]="client">
           {{ client }}
         </option>

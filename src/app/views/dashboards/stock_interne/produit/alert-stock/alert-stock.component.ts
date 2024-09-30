@@ -127,6 +127,11 @@ export class AlertStockComponent {
     }
   }
 
+  onImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/no-image.png';
+  }
+
   openModal(content: TemplateRef<HTMLElement>, options: NgbModalOptions, produit: any) {
     this.modalData = {
       title: produit.name,

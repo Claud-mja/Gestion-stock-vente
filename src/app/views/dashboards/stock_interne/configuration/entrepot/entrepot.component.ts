@@ -7,6 +7,8 @@ import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { NgbHighlight, NgbModal, NgbModalOptions, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 import { RouterLink } from '@angular/router'
+import { TableFooterComponent } from "../../../../../components/table/table-footer/table-footer.component";
+import { TableHeaderComponent } from "../../../../../components/table/table-header/table-header.component";
 
 export type SortColumn = keyof EntrepotType | ''
 export type SortDirection = 'asc' | 'desc' | ''
@@ -56,7 +58,7 @@ function search(text: string, pipe: PipeTransform): EntrepotType[] {
 @Component({
   selector: 'app-entrepot',
   standalone: true,
-  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink],
+  imports: [NgbPaginationModule, CommonModule, FormsModule, NgbHighlight, NgbdSortableHeader, ReactiveFormsModule, RouterLink, TableFooterComponent, TableHeaderComponent],
   templateUrl: './entrepot.component.html',
   styleUrl: './entrepot.component.scss'
 })

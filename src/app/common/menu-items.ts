@@ -104,82 +104,108 @@ export const MENU_ITEMS: MenuItem[] = [
   },
   {
     key: 'mouvement-sortant',
-    icon: 'iconoir-arrow-right', 
+    icon: 'iconoir-coins', 
     label: 'Mouvement sortant',
     collapsed: true,
     subMenu: [
+      // {
+      //   key: 'mouvement-sortant-carte-simple',
+      //   label: 'Carte simple',
+      //   url: 'dashboard/sortie-stock/mouvement-sortant/carte-simple',
+      //   parentKey: 'carte-simple',
+      // },
+      // {
+      //   key: 'mouvement-sortant-carte-credit',
+      //   label: 'Carte de credit',
+      //   url: 'dashboard/sortie-stock/mouvement-sortant/carte-credit',
+      //   parentKey: 'carte-credit',
+      // },
       {
-        key: 'mouvement-sortant-carte-simple',
-        label: 'Carte simple',
-        url: 'dashboard/sortie-stock/mouvement-sortant/carte-simple',
-        parentKey: 'carte-simple',
-      },
-      {
-        key: 'mouvement-sortant-carte-credit',
-        label: 'Carte de credit',
+        key: 'mouvement-sortant-panier',
+        label: 'Panier',
         url: 'dashboard/sortie-stock/mouvement-sortant/carte-credit',
-        parentKey: 'carte-credit',
+        parentKey: 'panier',
       },
       {
-        key: 'mouvement-sortant-carte-livraison',
-        label: 'Carte de livraison',
+        key: 'mouvement-sortant-livraison',
+        label: 'Livraison',
         url: 'dashboard/sortie-stock/mouvement-sortant/carte-livraison',
-        parentKey: 'carte-livraison',
+        parentKey: 'livraison',
       }
     ],
   },
   {
-    key: 'panier',
-    icon: 'iconoir-journal-page',
-    label: 'Tri de panier',
+    key: 'commande',
+    icon: 'iconoir-submit-document', 
+    label: 'Commande',
     collapsed: true,
     subMenu: [
       {
-        key: 'panier-creer',
-        label: 'Creer',
-        url: 'dashboard/sortie-stock/panier/creer',
-        parentKey: 'creer',
+        key: 'commande-simulation',
+        label: 'Simulation',
+        url: 'dashboard/sortie-stock/commande/simulation',
+        parentKey: 'simulation',
       },
       {
-        key: 'panier-reste',
-        label: 'Reste à payer',
-        url: 'dashboard/sortie-stock/panier/reste',
-        parentKey: 'reste',
+        key: 'bon-commande',
+        label: 'Bon de commande',
+        url: 'dashboard/sortie-stock/commande/bondecommande',
+        parentKey: 'bondecommande',
       },
-      {
-        key: 'panier-paye',
-        label: 'Paye',
-        url: 'dashboard/sortie-stock/panier/paye',
-        parentKey: 'paye',
-      },
-      {
-        key: 'panier-actif',
-        label: 'Actifs',
-        url: 'dashboard/sortie-stock/panier/actif',
-        parentKey: 'actif',
-      }
-    ],
-  },
-  {
-    key: 'distribution',
-    icon: 'iconoir-delivery-truck', 
-    label: 'Distribution',
-    collapsed: true,
-    subMenu: [
-      {
-        key: 'distribution-client',
-        label: 'Clients',
-        url: 'dashboard/sortie-stock/distribution/client',
-        parentKey: 'client',
-      },
-      {
-        key: 'distribution-detaille-panier',
-        label: 'Détail panier',
-        url: 'dashboard/sortie-stock/distribution/detaille-panier',
-        parentKey: 'detaille-panier',
-      }
-    ],
-  },
+    ]
+  }
+  // {
+  //   key: 'panier',
+  //   icon: 'iconoir-journal-page',
+  //   label: 'Tri de panier',
+  //   collapsed: true,
+  //   subMenu: [
+  //     {
+  //       key: 'panier-creer',
+  //       label: 'Creer',
+  //       url: 'dashboard/sortie-stock/panier/creer',
+  //       parentKey: 'creer',
+  //     },
+  //     {
+  //       key: 'panier-reste',
+  //       label: 'Reste à payer',
+  //       url: 'dashboard/sortie-stock/panier/reste',
+  //       parentKey: 'reste',
+  //     },
+  //     {
+  //       key: 'panier-paye',
+  //       label: 'Paye',
+  //       url: 'dashboard/sortie-stock/panier/paye',
+  //       parentKey: 'paye',
+  //     },
+  //     {
+  //       key: 'panier-actif',
+  //       label: 'Actifs',
+  //       url: 'dashboard/sortie-stock/panier/actif',
+  //       parentKey: 'actif',
+  //     }
+  //   ],
+  // },
+  // {
+  //   key: 'distribution',
+  //   icon: 'iconoir-delivery-truck', 
+  //   label: 'Distribution',
+  //   collapsed: true,
+  //   subMenu: [
+  //     {
+  //       key: 'distribution-client',
+  //       label: 'Clients',
+  //       url: 'dashboard/sortie-stock/distribution/client',
+  //       parentKey: 'client',
+  //     },
+  //     {
+  //       key: 'distribution-detaille-panier',
+  //       label: 'Détail panier',
+  //       url: 'dashboard/sortie-stock/distribution/detaille-panier',
+  //       parentKey: 'detaille-panier',
+  //     }
+  //   ],
+  // },
 ];
 
 /*export const MENU_ITEMS: MenuItem[] = [

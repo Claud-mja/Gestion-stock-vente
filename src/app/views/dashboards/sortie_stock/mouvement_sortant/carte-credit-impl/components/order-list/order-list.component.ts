@@ -18,10 +18,10 @@ export class OrderListComponent {
   @Input() orderDataAjoute: ProductListType[] = [];
   @Input() infoCarte: CarteUpdateType | undefined;
   @Input() openModal!: () => void;
-  @Input() removeItem!: (id: number, item: any) => void;
-  @Output() updateQuantity: EventEmitter<{ id: number, quantityAdd: number }> = new EventEmitter();
-  @Output() updateQuantityAdded: EventEmitter<{ id: number, quantity: number }> = new EventEmitter();
-  @Output() updatePriceAdded: EventEmitter<{ id: number, price: number }> = new EventEmitter();
+  @Input() removeItem!: (id: string, item: any) => void;
+  @Output() updateQuantity: EventEmitter<{ id: string, quantityAdd: number }> = new EventEmitter();
+  @Output() updateQuantityAdded: EventEmitter<{ id: string, quantity: number }> = new EventEmitter();
+  @Output() updatePriceAdded: EventEmitter<{ id: string, price: number }> = new EventEmitter();
   currency = currency
   today = new Date()
   currentYear = currentYear
@@ -32,26 +32,31 @@ export class OrderListComponent {
     }
   }
 
-  handleDeleteItem(id: number, item: any) {
+  handleDeleteItem(id: string, item: any) {
     if (this.removeItem) {
       this.removeItem(id, item);
     }
   }
 
-  handleQuantityChange(id: number, event: Event) {
+  handleQuantityChange(id: string, event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const newQuantity = Number(inputElement.value);
     this.updateQuantity.emit({ id, quantityAdd: newQuantity });
   }
-  handleQuantityChangeAdded(id: number, event: Event) {
+  handleQuantityChangeAdded(id: string, event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const newQuantity = Number(inputElement.value);
     this.updateQuantityAdded.emit({ id, quantity: newQuantity });
   }
 
-  handlePriceChangeAdded(id: number, event: Event) {
+  handlePriceChangeAdded(id: string, event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const newPrice = Number(inputElement.value);
     this.updatePriceAdded.emit({ id, price: newPrice });
+  }
+
+  onImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/no-image.png';
   }
 }

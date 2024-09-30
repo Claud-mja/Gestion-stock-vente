@@ -26,6 +26,7 @@ import { CarteSimpleImplComponent } from './sortie_stock/mouvement_sortant/carte
 import { CarteLivraisonComponent } from './sortie_stock/mouvement_sortant/carte-livraison/carte-livraison.component'
 import { CarteCreditImplComponent } from './sortie_stock/mouvement_sortant/carte-credit-impl/carte-credit-impl.component'
 import { SimulationComponent } from './commande/simulation/simulation.component'
+import { DetalsSimulationComponent } from './commande/simulation/detals-simulation/detals-simulation.component'
 
 export const DASHBOARD_ROUTES: Route[] = [
   {
@@ -154,8 +155,8 @@ export const DASHBOARD_ROUTES: Route[] = [
     data: { title: 'Détail panier' },
   },
   {
-    path: 'commande/simulation',
-    component: SimulationComponent,
+    path: 'sortie-stock/commande/simulation',
+    component: OrderDetailsComponent,
     data: { title: 'Simulation commande' },
   },
 ]

@@ -1,18 +1,32 @@
 <div class="card">
   <div class="card-header">
     <div class="row align-items-center" *ngIf="infoRavitaillement">
-      <div class="col">
-        <h4 class="card-title">Ravitaillement #{{ infoRavitaillement.order_id }}</h4>
-        <p class="mb-0 text-muted mt-1">
-          {{ infoRavitaillement.rav_name }} - {{ infoRavitaillement.product_details }} - {{ infoRavitaillement.amount }}
-        </p>
+      <div class="col d-flex">
+
+        <div class="content-simula">
+          <h4 class="card-title">Simulation</h4>
+          <p class="mb-0 text-muted mt-1">
+            <!-- {{ infoRavitaillement.rav_name }} - {{ infoRavitaillement.product_details }} - {{ infoRavitaillement.amount }} -->
+              21/09/2024
+          </p>
+        </div>
+        <div class="conten-select mx-3">
+          <select class="form form-control" [(ngModel)]="typeSimulation">
+            <option>Seuil</option>
+            <option>Tendance</option>
+            <option>Manuelle</option>
+          </select>
+
+        </div>
       </div>
       <!--end col-->
-      <div class="col-auto">
-        <button class="btn btn-primary" (click)="triggerOpenModal()">
-          <i class="fas fa-plus me-1"></i> Ajout produit
-        </button>
-      </div>
+      @if (typeSimulation =='Manuelle' ) {
+        <div class="col-auto">
+          <button class="btn btn-primary" (click)="triggerOpenModal()">
+            <i class="fas fa-plus me-1"></i> Ajout produit
+          </button>
+        </div>
+      }
       <!--end col-->
     </div>
     <!--end row-->
@@ -60,6 +74,19 @@
       </table>
     </div>
   </div>
+  <div class="card-footer">
+    <div class="row align-items-center">
+      <div class="col"></div>
+      <div class="col-auto">
+        <button class="btn btn-primary">
+          <i class="fas fa-file me-1"></i> Ajouté
+        </button>
+      </div>
+      <!--end col-->
+      <!--end col-->
+    </div>
+    <!--end row-->
+  </div>
   <!--card-body-->
 </div>
 <!--end card-->
@@ -68,7 +95,7 @@
   <div class="card-header">
     <div class="row align-items-center" *ngIf="infoRavitaillement">
       <div class="col">
-        <h4 class="card-title">Produit ajouté</h4>
+        <h4 class="card-title">Produit à simuler</h4>
       </div>
       <!--end col-->
       <!--end col-->
@@ -84,6 +111,7 @@
             <th class="text-center">{{ currency }} Prix</th>
             <th class="text-center">Quantité</th>
             <th class="text-center">Total</th>
+            <th class="text-center">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -99,32 +127,146 @@
               </p>
             </td>
             <td class="text-center w-80">
-              <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
+              <!-- <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
               [value]="data.price" (change)="handlePriceChangeAdded(data.id!, $event)"
-              placeholder=".form-control-lg" /></td>
+              placeholder=".form-control-lg" /> -->
+              {{ data.price }}
+            </td>
             <td class="text-center w-80">
               <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
                 [value]="data.quantity" (change)="handleQuantityChangeAdded(data.id!, $event)"
                 placeholder=".form-control-lg" />
             </td>
             <td class="text-center">{{ currency }}{{ data.price * data.quantity }}</td>
+            <td class="text-center">
+              <button class="btn btn-danger btn-sm" (click)="handleDeleteItem(data.id!)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
           </tr>
           }
         </tbody>
       </table>
     </div>
   </div>
-  <div class="card-footer">
+  
+</div>
+
+<div class="card">
+  <div class="card-header">
     <div class="row align-items-center">
-      <div class="col"></div>
-      <div class="col-auto">
-        <button class="btn btn-primary">
-          <i class="fas fa-file me-1"></i> Sauvegardé
-        </button>
+      <div class="col">
+        <h4 class="card-title">Resultat simulation</h4>
       </div>
-      <!--end col-->
-      <!--end col-->
     </div>
-    <!--end row-->
+  </div>
+  <div class="card-body pt-0">
+    <div
+      ngbAccordion
+      [closeOthers]="true"
+      class="accordion card-bg"
+      id="task-1"
+    >
+    @for (result of resultSimulation; track $index; let last = $last) {
+      <div
+        ngbAccordionItem
+        [collapsed]="$index == 0 ? false : true"
+        class="task-accordion rounded border-dashed border-theme-color p-2"
+        [ngClass]="{ 'mb-3': !last }"
+      >
+        <div
+          ngbAccordionHeader
+          class="cursor-pointer"
+          data-bs-toggle="collapse"
+          data-bs-target="#task-one"
+          aria-expanded="true"
+          aria-controls="task-one"
+        >
+        <div ngbAccordionToggle class="table-responsive">
+          <table class="table text-nowrap mb-0">
+            <tbody>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <i class="iconoir-calendar fs-2 me-2"></i>
+                    <div class="flex-grow-1 text-truncate">
+                      <h6 class="m-0 mb-1 fw-semibold">
+                        {{ result.nom  }}
+                      </h6>
+                      <div class="fw-semibold">
+                        <span>{{ 'Total : '+ result.total }} </span
+                        >
+                      </div>
+                    </div>
+                    <!--end media body-->
+                  </div>
+                </td>
+                <td class="text-start">
+                  <h6 class="m-0 mb-1 fw-semibold">Email</h6>
+                  <span class="text-secondary">{{ result.email }}</span>
+                </td>
+                <td class="text-start">
+                  <h6 class="m-0 mb-1 fw-semibold">Numero</h6>
+                  <span class="text-secondary">{{ result.numero }}</span>
+                </td>
+                <td class="text-end">
+                  <h6 class="m-0 mb-1 fw-semibold">Status</h6>
+                  <span
+                    class="badge rounded bg-transparent border p-1 text-success border-success"
+                    > Enregister
+                  </span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div
+        ngbAccordionCollapse
+        id="task-one"
+        class="accordion-collapse collapse show"
+        data-bs-parent="#task-1"
+      >
+        <div
+          ngbAccordionBody
+          class="accordion-body bg-body border-dashed-top p-3 p-3"
+        >
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Nom</th>
+                <th class="text-center">Prix</th>
+                <th class="text-center">Quantité commande</th>
+                <th class="text-center">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+                @for (data of result.data; track $index) {
+                <tr>
+                  <td>
+                    <img [src]="data?.prod_photo" alt="" height="40" />
+                    <p class="d-inline-block align-middle mb-0 ms-0.5">
+                      <span class="d-block align-middle mb-0 product-name text-body">{{ data?.prod_name }}</span>
+                    </p>
+                  </td>
+                  <td class="text-center">{{ data?.prix }}</td>
+                  <td class="text-center">{{ data?.qt_cmd }}</td>
+                  @if (data) {
+                    <td class="text-center">{{ data.prix * data.qt_cmd  }}</td>
+                  }
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    }
+  </div>
   </div>
 </div>

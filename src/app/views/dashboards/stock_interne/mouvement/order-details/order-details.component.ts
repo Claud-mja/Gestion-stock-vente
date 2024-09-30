@@ -3,7 +3,7 @@ import { OrderListComponent } from './components/order-list/order-list.component
 import { BoughtComponent } from './components/bought/bought.component'
 import { SummaryComponent } from './components/summary/summary.component'
 import { InformationComponent } from './components/information/information.component'
-import { AllRavitaillementProduct, RavitaillementProduct, RavitaillementProductAjoute } from './data'
+import { AllRavitaillementProduct, RavitaillementProduct, RavitaillementProductAjoute, ResultSimulation, SimulationResult } from './data'
 import { ActivatedRoute, Params, Router } from '@angular/router'
 import { ProductListType } from './productlist.interface'
 import { RavitaillementUpdateType } from '../orders/data'
@@ -11,6 +11,7 @@ import { currency, currentYear } from '@/app/common/constants'
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap'
 import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { DataTableProduct, DataTableProduitsType } from '../../produit/liste/data'
 
 @Component({
   selector: 'app-order-details',
@@ -31,6 +32,7 @@ export class OrderDetailsComponent {
   idRav: string | undefined;
   orderData: ProductListType[] = []
   orderDataAjoute: ProductListType[] = []
+  resultSimulation : SimulationResult[] = []
   currency = currency
   orderDataAll = AllRavitaillementProduct
   ravitaillementDetaille: RavitaillementUpdateType | undefined;
@@ -48,8 +50,9 @@ export class OrderDetailsComponent {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.idRav = params['idRav'];
-      this.orderData = RavitaillementProduct
-      this.orderDataAjoute = RavitaillementProductAjoute
+      this.orderData = RavitaillementProduct;
+      this.orderDataAjoute = RavitaillementProductAjoute;
+      this.resultSimulation = ResultSimulation;
       // SERVICE TO CAL DETAIL RAVITAILLEMENT
       this.ravitaillementDetaille = {
         order_id: this.idRav ?? '546987',
@@ -72,7 +75,7 @@ export class OrderDetailsComponent {
     console.log('Final order data received:', updatedOrderData);
   }
 
-  AddItemToParent(id: number) {
+  AddItemToParent(id: string) {
     const itemExists = this.orderData.some((item) => item.id === id);
     if (!itemExists) {
       this.orderDataAll.forEach((data) => {
@@ -84,12 +87,12 @@ export class OrderDetailsComponent {
     }
   }
 
-  removeItem(id: number) {
+  removeItem(id: string) {
     this.orderData = this.orderData.filter((data) => data.id !== id);
     this.filterData();
   }
 
-  onQuantityUpdate(event: { id: number, quantity: number }) {
+  onQuantityUpdate(event: { id: string, quantity: number }) {
     const { id, quantity } = event;
     const updatedOrderData = this.orderData.map(order => {
       if (order.id === id) {
@@ -101,7 +104,7 @@ export class OrderDetailsComponent {
     
   }
 
-  onQuantityUpdateAdded(event: { id: number, quantity: number }) {
+  onQuantityUpdateAdded(event: { id: string, quantity: number }) {
     const { id, quantity } = event;
     const updatedOrderDataAdded = this.orderDataAjoute.map(order => {
       if (order.id === id) {
@@ -112,7 +115,7 @@ export class OrderDetailsComponent {
     this.orderDataAjoute = updatedOrderDataAdded; 
   }
 
-  onPriceUpdateAdded(event: { id: number, price: number }) {
+  onPriceUpdateAdded(event: { id: string, price: number }) {
     const { id, price } = event;
     const updatedOrderDataAdded = this.orderDataAjoute.map(order => {
       if (order.id === id) {

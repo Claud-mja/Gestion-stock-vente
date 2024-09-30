@@ -13,14 +13,14 @@
   </div>
   <div class="col-lg-4">
     <order-details-summary
-    [orderData]="orderData" 
+    [orderData]="orderDataAjoute" 
     [infoRavitaillement]="ravitaillementDetaille"
     (finalOrderData)="handleFinalOrderData($event)"
     />
-    <order-details-information
+    <!-- <order-details-information
     [orderData]="orderData" 
     [infoRavitaillement]="ravitaillementDetaille"
-     />
+     /> -->
   </div>
 </div>
 <ng-template #modalAddProduct let-modal class="modal-dialog modal-xl" id="bd-example-modal-xl" tabindex="-1"

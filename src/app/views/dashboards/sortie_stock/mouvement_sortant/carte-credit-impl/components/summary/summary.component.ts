@@ -23,8 +23,11 @@ export class SummaryComponent implements OnChanges {
   total: number = 0;
   currency = currency;
   typePayement = 'Cash';
+  typePanier = 'Simple';
+  client = 'Client 1';
   paymentMethods = ['Cash', 'Credit Card', 'Debit Card', 'Paypal'];
   clientMethods = ['Client 1', 'Client 2', 'Client 3'];
+  paniers = ['Simple' , 'Special'];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['orderData']) {
@@ -47,4 +50,6 @@ export class SummaryComponent implements OnChanges {
       'typePayement': this.typePayement
     });
   }
+
+  
 }

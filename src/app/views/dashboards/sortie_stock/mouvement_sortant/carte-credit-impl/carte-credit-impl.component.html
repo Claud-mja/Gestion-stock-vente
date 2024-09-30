@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="row align-items-center">
           <div class="col">
-            <h4 class="card-title">Carte Crédit</h4>
+            <h4 class="card-title">Panier</h4>
             <p class="mb-0 text-muted mt-1">
               Selectionné les produits à ajouter
             </p>
@@ -30,13 +30,13 @@
             <tbody>
               <tr *ngFor="let data of paginatedData; let i = index;">
                 <td>
-                  <img [src]="data.product.image" alt="" height="40" />
+                  <img [src]="data.product.image" (error)="onImageError($event)" alt="" height="40" />
                   <p class="d-inline-block align-middle mb-0 ms-0.5">
                     <span class="d-block align-middle mb-0 product-name text-body">{{ data.product.name }}</span>
                     <span class="text-muted font-13">{{ data.product.description }}</span>
                   </p>
                 </td>
-                <td class="text-end">{{ currency }}{{ data.price }}</td>
+                <td class="text-end">{{ data.price +' Ar' }}</td>
                 <td class="text-end">{{ data.quantity }}</td>
                 <td class="text-end">
                   <input class="form-control form-control-sm w-80 text-center" type="number" min="0" max="100"
